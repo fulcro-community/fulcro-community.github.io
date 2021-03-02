@@ -1,3 +1,6 @@
+= Fulcro Community
+:description: Community-created learning resources and projects for Fulcro
+
 Community-created learning resources and projects for https://fulcro.fulcrologic.com/[Fulcro], our favourite full-stack Clojure/Script framework for creating non-trivial web applications.
 
 Noteworthy projects:

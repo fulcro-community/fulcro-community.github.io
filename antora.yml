@@ -1,0 +1,8 @@
+# See https://docs.antora.org/antora/2.3/component-version-descriptor/
+name: main
+title: Fulcro Community
+version: master
+#start_page: index.adoc
+#nav:
+#- ./nav.adoc
+
