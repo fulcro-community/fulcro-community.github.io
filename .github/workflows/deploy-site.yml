@@ -32,7 +32,7 @@ jobs:
       - name: Setup Node.js for use with actions
         uses: actions/setup-node@v1.4.4
         with:
-          version: '14'
+          node-version: '14'
       - name: Checkout
         uses: actions/checkout@v2
       - name: Download generated site
@@ -45,7 +45,7 @@ jobs:
         with:
           GITHUB_TOKEN: "${{ github.token}}"
           FOLDER: "${{ env.SITE_DIR }}"
-          BRANCH: 'master'
+          BRANCH: 'gh-pages'
           COMMIT_MESSAGE: "[CI] Publish Documentation for ${{ github.sha }}"
           CLEAN: true
 
