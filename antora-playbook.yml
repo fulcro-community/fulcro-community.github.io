@@ -7,7 +7,7 @@ site:
 content:
   sources:
   - url: https://github.com/fulcro-community/fulcro-community.github.io.git # 'main' module
-  #- url: /fulcro-community/fulcro-community.github.io # 'main' module - see ./build-locally.sh
+  #- url: /antora # 'main' module as seen from within the antora docker image, see ./build-locally.sh
   # embedding empty credentials in the URL disables the Edit this Page link for any page created from this repository
   #- url: https://github.com/fulcro-community/guides.git
  # url: /fulcro-community/guides

@@ -1,0 +1,3 @@
+[submodule "modules/awesome-fulcro/pages"]
+	path = modules/awesome-fulcro/pages
+	url = https://github.com/fulcro-community/awesome-fulcro.git

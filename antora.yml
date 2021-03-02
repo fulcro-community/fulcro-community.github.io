@@ -3,6 +3,6 @@ name: main
 title: Fulcro Community
 version: master
 #start_page: index.adoc
-#nav:
-#- ./nav.adoc
+nav:
+- modules/ROOT/nav.adoc
 
