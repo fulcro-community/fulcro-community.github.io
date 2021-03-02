@@ -8,13 +8,10 @@ content:
   sources:
   - url: https://github.com/fulcro-community/fulcro-community.github.io.git # 'main' module
   #- url: /antora # 'main' module as seen from within the antora docker image, see ./build-locally.sh
-  # embedding empty credentials in the URL disables the Edit this Page link for any page created from this repository
-  #- url: https://github.com/fulcro-community/guides.git
- # url: /fulcro-community/guides
- # branches: [main]
- # start_path: guides
-  # - url: https://github.com/fulcro-community/awesome-fulcro.git
-  #   start_path: awesome-fulcro
+  # Note: embedding empty credentials in the URL disables the Edit this Page link for any page created from this repository
+  - url: https://github.com/fulcro-community/guides.git # 'guides' module
+  #- url: /fulcro-community/guides # 'guides' module
+    branches: [main]
 ui:
   bundle:
     #url: https://gitlab.com/antora/antora-ui-default/-/jobs/artifacts/master/raw/build/ui-bundle.zip?job=bundle-stable

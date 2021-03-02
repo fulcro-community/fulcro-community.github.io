@@ -1,2 +1,5 @@
 * xref:main:index.adoc[Home]
 * xref:awesome-fulcro:README.adoc[Awesome Fulcro]
+* xref:guides::index.adoc[Guides and tutorials]
+** xref:guides:guide-learning-fulcro:index.adoc[Guide to learning Fulcro]
+** xref:guides:tutorial-minimalist-fulcro:index.adoc[Minimalist Fulcro Tutorial]
