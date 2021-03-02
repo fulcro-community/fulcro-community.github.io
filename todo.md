@@ -1,6 +1,7 @@
 ## TODO
 
 - !!! find workaround for https://gitlab.com/antora/antora/-/issues/722 !!!
+  (seems to be magically working now?!)
 - Guides: Translate the EQL tutorial to .adoc, add to links etc.
 - Trigger builds when either guides or awesome-fulcro changes
 - Make sure tutorials etc have a nice preview in Twitter, Slack
