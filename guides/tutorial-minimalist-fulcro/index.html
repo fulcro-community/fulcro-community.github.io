@@ -1,0 +1,1211 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Minimalist Fulcro Tutorial :: Fulcro Community</title>
+    <link rel="canonical" href="https://fulcro-community.github.io/guides/tutorial-minimalist-fulcro/index.html">
+    <meta name="generator" content="Antora 2.3.4">
+    <link rel="stylesheet" href="../../_/css/site.css">
+    <script>var uiRootPath = '../../_'</script>
+  </head>
+  <body class="article">
+<header class="header">
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="https://fulcro-community.github.io">Fulcro Community</a>
+      <button class="navbar-burger" data-target="topbar-nav">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+    </div>
+  </nav>
+</header>
+<div class="body">
+<div class="nav-container" data-component="guides" data-version="master">
+  <aside class="nav">
+    <div class="panels">
+<div class="nav-panel-explore is-active" data-panel="explore">
+  <div class="context">
+    <span class="title">Guides and tutorials</span>
+    <span class="version">master</span>
+  </div>
+  <ul class="components">
+    <li class="component">
+      <a class="title" href="../../main/index.html">Fulcro Community</a>
+      <ul class="versions">
+        <li class="version is-latest">
+          <a href="../../main/index.html">master</a>
+        </li>
+      </ul>
+    </li>
+    <li class="component is-current">
+      <a class="title" href="../index.html">Guides and tutorials</a>
+      <ul class="versions">
+        <li class="version is-current is-latest">
+          <a href="../index.html">master</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>
+    </div>
+  </aside>
+</div>
+<main class="article">
+<div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+  <a href="../../main/index.html" class="home-link"></a>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+</nav>
+  <div class="edit-this-page"><a href="https://github.com/fulcro-community/guides/edit/main/modules/tutorial-minimalist-fulcro/pages/index.adoc">Edit this Page</a></div>
+  </div>
+  <div class="content">
+<aside class="toc sidebar" data-title="Contents" data-levels="2">
+  <div class="toc-menu"></div>
+</aside>
+<article class="doc">
+<h1 class="page">Minimalist Fulcro Tutorial</h1>
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>This is a minimalistic introduction to Fulcro that focuses on HOW and not WHY (aside of a short section).
+The goal is to enable you to read, understand, and tinker with the code of a Fulcro application.</p>
+</div>
+<div id="toc" class="toc">
+<div id="toctitle" class="title">Table of Contents</div>
+<ul class="sectlevel1">
+<li><a href="#_prerequisities">Prerequisities</a></li>
+<li><a href="#_a_word_of_warning">A word of warning</a></li>
+<li><a href="#_why_fulcro">Why Fulcro?</a></li>
+<li><a href="#_an_overview_of_fulcro">An overview of Fulcro</a>
+<ul class="sectlevel2">
+<li><a href="#_key_concepts_and_elements">Key concepts and elements</a></li>
+<li><a href="#_fulcro_lifecycle">Fulcro lifecycle</a></li>
+</ul>
+</li>
+<li><a href="#_zooming_in_on_components_and_mutations">Zooming in on components and mutations</a>
+<ul class="sectlevel2">
+<li><a href="#_the_anatomy_of_a_fulcro_component_query_ident_body">The anatomy of a Fulcro component: query, ident, body</a></li>
+<li><a href="#_changing_global_data_and_performing_remote_calls_mutations">Changing global data and performing remote calls: mutations</a></li>
+<li><a href="#_load_ing_data"><code>load!</code>-ing data</a></li>
+<li><a href="#_preparation_merging_data_into_the_client_db_with_merge_component">Preparation: Merging data into the client DB with <code>merge-component!</code></a></li>
+</ul>
+</li>
+<li><a href="#_review">Review</a></li>
+<li><a href="#_faq">FAQ</a></li>
+<li><a href="#_next_steps">Next steps</a></li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_prerequisities"><a class="anchor" href="#_prerequisities"></a>Prerequisities</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This tutorial expects that you have gone through <a href="../tutorials/eql-pathom-overview.org"><strong>an EQL Tutorial</strong></a> and are familiar with EQL, queries, joins. It will not work without that knowledge. You also need to have <a href="https://blog.wsscode.com/pathom/v2/pathom/2.2.0/introduction.html">an idea about <strong>Pathom v2</strong></a> and <a href="https://blog.wsscode.com/pathom/v2/pathom/2.2.0/connect/resolvers.html">Pathom resolvers</a> (global, ident, parameters). (But you don&#8217;t need to care about Pathom readers.)</p>
+</div>
+<div class="paragraph">
+<p>It also assumes that you are already <a href="https://reactjs.org/tutorial/tutorial.html">familiar with <strong>React</strong></a> and thus with concepts such as components, <a href="https://reactjs.org/warnings/legacy-factories.html">factories</a>, elements, a tree of components, passing "props" from the root component, UI as a function of data.</p>
+</div>
+<div class="paragraph">
+<p>It is helpful to know a little about the principles of <strong>GraphQL</strong> (see this <a href="https://hackernoon.com/3-minute-introduction-to-graphql-2c4e28ed528">3 Minute Introduction to GraphQL</a> and perhaps also this <a href="https://www.howtographql.com/basics/1-graphql-is-the-better-rest/">GraphQL is the better REST</a> for more insight into the value proposition of GraphQL and EQL).</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_a_word_of_warning"><a class="anchor" href="#_a_word_of_warning"></a>A word of warning</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Fulcro is likely very different from any other web framework you have worked with before, even though there are intersections with various technologies (React, GraphQL). It is most advisable that you familiarize yourself well with its key concepts, presented below. Jumping into "learning by doing" straight away does not tend to work all that well.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_why_fulcro"><a class="anchor" href="#_why_fulcro"></a>Why Fulcro?</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Fulcro was born out of the search for <strong>sustainable software development</strong> of full-stack, non-trivial (web) applications. In other words, it aims to keep complexity under control so that it does not explode as your codebase grows and time goes. It also distinguishes itself by the focus on developer-friendliness: related things are located together and it is easy to navigate (Command/Control-click) to all important code artifacts (instead of being forced to search for string IDs or keywords).</p>
+</div>
+<div class="paragraph">
+<p>This leads to the following decisions:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>UI = f(state) - React came with the idea that the UI is just a pure function of data but Fulcro really means it. When you have a problem, look at the data, not the UI. 99% of the time it is there.</p>
+</li>
+<li>
+<p>Components declare their data needs ("query") - because nobody else knows or should care about what data the component needs. And these queries are composable so that we can fetch the data needed by the whole UI (sub)tree at once.</p>
+</li>
+<li>
+<p>Graph API: The UI is a a tree (i.e. a graph) of components and therefore the composed query is also a tree. The server can understand and fulfill such a graph query with a tree of data - exactly the data the UI needs. Not the mess of N separate REST endpoints that you need to query individually and combine and prune the data on the frontend.</p>
+</li>
+<li>
+<p>Web applications are inherently full-stack and thus a framework should provide an integrated solution for fetching data from the server - including the ability to track its status - and for triggering actions ("mutations") with potentially both local and remote constituents. We should not pretend that this is not our problem, as many frameworks do.</p>
+</li>
+<li>
+<p>Normalized client-side DB: Even though the UI needs a tree of data and the server returns just that, we want the data cached in a <a href="https://en.wikipedia.org/wiki/Database_normalization">normalized</a> cache - which we call client DB - on the frontend. For decades, this has been the established best practice for data access in databases, and for good reasons. In particular, it prevents a whole class of issues with out-of-sync data. When we mutate a particular piece of data, we want the new value reflected everywhere where it is used, without having to manually go through all those places. And such a normalized database also makes it trivial to find just the piece of data you want to change (all you need is the entity&#8217;s name, its ID value, and the property name).</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Fulcro is also quite well designed. It is based on a small set of orthogonal building blocks and it doesn&#8217;t hide anything from you - you can always go a level deeper into its internals to achieve what you need (as long as you are aligned with its overall philosophy). Its flexibility and customizability is surprising - all of the critical features from network interaction to rendering optimization are easily customizable. It is also very careful about providing only the tools that are generally applicable and avoiding "features" that might help some people but stand in the way of others. But thanks to the aforementioned flexibility, you can implement what you need for your unique use case yourself.</p>
+</div>
+<div class="paragraph">
+<p>To learn more about the reasoning behind Fulcro, listen to the ClojureScript Podcast <a href="https://podcasts.apple.com/us/podcast/s4-e6-fulcro-with-tony-kay-part-1/id1461500416?i=1000479361034">S4 E6 Fulcro with Tony Kay (Part 1)</a> (2020), which explores the origins of and key motivation for Fulcro, and read the <a href="https://book.fulcrologic.com/#_getting_started">Ch. 4. Getting Started</a> of the Fulcro Developers Guide, which demonstrates how various problems are made easier thanks to the way Fulcro is. To learn to use Fulcro, read on :-).</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_an_overview_of_fulcro"><a class="anchor" href="#_an_overview_of_fulcro"></a>An overview of Fulcro</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Fulcro is a full-stack web framework. These are the main components:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/fulcro-system-view.svg" alt="Fulcro system view" width="630" height="290">
+</div>
+<div class="title">Figure 1. Fulcro system view</div>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Frontend</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p><em>UI</em> - Fulcro/React components render a DOM and submit mutations (= action name + parameters) to the transaction (Tx) subsystem</p>
+</li>
+<li>
+<p><em>Tx</em> (transaction subsystem) - asynchronously executes local mutations and sends remote mutations and queries to the remote backend</p>
+</li>
+<li>
+<p><em>Client DB</em> - data from the backend is <em>normalized</em> into the client-side DB (data cache); <em>Tx</em> typically schedules a re-render afterwards</p>
+</li>
+</ol>
+</div>
+</li>
+<li>
+<p>Backend</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p><em>Pathom</em> receives EQL queries and mutations and responds with a data tree</p>
+</li>
+</ol>
+</div>
+</li>
+</ol>
+</div>
+<div class="sect2">
+<h3 id="_key_concepts_and_elements"><a class="anchor" href="#_key_concepts_and_elements"></a>Key concepts and elements</h3>
+<div class="paragraph">
+<p>We will briefly describe the key terms we are going to use a lot. Some are later explained in more detail. Skim over them and then come back to this section after having read about Fulcro lifecycle and whenever you are unsure what any of this terms means.</p>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">App</dt>
+<dd>
+<p>A reference to the current Fulcro application, containing configuration, the client DB, etc. Produced by <code>app/fulcro-app</code> and used when calling <code>transact!</code> or <code>load!</code> when a component&#8217;s <code>this</code> is not available. Referred to as <code>app</code> in code samples.</p>
+</dd>
+<dt class="hdlist1">Client DB</dt>
+<dd>
+<p>The client-side cache of data. It is a map of maps:</p>
+<div class="paragraph">
+<p>Entity name &#8594; entity id value &#8594; properties of the entity</p>
+</div>
+<div class="paragraph">
+<p>For convenience, we use the name of the <em>id property</em> as the "name" of the entity - thus <code>:person/id</code>, <code>:user/username</code>. Example:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-clojure hljs" data-lang="clojure">{:person/id {123 {:person/id 123, :person/fname "Jo", :person/address [:address/id 3]}
+             ...}
+ ...}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>It is fed by <em>initial data</em> and <em>loading</em> data from the backend and can be changed by <em>mutations</em>.</p>
+</div>
+</dd>
+<dt class="hdlist1">Component</dt>
+<dd>
+<p>A Fulcro component is a React component with extra meta data, such as <em>query</em> and <em>ident</em>.</p>
+</dd>
+<dt class="hdlist1">EQL (EDN Query Language) server</dt>
+<dd>
+<p>The backend includes an EQL server - Pathom - that can process EQL queries and mutations and respond with data (nested, tree-shaped).</p>
+</dd>
+<dt class="hdlist1">Ident</dt>
+<dd>
+<p><em>Of a data entity</em>: the identifier of a data entity composed of the ID property name and value. Ex.: <code>[:person/id 123]</code>. <em>Of a component</em>: a function that returns an ident (discussed later).</p>
+</dd>
+<dt class="hdlist1">Mutation (Fulcro)</dt>
+<dd>
+<p>When components want to "change" something, they submit a mutation describing the desired change to the transaction subsystem. Mutations can be local and/or remote. In the context of Fulcro, a request to load data from the backend is also a mutation (while to Pathom it is sent as a plain EQL query). Remote mutations are sent as <a href="https://edn-query-language.org/eql/1.0.0/specification.html#_mutations">EQL mutations</a>.</p>
+</dd>
+<dt class="hdlist1">Normalization of data</dt>
+<dd>
+<p>Data in the client DB is mostly stored in a <a href="https://en.wikipedia.org/wiki/Database_normalization">normalized form in the database sense</a>. I.e. entities do not include other entities but only their <em>idents</em>. The normalization depends on components declaring their idents.</p>
+</dd>
+<dt class="hdlist1">Query</dt>
+<dd>
+<p>Each stateful component declares what data it needs using an EQL query (or rather a query fragment). If it has stateful children, it also includes their query in its own.</p>
+</dd>
+<dt class="hdlist1">Resolver, Pathom</dt>
+<dd>
+<p>A Pathom resolver takes typically 0 or 1 inputs and optional parameters and outputs a tree of data. F.ex. an input-less resolver can declare: <code>::pc/output [{:all-blogs [:blog/id :blog/title :blog/content]}]</code> and return <code>{:all-blogs [{:blog/id 1, ..}, ..]}</code>. Thus any query that asks for <code>:all-blogs</code> can be "parsed" and answered.</p>
+</dd>
+<dt class="hdlist1">Root component</dt>
+<dd>
+<p>The top component of the UI, customary called <code>Root</code>.</p>
+</dd>
+<dt class="hdlist1">Transaction subsystem</dt>
+<dd>
+<p>Components submit mutations to the transaction subsystem for execution with <code>transact!</code>. You can think of it as an asnychronous queue.</p>
+</dd>
+</dl>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_fulcro_lifecycle"><a class="anchor" href="#_fulcro_lifecycle"></a>Fulcro lifecycle</h3>
+<div class="paragraph">
+<p>Let&#8217;s have a look at what is happening in a Fulcro application:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/fulcro-lifecycle.svg" alt="Fulcro lifecycle" width="630" height="600">
+</div>
+<div class="title">Figure 2. Fulcro lifecycle</div>
+</div>
+<div class="paragraph">
+<p>The core of the Fulcro lifecycle is simple:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Something happens that requires a refresh of the UI, e.g. mounting the Root component, loading data from the backend, or receiving a data response from a mutation submitted to the backend</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>When data arrives from the backend:</p>
+<div class="olist lowerroman">
+<ol class="lowerroman" type="i">
+<li>
+<p>Get the query from the relevant component (f.ex. <code>MyBlogList</code>)</p>
+</li>
+<li>
+<p>Use the query to <em>normalize</em> the data into the client DB</p>
+</li>
+</ol>
+</div>
+</li>
+</ol>
+</div>
+</li>
+<li>
+<p>Fulcro asks the Root component for its query (which <em>includes the queries of its children</em> and thus describes all the data the whole page needs)</p>
+</li>
+<li>
+<p>Fulcro uses the query and the client DB to construct the props data tree for the Root component</p>
+</li>
+<li>
+<p>The props are passed to the Root component and it is rendered</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_zooming_in_on_components_and_mutations"><a class="anchor" href="#_zooming_in_on_components_and_mutations"></a>Zooming in on components and mutations</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>You will learn:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>That a Fulcro component defines a React component class</p>
+</li>
+<li>
+<p>How a component query declares its data needs</p>
+</li>
+<li>
+<p>How a component ident is used to normalize its data to avoid duplication (and simplify data updates)</p>
+</li>
+<li>
+<p>How <code>transact!</code> is used to submit mutations from the UI</p>
+</li>
+<li>
+<p>How <code>load!</code> submits a mutation that loads data from the backend, normalizes them, and stores them into the client database</p>
+</li>
+<li>
+<p>How data is stored in the normalized (de-duplicated) client database</p>
+</li>
+</ul>
+</div>
+<div class="sect2">
+<h3 id="_the_anatomy_of_a_fulcro_component_query_ident_body"><a class="anchor" href="#_the_anatomy_of_a_fulcro_component_query_ident_body"></a>The anatomy of a Fulcro component: query, ident, body</h3>
+<div class="paragraph">
+<p>Fulcro components, which are also React components, are the heart of a Fulcro application. Let&#8217;s explore them:</p>
+</div>
+<div class="exampleblock">
+<div class="title">Example 1. A Fulcro component</div>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-clojure hljs" data-lang="clojure">;; Assume `defsc Address` and its factory `ui-address` exist:
+(defsc Person
+  [this {:person/keys [fname email address] :as props}]
+  {:query [:person/id :person/fname :person/email
+           {:person/address (comp/get-query Address)}]
+   :ident (fn [] [:person/id (:person/id props)])}
+  (div
+    (p "Name: " fname ", email: " email)
+    (ui-address address)))
+
+(def ui-person (comp/factory Person))</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p><em>(Assume the <a href="https://book.fulcrologic.com/#_common_prefixes_and_namespaces">same <code>:require</code> aliases as described in the Fulcro Development Guide</a>.)</em></p>
+</div>
+<div class="paragraph">
+<p><code>(defsc Person ..)</code> ("define stateful component") defines a new React class-based component. After the declaration of arguments (<code>this</code> and <code>props</code>) comes a map with meta data of the component (here <code>:query</code> and <code>:ident</code>, the two most common). Finally comes the body (which will become the <code>render</code> method of the React component) that actually produces React DOM elements. You could read it like this:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-clojure hljs" data-lang="clojure">(defsc &lt;Name&gt; [&lt;arguments&gt;]
+  {&lt;meta data&gt;}
+  &lt;body to be rendered&gt;)</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Notice that <code>defsc</code> produces a JS <em>class</em>, which we turn into a React factory with <code>comp/factory</code> (customary we kebab-case its name and prefix it with <code>ui-</code>). The factory can then be used to create React elements (as is demonstrated with the <code>ui-address</code> factory). (JSX does this for you so that you can use classes directly. Here we want more control.)</p>
+</div>
+<div class="paragraph">
+<p>Also notice that <code>:query</code> and props mirror each other. Fulcro will actually warn you if there is a mismatch between the two, thus preventing many errors.</p>
+</div>
+<div class="sect3">
+<h4 id="_components_query"><a class="anchor" href="#_components_query"></a>Component&#8217;s <code>:query</code></h4>
+<div class="listingblock">
+<div class="title">From the component example presented earlier:</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-clojure hljs" data-lang="clojure">(defsc Person
+  [_ ]
+  {:query [:person/id :person/fname :person/email
+           {:person/address (comp/get-query Address)}]
+   ..} ..)</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>The query declares what props the component needs, <em>including</em> the needs of its child components.</strong> (We saw how <code>Person</code> includes the query of <code>Address</code> via <code>comp/get-query</code>.)</p>
+</div>
+<div class="paragraph">
+<p>Thus the root component&#8217;s query will describe the UI needs of the whole UI tree. The query is in EQL, which you are already familiar with, containing the <em>properties</em> the component itself needs and <em>joins</em> for the nested data needed by child components.</p>
+</div>
+<div class="paragraph">
+<p>The figure below shows how the query fragments of all components (that have a query) are composed into the Root component&#8217;s query and sent to the backend (1), which responds with a tree of data (2), which is then propagated down from Root to its children and so on.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/fulcro-ui-query-data.svg" alt="fulcro ui query data">
+</div>
+<div class="title">Figure 3. Components, query, and data: UI &#8594; query &#8594; data &#8594; UI</div>
+</div>
+<div class="paragraph">
+<p>Beware: You must not copy and paste the child&#8217;s query directly but rather use <code>(comp/get-query &lt;Child&gt;)</code> as demonstrated. Both for DRY and because <code>get-query</code> also adds important metadata to the composed query about the origin of the individual fragments so that Fulcro can later use it to normalize data from <code>load!</code> or <code>merge-component!</code> correctly.</p>
+</div>
+<div class="paragraph">
+<p>Fulcro combines the query and the (normalized) client database to produce the tree of data that is passed as props to the Root component. Which, in turn, will pass the relevant parts to its children, as we did with <code>address</code>. How does the data get into the client database, you ask? See the discussion of <code>load!</code> later on.</p>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+Don&#8217;t be mislead, the query is not a standalone query that could be "run" directly against the database (as you know from SQL or re-frame subscriptions). It is rather a <em>query fragment</em>, which only makes sense in the context of its parent&#8217;s query. Only the root componet&#8217;s properties are resolved directly against the client database or, when <code>load!</code>-ed, against global Pathom resolvers. A query such as <code>[:person/id :person/fname]</code> is meaningless on its own - which person? Only in the context of a parent, such as <code>[{:all-people [&lt;insert here&gt;]}]</code> (in an imaginary <code>AllPeopleList</code> component) does it make sense.
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_components_ident"><a class="anchor" href="#_components_ident"></a>Component&#8217;s <code>:ident</code></h4>
+<div class="listingblock">
+<div class="title">From the component example presented earlier:</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-clojure hljs" data-lang="clojure">(defsc Person
+  [_ props]
+  {..
+   :ident (fn [] [:person/id (:person/id props)])} ..)</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>For a <em>data entity</em>, ident(ifier) is akin to a self-contained foreign key in SQL: it contains the (unique) name of an entity&#8217;s ID property and its value, in a 2-element vector. For example: <code>[:person/id 123]</code>.</p>
+</div>
+<div class="paragraph">
+<p>For a <em>component</em>, its <code>:ident</code> is a function that returns the ident of the associated data entity, typically based on its props (captured from the component&#8217;s arguments): <code>(fn [] [:person/id (:person/id props)])</code>. (We could simplify the whole thing to <code>:person/id</code> using the <a href="https://book.fulcrologic.com/#_keyword_idents">keyword ident form</a> but we can ignore that for now.)</p>
+</div>
+<div class="paragraph">
+<p>For <em>singleton components</em> we use, by convention, the "property name" <code>:component/id</code> and a hardcoded value specific to the component - typically its name as a keyword. For instance <code>:ident (fn [] [:component/id :AllPeopleList])</code>.</p>
+</div>
+<div class="paragraph">
+<p><strong>Why</strong> do we need component idents? To tell Fulcro what is the ID property of an entity so that it can <em>normalize</em> its data into the client database.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_components_initial_state"><a class="anchor" href="#_components_initial_state"></a>Component&#8217;s <code>:initial-state</code></h4>
+<div class="paragraph">
+<p>A component can also specify <code>:initial-state (fn [params] &lt;some data matching the expected props&gt;)</code> to declare the props it wants to get passed on the first "frame", i.e. the first render. The data will be normalized based on idents and stored into the client DB. You can use it to define the state of the application before any data is loaded from the server-side.</p>
+</div>
+<div class="paragraph">
+<p>When do you need to define initial state?</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>When you want to make sure that the component has particular props before any data is loaded from the backend</p>
+</li>
+<li>
+<p>When the component has no state of its own and only queries for global data using <a href="https://book.fulcrologic.com/#_link_queries">Link Queries</a></p>
+</li>
+<li>
+<p>When a child component has an initial state (f.ex. dynamic routers do)</p>
+</li>
+<li>
+<p>(?) When the component is used as a target of a dynamic router</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_rendering_dom_the_body_of_a_component"><a class="anchor" href="#_rendering_dom_the_body_of_a_component"></a>Rendering DOM: the body of a component</h4>
+<div class="listingblock">
+<div class="title">From the component example presented earlier:</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-clojure hljs" data-lang="clojure">(defsc Person
+  [_ {:person/keys [fname email address]}]
+  {..}
+  (div
+    (p "Name: " fname ", email: " email)
+    (ui-address address)))</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The body of the <code>defsc</code> macro becomes the <code>render</code> method of the React class.</p>
+</div>
+<div class="paragraph">
+<p>Instead of JSX, we use functions from the <a href="https://github.com/fulcrologic/fulcro/blob/develop/src/main/com/fulcrologic/fulcro/dom.cljs"><code>dom</code> namespace</a> for rendering HTML tags and React factories for rendering React components.</p>
+</div>
+<div class="paragraph">
+<p>This is what a complete call looks like:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-clojure hljs" data-lang="clojure">(dom/h2 :.ui.message#about
+  {:style {:background "1px solid black"}
+   :classes ["my-heading" (when (:important? props) "important")]}
+  "About")</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>and here is a minimal example:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-clojure hljs" data-lang="clojure">(dom/p "Hello " (:fname props) "!")</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The signature is:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-clojure hljs" data-lang="clojure">(dom/&lt;tag&gt;
+  &lt;[optional] keyword encoding classes and an element ID&gt; ; <i class="conum" data-value="1"></i><b>(1)</b>
+  &lt;[optional] map of the tag's attributes (or React props)&gt<i class="conum" data-value="2"></i><b>(2)</b>
+  &lt;[optional] children&gt;) ; <i class="conum" data-value="3"></i><b>(3)</b></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>A shorthand for declaring CSS classes and ID: add as many <code>.&lt;class name&gt;</code> as you want and optionally a single <code>#&lt;id&gt;</code>. Equivalent to <code>{:classes [&lt;class name&gt; &#8230;&#8203;], :id &lt;id&gt;}</code>.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>A Clojure map of the element&#8217;s attributes/props. In addition to what React supports, you can specify <code>:classes</code> as a vector of class names, which can contain <code>nil</code> - those will be removed. It is merged with any classes specified in the keyword shorthand form.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>Zero or more children</td>
+</tr>
+</table>
+</div>
+<div class="sect4">
+<h5 id="_additional_notes"><a class="anchor" href="#_additional_notes"></a>Additional notes</h5>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Returning multiple elements from the body</dt>
+<dd>
+<p>To return multiple child elements, wrap them either in a Clojure sequence or <code>comp/fragment</code>. React demands that every one must have a unique <code>:key</code>. Ex.: <code>(defsc X [_ _] [(dom/p {:key "a"} "a") (dom/p {:key "b"} "b")])</code>.</p>
+</dd>
+<dt class="hdlist1">Assigning a unique <code>:key</code> to every instance of a Fulcro component</dt>
+<dd>
+<p>If a Fulcro component is being rendered in a sequence, f.ex. because you do something like <code>(map ui-employee (:department/employees props))</code>, it must have a unique <code>:key</code> prop. Leverage the second, optional argument to <code>comp/factory</code> to specify a function of the component&#8217;s props that will return the unique key:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-clojure hljs" data-lang="clojure">(def ui-employee (comp/factory Employee {:keyfn :employee/id}))
+;; assuming the Employee component has the (unique) :employee/id prop</code></pre>
+</div>
+</div>
+</dd>
+<dt class="hdlist1">Passing additional ("computed") props from the parent</dt>
+<dd>
+<p>What if the parent needs to pass on some additional props other than those that come from the query resolution, for example callbacks? You should not just stick them into the props map because it would be then missing if Fulcro does a targeted re-render of just the child component. Instead, you should pass it on as <em>computed props</em> either manually or leveraging <code>comp/computed-factory</code> and the optional third argument of <code>defsc</code>. This is demonstrated below:</p>
+<div class="exampleblock">
+<div class="title">Example 2. Passing computed props</div>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-clojure hljs" data-lang="clojure">(defsc Person [this props {::keys [callback]}]
+ {..}
+ (dom/div
+   (dom/p "Person " (:person/name props))
+   (dom/button {:onClick callback} "Delete")))
+
+(def ui-person (comp/computed-factory Person))
+
+(defsc Parent [_ {:parent/keys [spouse]}]
+  {..}
+  (ui-person spouse {::callback #(js/alert "I won't give her up!")}))</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>Read more in <a href="https://book.fulcrologic.com/#_passing_callbacks_and_other_parent_computed_data">Passing Callbacks and Other Parent-computed Data</a>.</p>
+</div>
+</dd>
+</dl>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_note_on_raw_react_components"><a class="anchor" href="#_note_on_raw_react_components"></a>Note on raw React components</h5>
+<div class="paragraph">
+<p>We saw how to render a child Fulcro component, the <code>Address</code> (via its factory function, <code>ui-address</code>). But what about raw React classes from JS libraries?</p>
+</div>
+<div class="paragraph">
+<p>It is similar, only instead of <code>comp/factory</code> <a href="https://book.fulcrologic.com/#_factory_functions_for_js_react_components">we use <code>interop/react-factory</code></a>, which will take care of converting Cljs data to JS etc.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_changing_global_data_and_performing_remote_calls_mutations"><a class="anchor" href="#_changing_global_data_and_performing_remote_calls_mutations"></a>Changing global data and performing remote calls: mutations</h3>
+<div class="paragraph">
+<p>When a component needs to change something outside of itself, it does so through submitting <em>mutations</em> to the transaction subsystem via <code>comp/transact!</code>.</p>
+</div>
+<div class="paragraph">
+<p>Mutations can be local (client-side) only or local and remote (though there does not need to be any local behavior defined). Even though mutation usage looks like a function call, it is not. What <code>transact!</code> expects is a sequence of <em>data</em>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-clojure hljs" data-lang="clojure">(comp/transact! app-or-component
+  [(&lt;fully qualified symbol&gt; &lt;params map&gt;), ...])</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>That is so that the mutation can be submitted over the wire to the backend as-is. Of course both Fulcro and Pathom expect that there actually is a <code>defmutation</code> corresponding to the provided "fully qualified symbol". So how do we define a mutation on the client and server side? (Assuming standard Fulcro and <a href="https://blog.wsscode.com/pathom/v2/pathom/2.2.0//introduction.html#_aliases_used_in_code_examples">Pathom namespace aliases</a>.)</p>
+</div>
+<div class="exampleblock">
+<div class="title">Example 3. A Fulcro mutation</div>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-clojure hljs" data-lang="clojure">#?(:cljs
+    ;; client-side
+    (m/defmutation delete-employee [{id :employee/id :as params}] ; <i class="conum" data-value="1"></i><b>(1)</b>
+      (action [{:keys [app state] :as env}]          ; <i class="conum" data-value="2"></i><b>(2)</b>
+        (swap! state update :employee/id dissoc id))
+      (remote [env] true)                            ; <i class="conum" data-value="3"></i><b>(3)</b>
+      (ok-action [{:keys [app state result]}]        ; <i class="conum" data-value="4"></i><b>(4)</b>
+        (println "It worked!")))
+  :clj
+    ;; server-side
+    (pc/defmutation delete-employee [env {id :employee/id :as params}]) ; <i class="conum" data-value="5"></i><b>(5)</b>
+      {::pc/params #{:employee/id}}
+      (db/delete-employee id)
+      nil))
+
+;; Somewhere in a component:
+(comp/transact! this [(delete-employee {:employee/id id})])   ; <i class="conum" data-value="6"></i><b>(6)</b>
+;; or:
+(comp/transact! this `[(delete-employee {:employee/id ~id})]) ; <i class="conum" data-value="7"></i><b>(7)</b></code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>The client-side mutation takes a map of parameters (see (6) for usage) and has zero or more named parts that look like protocol method implementations</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td><code>action</code> is what should happen first. Here we can directly change the client DB (<code>state</code>, an atom)</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>if <code>remote</code> is present and returns something truthy, then the mutation is also sent to the backend as an <a href="https://edn-query-language.org/eql/1.0.0/specification.html#_mutations">EQL mutation</a>. It could also modify the EQL before sending it or declare what data the server-side mutation returns. Omit for a client-side-only mutation.
+(Note: here the name <code>remote</code> must match against a remote registered with the Fulcro app; by default it is called "remote" but you could also register additional remotes and thus add here sections for those.)</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="4"></i><b>4</b></td>
+<td><code>ok-action</code> is called after the remote mutation succeeds. Notice that in Fulcro mutations and queries generally <a href="https://book.fulcrologic.com/#FullStackErrorHandling">never "fail" and rather return data</a> indicating that something went wrong. You can submit other mutations etc. from here.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="5"></i><b>5</b></td>
+<td>The server-side mutation is a Pathom mutation (taking Pathom environment and the same params as the client-side). Typically it would update some kind of a data store.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="6"></i><b>6</b></td>
+<td>As demonstrated, we submit a mutation for processing using <code>comp/transact!</code> and passing in the params. We can call the mutation as a function, which will simply return the call as data (example: <code>(my-mutation {x: 1})</code> &#8594; <code>'(my.ns/my-mutation {x: 1})</code>)</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="7"></i><b>7</b></td>
+<td>&#8230;&#8203;or we provide the symbol directly</td>
+</tr>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_transact_ing_multiple_mutations"><a class="anchor" href="#_transact_ing_multiple_mutations"></a>transact!-ing multiple mutations</h4>
+<div class="paragraph">
+<p>If you <code>transact!</code> multiple mutations then their <code>action</code> will be processed <em>in order</em>. However, if they have a remote part, Fulcro does only send it but does not wait for it to finish before going on to process the next mutation. If you want to only issue a follow-up mutation after the remote part of the initial mutation has finished, do so from its <code>ok-action</code>.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_load_ing_data"><a class="anchor" href="#_load_ing_data"></a><code>load!</code>-ing data</h3>
+
+</div>
+<div class="sect2">
+<h3 id="_preparation_merging_data_into_the_client_db_with_merge_component"><a class="anchor" href="#_preparation_merging_data_into_the_client_db_with_merge_component"></a>Preparation: Merging data into the client DB with <code>merge-component!</code></h3>
+<div class="paragraph">
+<p>Before looking into loading remote data, we must understand how a (denormalized) tree of data can be merged and normalized into the client DB. There is no point in loading data unless we can put them into the client DB, the only place where Fulcro ever looks.</p>
+</div>
+<div class="paragraph">
+<p>Given these two components:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-clojure hljs" data-lang="clojure">(defsc Address [_ _]
+  {:query [:address/id :address/street]
+   :ident :address/id})
+   ;; reminder: `:address/id` is a shorthand for
+   ;; (fn [:address/id (:address/id props)])
+
+(defsc Person [_ _]
+  {:query [:person/id :person/fname {:person/address (get-query Address)}]
+   :ident :person/id})</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>and this data:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-clojure hljs" data-lang="clojure">(def person-tree
+  {:person/id 1
+   :person/fname "Jo"
+   :person/address {:address/id 11
+                    :address/street "Elm Street 7"}})</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>we can merge the data into the client DB like this:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-clojure hljs" data-lang="clojure">(merge/merge-component!
+  app
+  Person
+  person-tree)</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>to get the following client DB:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-clojure hljs" data-lang="clojure">{:person/id  {1  {:person/id 1   :person/fname "Jo" :person/address [:address/id 11]}}
+ :address/id {11 {:address/id 11 :address/street "Elm Street 7"}}}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Notice that idents of both <code>Person</code> and <code>Address</code> were used to put the data in the correct "tables". If <code>Address</code> lacked an ident, its data would stay denormalized inside the person just as it is in the input data. (The top component passed to <code>merge-component!</code> always must have an ident.)</p>
+</div>
+<div class="paragraph">
+<p>After having modified the client DB, <code>merge-component!</code> will also schedule re-rendering of the UI.</p>
+</div>
+<div class="paragraph">
+<p>The signature of <code>merge-component!</code> is:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-clojure hljs" data-lang="clojure">(merge/merge-component!
+  app-or-component
+  &lt;Component&gt;
+  &lt;data tree&gt;
+  &lt;[optional] key-value pairs of options&gt;)</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>merge-component!</code> gets the ident and query of the given component (and leverages the metadata on the child query fragments to get the other relevant idents, such as Address') and uses those to normalize the data into the DB. Notice that the data is really <strong>merged</strong> into the DB in a smart way and not just blindly overwriting it, i.e. pre-existing data is preserved (see the docstring for details).</p>
+</div>
+<div class="sect3">
+<h4 id="_targeting_adding_references_to_the_new_data_to_existing_entities"><a class="anchor" href="#_targeting_adding_references_to_the_new_data_to_existing_entities"></a>Targeting - Adding references to the new data to existing entities</h4>
+<div class="paragraph">
+<p>Now, what if we don&#8217;t only want to add the data itself but also want to add reference(s) to the newly added data to some other, existing data entities in the client DB? <code>:append</code>, <code>:prepend</code>, and <code>:replace</code> to the rescue! We can specify as many of these as we want, providing full paths to the target property in the client DB. The paths have three (four, in the case of <code>:replace</code> of a to-many element) parts - entity name, entity ID value, the target property.</p>
+</div>
+<div class="exampleblock">
+<div class="title">Example 4. Data targetting: append, prepend, replace</div>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-clojure hljs" data-lang="clojure">;; Given an app with this client DB:
+(def app
+  (app/fulcro-app
+    {:initial-db
+     {:list/id   {:friends    {:list/people [[:person/id :me]]}
+                  :partygoers {:list/people [[:person/id :me]]}}
+      :person/id {:me         {:person/id :me :person/fname "Me"
+                              :person/bff [[:person/id :me]]}}}}))
+
+;; and this call (reusing the person-tree defined earlier):
+(merge/merge-component!
+  app
+  Person
+  person-tree
+  :append  [:list/id :friends :list/people]
+  :prepend [:list/id :partygoers :list/people]
+  :replace [:person/id :me :person/bff 0]
+  :replace [:best-person])
+
+;; we get this Client DB:
+{:list/id
+ {:friends    {:list/people [[:person/id :me] [:person/id 1]]},  ; <i class="conum" data-value="1"></i><b>(1)</b>
+  :partygoers {:list/people [[:person/id 1] [:person/id :me]]}}, ; <i class="conum" data-value="2"></i><b>(2)</b>
+ :person/id
+ {:me #:person{:id :me, :fname "Me", :bff [[:person/id 1]]},     ; <i class="conum" data-value="3"></i><b>(3)</b>
+  1   #:person{:id 1,   :fname "Jo", :address [:address/id 11]}},
+ :address/id {11 #:address{:id 11, :street "Elm Street 7"}},
+ :best-person [:person/id 1]}                                     ; <i class="conum" data-value="4"></i><b>(4)</b></code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td><code>:append</code> inserts the ident of the data at the <em>last</em> place of the target to-many property (vector of idents) (unless the vector already includes it anywhere)</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td><code>:prepend</code> inserts the ident of the data at the <em>first</em> place of the target to-many property (vector of idents) (unless the vector already includes it anywhere)</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td><code>:replace</code> can replace an element of a to-many vector given a path ending with an index and provided it already exists</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="4"></i><b>4</b></td>
+<td>and <code>:replace</code> can also insert the ident at the given path (which even does not need to be an entity-id-property triplet)</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>We have seen that in addition to merging data into the client DB we can also <em>append</em> and <em>prepend</em> references to it to to-many reference properties on other entities (such as <code>:list/people</code>), insert them into to-one properties with <code>:replace</code> etc. And we can do as many such operations as we want at once.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_loading_remote_data"><a class="anchor" href="#_loading_remote_data"></a>Loading remote data</h4>
+<div class="paragraph">
+<p>Now that you understand the merging of data into the client DB, you can load data with <code>df/load!</code>, which is just <code>merge-component!</code> that - given a property or an ident that Pathom can resolve - obtains data from the remote. (Needless to say, there needs to be <a href="https://blog.wsscode.com/pathom/v2/pathom/2.2.0/connect/resolvers.html">Pathom resolvers</a> available to provide the data you are asking for.)</p>
+</div>
+<div class="paragraph">
+<p>The signature of <code>load!</code> is:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-clojure hljs" data-lang="clojure">(df/load! app-or-comp          ; <i class="conum" data-value="1"></i><b>(1)</b>
+          src-keyword-or-ident ; <i class="conum" data-value="2"></i><b>(2)</b>
+          component-class      ; <i class="conum" data-value="3"></i><b>(3)</b>
+          options)             ; <i class="conum" data-value="4"></i><b>(4)</b></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Pass in a reference to the Fulcro <code>app</code> or a component&#8217;s <code>this</code> (the  first argument of <code>defsc</code>)</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Specify the server-side property (attribute) that Pathom can resolve - either a keyword, i.e. a property name output by a global Pathom resolver, or an ident such as <code>[:person/id 1]</code>, supported by a Pathom resolver taking the corresponding input (e.g. <code>::pc/input #{:person/id}</code>)</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>The component whose query defines which of the available properties to get and that is used when merging the returned data with <code>merge-component!</code>.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="4"></i><b>4</b></td>
+<td><code>load!</code> takes plenty of options, a number of them very useful. We will explore those in more detail later.</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>(Notice that <code>load!</code> will actually <code>transact!</code> a predefined mutation. It just provides a convenient wrapper around the mutation and common additional actions.)</p>
+</div>
+<div class="paragraph">
+<p>A couple of examples:</p>
+</div>
+<div class="exampleblock">
+<div class="title">Example 5. load! variants</div>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-clojure hljs" data-lang="clojure">;; Assuming a global Pathom resolver `:all-people`
+;; (with `::pc/output [:all-people [..]]` and no ::pc/input)
+(df/load! app :all-people Person) ; <i class="conum" data-value="1"></i><b>(1)</b>
+;; =&gt; client db gets:
+;; :all-people [[:person/id 1], [:person/id 2], ...]
+;; :person/id {1 {:person/id 1, :person/propX ".."}, 2 {...}}
+
+;; Loading by ident - assuming a Pathom resolver
+;; with `::pc/input #{:person/id}`:
+(df/load! this [:person/id 123] Person) ; <i class="conum" data-value="2"></i><b>(2)</b>
+;; =&gt; client db gets:
+;; :person/id {..., 123 {:person/id 123, :person/propX ".."}}
+
+;; As above, but also adding the loaded entity to
+;; a list in a related entity
+(df/load! app [:employee/id 123] Employee ; <i class="conum" data-value="3"></i><b>(3)</b>
+  {:target (targeting/append-to [:department/id :sales :department/employees])})
+;; =&gt; client db gets:
+;; :employee/id {..., 123 {:employee/id 123, ...}}
+;; :department/id {:sales {:department/id :sales,
+;;                         :department/employees [..., [:employee/id 123]]}}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Load an entity or list of entities from a <em>global (input-less) resolver</em></td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Load an entity by ident</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>Load an entity by ident and add a reference to another entity, leveraging the <code>:target</code> option and the helpers in the <code>targeting</code> namespace</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_how_to"><a class="anchor" href="#_how_to"></a>How to&#8230;&#8203;</h4>
+<div class="paragraph">
+<p>Here we will learn how to solve a number of common needs by leveraging the rich set of options that <code>load!</code> supports. See its docstring for the full list and documentation.</p>
+</div>
+<div class="qlist qanda">
+<ol>
+<li>
+<p><em>How to provide params to parametrized Pathom resolvers?</em></p>
+<p>Use the option <code>:params</code> to provide extra <a href="https://blog.wsscode.com/pathom/v2/pathom/2.2.0/connect/resolvers.html#_parameters">parameters to the target Pathom resolver</a>, such as pagination and filtering. Ex.: <code>(df/load :current-user User {:params {:username u :password p}})</code>.</p>
+</li>
+<li>
+<p><em>How can I add a reference to the loaded data entity to another entity present in the client DB?</em></p>
+<p>Similarly as with <code>merge-component!</code> but instead of specifying directly <code>:append</code>, <code>:prepend</code>, and <code>:replace</code>, you specify the <code>:target</code> option with a target from <a href="https://github.com/fulcrologic/fulcro/blob/develop/src/main/com/fulcrologic/fulcro/algorithms/data_targeting.cljc">the <code>targeting</code> namespace</a> such as <code>(append-to &lt;path&gt;)</code>, <code>(prepend-to &lt;path&gt;)</code>, <code>(replace-at &lt;path&gt;)</code> or any combination of these by leveraging <code>(multiple-targets &#8230;&#8203;)</code>. See the example above.</p>
+</li>
+<li>
+<p><em>How to exclude a costly prop(s) from being loaded?</em></p>
+<p>Imagine you want to load a Blog entity but exclude its comments so that you can load them asynchronously or e.g. when the user scrolls down. You can leverage <code>:without</code> for that: <code>(load! app [:blog/id 42] Blog {:without #{:blog/comments}})</code>. Notice that it removes the property no matter how deep in the query it is so <code>(load! app :all-blogs BlogList {:without #{:blog/comments}})</code> will also do this. Learn more in the chapter on <a href="https://book.fulcrologic.com/#IncrementalLoading">Incremental Loading</a>.</p>
+</li>
+<li>
+<p><em>How to load only a subtree of data (f.ex. the one excluded earlier with <code>:without</code>)?</em></p>
+<p>The opposite of the <code>:without</code> option is the function <code>df/load-field!</code>, which loads 1+ props of a component. Inside the Blog component: <code>(df/load-field! this [:blog/comments] {})</code>. Learn more in the chapter on <a href="https://book.fulcrologic.com/#IncrementalLoading">Incremental Loading</a>. Alternatively, you can use the load! option <code>:focus</code>, which requires more work but is more flexible.</p>
+</li>
+<li>
+<p><em>How to track the loading status, i.e. loading x loaded x failed?</em></p>
+<p>Use the option <code>:marker &lt;your custom keyword or data&gt;</code> to add a "marker" that will track the status for you. See the example below.</p>
+</li>
+<li>
+<p><em>How to execute a follow-up action after the load is finished?</em></p>
+<p>What if you need to do an additional activity after the data arrives? You can use the options <code>:post-mutation</code>, optionally with <code>:post-mutation-params</code>, to submit a mutation. Or you can use the more flexible option <code>:post-action (fn [env] ..)</code>, which can call <code>transact!</code>.</p>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_when_to_load"><a class="anchor" href="#_when_to_load"></a>When to <code>load!</code>?</h4>
+<div class="paragraph">
+<p>When to call <code>load!</code>? Fulcro does not load any data from the server for you, you have to <code>load!</code> them yourself. The main options for when to do that are:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>When your <a href="https://book.fulcrologic.com/#_loading_something_into_the_db_root">application is starting</a></p>
+</li>
+<li>
+<p>In an event handler (e.g. onClick)</p>
+</li>
+<li>
+<p>When a component is mounted, using React&#8217;s <code>:componentDidMount</code> - though this is suboptimal and can result in loading cascades (A mounts and loads its data; after it gets them, its child B is mounted and loads its data, &#8230;&#8203;); a better option is leveraging Fulcro&#8217;s deferred routing</p>
+</li>
+<li>
+<p>When a component is scheduled to be displayed, i.e. when using Fulcro&#8217;s <a href="https://book.fulcrologic.com/#_dynamic_router">Dynamic Routers</a> with <a href="https://book.fulcrologic.com/#_deferred_routing">Deferred Routing</a>. However this is an advanced and non-trivial topic so we will not delve into it here.</p>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_what_to_load"><a class="anchor" href="#_what_to_load"></a>What to <code>load!</code>?</h4>
+<div class="paragraph">
+<p>Even though the Root&#8217;s query represents the data needs of the whole UI, you essentially never use it to <code>load!</code> the data from the backend. It does not make sense, as we will see briefly. What you do instead is that you load distinct sub-trees of the data that actually correspond to top-level "entry points" (global Pathom resolvers) in your data model. Remember that you invoke load! with:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-clojure hljs" data-lang="clojure">(df/load! app :some-server-property SomeComponent)</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>and it will construct and send the following EQL over the wire:</p>
+</div>
+<div class="listingblock">
+<div class="title">EQL query sent to the backend</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-clojure hljs" data-lang="clojure">[{:some-server-property &lt;the query of SomeComponent&gt;}]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>and finally store the returned data in the client DB like this:</p>
+</div>
+<div class="listingblock">
+<div class="title">Client DB</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-clojure hljs" data-lang="clojure">{...
+ :some-server-property &lt;the (normalized) data&gt;}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Loading Root&#8217;s query in this way does not make sense because it would put the data under a key in the client DB (such as <code>:some-server-property</code> above) while the Root needs its props to be directly at the root of the client DB. You could bypass <code>load!</code> and send the Root&#8217;s query directly, as-is to bypass this problem. But normally you simply issue 1+ loads for the data of interest, with proper targeting, upon some event (such as app start).</p>
+</div>
+<div class="paragraph">
+<p>Let&#8217;s have a look at a simple banking application that shows two lists, an overview of all accounts and an overview of all customers:</p>
+</div>
+<div class="exampleblock">
+<div class="title">Example 6. A banking application</div>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-clojure hljs" data-lang="clojure">(defsc Account [_ props]
+ {:ident :account/id
+  :query [:account/id :account/owner :account/balance]}
+ (p (str props)))
+(def ui-account (comp/factory Account))
+
+(defsc AccountList [_ props]
+ ;; Note: In practice, this would be UI-only comp. with no query
+ {:ident (fn [] [:component/id ::AccountList])
+  :query [{:account-list/accounts (comp/get-query Account)}]}
+ (div
+   (h2 "Accounts")
+   (map ui-account accounts)))
+(def ui-account-list (comp/factory AccountList))
+
+;; LEFT OUT Customer, CustomerList, their ui-* ;;
+
+(defsc Root [_ {:root/keys [accounts customers]}]
+ {:query [{:root/accounts (comp/get-query AccountList)}
+          {:root/customers (comp/get-query CustomerList)}]}
+ (div
+   (h1 "Your bank")
+   (ui-account-list accounts)
+   (ui-customer-list customers)))
+
+(comment
+  ;; Somewhere during app startup, we would do:
+  (do
+    (df/load! app :all-accounts Account ; <i class="conum" data-value="1"></i><b>(1)</b>
+      {:target (targeting/replace-at [:component/id :AccountList :account-list/accounts])}) ; <i class="conum" data-value="2"></i><b>(2)</b>
+    (df/load! app :all-customers Customer
+      {:target (targeting/replace-at [:component/id :CustomerList :customer-list/customers])}))
+
+  ;; which assumes that on the server-side we have something like:
+  (pc/defresolver xyz [env _]
+    {::pc/input  #{}
+     ::pc/output [{:all-accounts [:account/id :account/owner :account/balance]}]}
+    (jdbc/execute! env "select id, owner, balance from account"))
+  ;; and similarly for :all-customers
+  )</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>We load! using Account&#8217;s query because this one defines what it is we want for each of the all accounts</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>We instruct load! to place the data where our UI expects them, i.e. inside the AccountList component instead of at the root of the client DB</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_bonus_tracking_loading_state_with_load_markers"><a class="anchor" href="#_bonus_tracking_loading_state_with_load_markers"></a>Bonus: Tracking loading state with load markers</h4>
+<div class="paragraph">
+<p>You can ask <code>load!</code> to track the status of loading using a "load marker" and you can query for the marker to use it in your component. See the chapter <a href="https://book.fulcrologic.com/#_tracking_specific_loads">Tracking Specific Loads</a> in the book for details. A simple example:</p>
+</div>
+<div class="exampleblock">
+<div class="title">Example 7. Tracking the status of a load! with a load marker</div>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-clojure hljs" data-lang="clojure">;; Somewhere during the app lifecycle:
+(df/load! [:list/id :friends] Person {:marker :friends-list}) ; <i class="conum" data-value="1"></i><b>(1)</b>
+
+;; The component:
+(defsc FriendsList [_ props]
+  {:query [:list/people [df/marker-table :friends-list]]    ; <i class="conum" data-value="2"></i><b>(2)</b>
+   :ident (fn [] [:list/id :friends])}
+  (let [marker (get props [df/marker-table :friends-list])] ; <i class="conum" data-value="3"></i><b>(3)</b>
+    (cond
+      (df/loading? marker) (dom/div "Loading...")           ; <i class="conum" data-value="4"></i><b>(4)</b>
+      (df/failed?  marker) (dom/div "Failed to load :-(")
+      :else (dom/div
+              (dom/h3 "Friends")
+              (map ui-person (:list/people props))))))</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Ask <code>load!</code> to track the load with a marker called e.g. <code>:friends-list</code></td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Add <code>[df/marker-table &lt;your custom id&gt;]</code> to your query to access the marker (notice that this is an <em>ident</em> and will load the marker with the given ID from the Fulcro-managed marker table in the client DB)</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>Get the marker from the props. Notice this is <code>get</code> and not <code>get-in</code> because the whole ident is used as the key.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="4"></i><b>4</b></td>
+<td>Use the provided functions to check the status of the load and display corresponding UI</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_briefly_about_pre_merge"><a class="anchor" href="#_briefly_about_pre_merge"></a>Briefly about pre-merge</h4>
+<div class="paragraph">
+<p>What if your component needs not only the data provided by the server but also some UI-only data to function properly? When you <code>load!</code> a new entity - for example <code>[:person/id 1]</code> - only the data returned from the backend will be stored into the client DB. If you need to enhance those data with some UI-only data before it is merged there - for example router or form state - you can do so <a href="https://book.fulcrologic.com/#_pre_merge">in its <code>:pre-merge</code></a>. This is an advanced topic so we will not explore it here but you need to know that this is possible so that you know where to look when the time comes.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_review"><a class="anchor" href="#_review"></a>Review</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>You have now learned about the key building block of a Fulcro application, the component, with its query and ident. About effecting changes through local and remote mutations, about loading data, and about normalizing data into the client DB. This following figure demonstrates where each of the pieces fit in the application (the namespace names are just simple examples; in practice they would be more domain-oriented; also, there should perhaps be an ↔ arrow between mutations and the server):</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/fulcro-interfaces.svg" alt="fulcro interfaces">
+</div>
+<div class="title">Figure 4. Where do key Fulcro constructs fit into the system? (Courtesy of Timofey Sitnikov)</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_faq"><a class="anchor" href="#_faq"></a>FAQ</h2>
+<div class="sectionbody">
+<div class="qlist qanda">
+<ol>
+<li>
+<p><em>Can different components have the same ident?</em></p>
+<p>Yes. Typically these components are different (sub)views of the same data entity. So you could have a "person" data entity and the components <code>PersonOverview</code> with the query <code>[:person/id :person/fname :person/image-small]</code> and <code>PersonDetails</code> with the query <code>[:person/id :person/fname :person/age :person/image-large]</code>, both with <code>:ident :person/id</code>. The combined data of both would be stored at the same place in the client DB.</p>
+</li>
+<li>
+<p><em>When, where does Fulcro load data from the backend?</em></p>
+<p>It does not. You have to <code>load!</code> the data yourself, upon a user action are at a suitable point in the lifecycle of the application. (RAD is an exception, its reports and forms do load its data but they just do what you would do manually, trigger load from their <code>:will-enter</code>. Though that is beyond the scope of this tutorial.)</p>
+</li>
+<li>
+<p><em>What is in the client DB? Is it only Fulcro-managed, <code>load!</code>-ed data of components?</em></p>
+<p>No! The client DB is just a map and you can put there (typically through a mutation) whatever data you want, in whatever form you see fit. (Ie. it does not need to be in the entity type &#8594; entity id &#8594; entity props form.) While Fulcro will use it to store any data <code>load!</code>-ed from the backend - normalized, if you defined idents - you can also put there any additional data that you need. You could put there e.g. <code>:auth-token "XYZ&#8230;&#8203;"</code>, <code>:selected-customer [:customer/id "Volvo"]</code>, or <code>:my-custom-tree {:I {:have [:kid1 :kid2 'etc]}}</code>.</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_next_steps"><a class="anchor" href="#_next_steps"></a>Next steps</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>OK, you have completed the tutorial. What now?</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><a href="https://book.fulcrologic.com/#_install_fulcro_inspect">Install Fulcro Inspect</a> and <a href="https://book.fulcrologic.com/#_configure_chrome_development_settings">enable custom formatters in Chrome</a> to display Clojure data nicely in the Console - trust me, these two are indispensable!</p>
+</li>
+<li>
+<p>Clone <a href="https://github.com/fulcrologic/fulcro-template/">fulcro-template</a>, study its code, delete parts and try to recreate them from scratch, extend it. Refer to the <a href="https://blog.jakubholy.net/2020/troubleshooting-fulcro/">Fulcro Troubleshooting Decision Tree</a> when things do not work out.</p>
+</li>
+<li>
+<p>Go back to <a href="https://book.fulcrologic.com/">Fulcro Developers Guide</a> and read the introductory chapters to gain a deeper understanding</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+</article>
+  </div>
+</main>
+</div>
+<footer class="footer">
+  <p>This page was built using the Antora default UI.</p>
+  <p>The source code for this UI is licensed under the terms of the MPL-2.0 license.</p>
+</footer>
+<script src="../../_/js/site.js"></script>
+<script async src="../../_/js/vendor/highlight.js"></script>
+  </body>
+</html>
