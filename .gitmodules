@@ -1,0 +1,6 @@
+[submodule "guides"]
+	path = guides
+	url = https://github.com/fulcro-community/guides.git
+[submodule "awesome-fulcro"]
+	path = awesome-fulcro
+	url = https://github.com/fulcro-community/awesome-fulcro.git

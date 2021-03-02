@@ -1,0 +1,8 @@
+Community-created learning resources and projects for https://fulcro.fulcrologic.com/[Fulcro], our favourite full-stack Clojure/Script framework for creating non-trivial web applications.
+
+Noteworthy projects:
+
+* https://github.com/fulcro-community/guides[guides and tutorials] - Community created guides and tutorials for learning and using Fulcro and RAD 
+* https://github.com/fulcro-community/awesome-fulcro[awesome-fulcro] - A curated list of awesome resources for Fulcro 
+
+NOTE: Work in progress. To do: Support asciidoc, include key subprojects as submodules.
