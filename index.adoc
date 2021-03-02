@@ -1,0 +1,6 @@
+Source for https://fulcro-community.github.io/ build by https://antora.org/ - see `./antora-playbook.yml`.
+
+Whenever we push to this repo:
+
+- the GitHub action invokes antora with the playbook, which fetches docs from this one and additional repos (guides etc)
+- the site is built and pushed to the `gh-pages` branch, GH displays it.

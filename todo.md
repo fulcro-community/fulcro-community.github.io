@@ -1,5 +1,6 @@
 ## TODO
 
+- !!! find workaround for https://gitlab.com/antora/antora/-/issues/722 !!!
 - Guides: Translate the EQL tutorial to .adoc, add to links etc.
 - Trigger builds when either guides or awesome-fulcro changes
 
