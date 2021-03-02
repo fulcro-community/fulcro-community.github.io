@@ -18,7 +18,7 @@ jobs:
       - name: "Generate site using antora site action"
         uses: kameshsampath/antora-site-action@v0.2.4
         with:
-          antora_playbook: antora.yml
+          antora_playbook: antora-playbook.yml
       - name: "Upload generated site"
         uses: actions/upload-artifact@v1.0.0
         with:
