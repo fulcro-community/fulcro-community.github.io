@@ -16,7 +16,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
       - name: "Generate site using antora site action"
-        uses: kameshsampath/antora-site-action@0.2.4
+        uses: kameshsampath/antora-site-action@v0.2.4
         with:
           antora_playbook: antora.yml
       - name: "Upload generated site"
