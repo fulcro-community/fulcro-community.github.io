@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>Minimalist Fulcro Tutorial :: Fulcro Community</title>
     <link rel="canonical" href="https://fulcro-community.github.io/guides/tutorial-minimalist-fulcro/index.html">
+    <meta name="description" content="a minimalistic introduction to Fulcro that focuses on HOW and not WHY (aside of a short section). The goal is to enable you to read, understand, and tinker with the code of a Fulcro application.">
     <meta name="generator" content="Antora 2.3.4">
     <link rel="stylesheet" href="../../_/css/site.css">
     <script>var uiRootPath = '../../_'</script>
@@ -60,7 +61,7 @@
   <a href="../../main/index.html" class="home-link"></a>
 <nav class="breadcrumbs" aria-label="breadcrumbs">
 </nav>
-  <div class="edit-this-page"><a href="https://github.com/fulcro-community/guides/edit/main/modules/tutorial-minimalist-fulcro/pages/index.adoc">Edit this Page</a></div>
+  <div class="edit-this-page"><a href="https://github.com/fulcro-community/guides/edit/master/modules/tutorial-minimalist-fulcro/pages/index.adoc">Edit this Page</a></div>
   </div>
   <div class="content">
 <aside class="toc sidebar" data-title="Contents" data-levels="2">
@@ -70,6 +71,9 @@
 <h1 class="page">Minimalist Fulcro Tutorial</h1>
 <div id="preamble">
 <div class="sectionbody">
+<div class="paragraph">
+<p>Author: <a href="https://blog.jakubholy.net/">Jakub Holý</a> &amp; contributors</p>
+</div>
 <div class="paragraph">
 <p>This is a minimalistic introduction to Fulcro that focuses on HOW and not WHY (aside of a short section).
 The goal is to enable you to read, understand, and tinker with the code of a Fulcro application.</p>
@@ -105,7 +109,7 @@ The goal is to enable you to read, understand, and tinker with the code of a Ful
 <h2 id="_prerequisities"><a class="anchor" href="#_prerequisities"></a>Prerequisities</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>This tutorial expects that you have gone through <a href="https://github.com/fulcro-community/guides/blob/2f5c6a25b086ca8ba94ff8a279e5d9d42512c00f/tutorials/eql-pathom-overview.org"><strong>an EQL Tutorial</strong></a> and are familiar with EQL, queries, joins. It will not work without that knowledge. You also need to have <a href="https://blog.wsscode.com/pathom/v2/pathom/2.2.0/introduction.html">an idea about <strong>Pathom v2</strong></a> and <a href="https://blog.wsscode.com/pathom/v2/pathom/2.2.0/connect/resolvers.html">Pathom resolvers</a> (global, ident, parameters). (But you don&#8217;t need to care about Pathom readers.)</p>
+<p>This tutorial expects that you have gone through <a href="../tutorial-eql-pathom-overview/index.html" class="page"><strong>an EQL Tutorial</strong></a> and are familiar with EQL, queries, joins. It will not work without that knowledge. You also need to have <a href="https://blog.wsscode.com/pathom/v2/pathom/2.2.0/introduction.html">an idea about <strong>Pathom v2</strong></a> and <a href="https://blog.wsscode.com/pathom/v2/pathom/2.2.0/connect/resolvers.html">Pathom resolvers</a> (global, ident, parameters). (But you don&#8217;t need to care about Pathom readers.)</p>
 </div>
 <div class="paragraph">
 <p>It also assumes that you are already <a href="https://reactjs.org/tutorial/tutorial.html">familiar with <strong>React</strong></a> and thus with concepts such as components, <a href="https://reactjs.org/warnings/legacy-factories.html">factories</a>, elements, a tree of components, passing "props" from the root component, UI as a function of data.</p>
@@ -1162,7 +1166,7 @@ Don&#8217;t be mislead, the query is not a standalone query that could be "run" 
 <ol>
 <li>
 <p><em>Can different components have the same ident?</em></p>
-<p>Yes. Typically these components are different (sub)views of the same data entity. So you could have a "person" data entity and the components <code>PersonOverview</code> with the query <code>[:person/id :person/fname :person/image-small]</code> and <code>PersonDetails</code> with the query <code>[:person/id :person/fname :person/age :person/image-large]</code>, both with <code>:ident :person/id</code>. The combined data of both would be stored at the same place in the client DB.</p>
+<p>Yes. Typically these components are different (sub)views of the same data entity. So you could have a "person" data entity and the components <code>PersonOverview</code> with the query <code>[:person/id :person/fname :person/image-small]</code> and <code>PersonDetails</code> with the query <code>[:person/id :person/fname :person/age :person/image-large]</code>, both with <code>:ident :person/id</code>. The combined data of both would be stored at the same place in the client DB. You can learn more in <a href="https://blog.jakubholy.net/2020/fulcro-divergent-ui-data/">Fulcro Explained: When UI Components and Data Entities Diverge</a>.</p>
 </li>
 <li>
 <p><em>When, where does Fulcro load data from the backend?</em></p>

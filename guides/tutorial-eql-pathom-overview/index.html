@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Eql Pathom Overview :: Fulcro Community</title>
+    <link rel="canonical" href="https://fulcro-community.github.io/guides/tutorial-eql-pathom-overview/index.html">
+    <meta name="generator" content="Antora 2.3.4">
+    <link rel="stylesheet" href="../../_/css/site.css">
+    <script>var uiRootPath = '../../_'</script>
+  </head>
+  <body class="article">
+<header class="header">
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="https://fulcro-community.github.io">Fulcro Community</a>
+      <button class="navbar-burger" data-target="topbar-nav">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+    </div>
+  </nav>
+</header>
+<div class="body">
+<div class="nav-container" data-component="guides" data-version="master">
+  <aside class="nav">
+    <div class="panels">
+<div class="nav-panel-explore is-active" data-panel="explore">
+  <div class="context">
+    <span class="title">Guides and tutorials</span>
+    <span class="version">master</span>
+  </div>
+  <ul class="components">
+    <li class="component">
+      <a class="title" href="../../main/index.html">Fulcro Community</a>
+      <ul class="versions">
+        <li class="version is-latest">
+          <a href="../../main/index.html">master</a>
+        </li>
+      </ul>
+    </li>
+    <li class="component is-current">
+      <a class="title" href="../index.html">Guides and tutorials</a>
+      <ul class="versions">
+        <li class="version is-current is-latest">
+          <a href="../index.html">master</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>
+    </div>
+  </aside>
+</div>
+<main class="article">
+<div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+  <a href="../../main/index.html" class="home-link"></a>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+</nav>
+  <div class="edit-this-page"><a href="https://github.com/fulcro-community/guides/edit/master/modules/tutorial-eql-pathom-overview/pages/index.adoc">Edit this Page</a></div>
+  </div>
+  <div class="content">
+<aside class="toc sidebar" data-title="Contents" data-levels="2">
+  <div class="toc-menu"></div>
+</aside>
+<article class="doc">
+<h1 class="page">Eql Pathom Overview</h1>
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>Author: Alex Eberts (<a href="https://github.com/aeberts" class="bare">https://github.com/aeberts</a>)</p>
+</div>
+<div class="paragraph">
+<p>Understanding EQL and Pathom are one of the most important skills you
+will need to understand when starting out with Fulcro. This guide will
+give you an overview of the EQL syntax and how it&#8217;s used in some common
+situations.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_what_is_eql_and_pathom"><a class="anchor" href="#_what_is_eql_and_pathom"></a>What is EQL and Pathom?</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>EQL is a way to query and mutate hierarchical data. It works
+particularly well with graph-like data (i.e. data organized in trees or
+connected graphs) but it can be used with many different types of data
+sources (datomic, SQL databases, REST APIs, GraphQL endpoints, etc).</p>
+</div>
+<div class="paragraph">
+<p>EQL has been compared to GraphQL and there are many similarities between
+the two technologies. EQL, however, is more clojure-centric; it uses
+Extensible Data Notation (EDN) as its data format and so it may be a
+more "natural" fit for clojure applications.</p>
+</div>
+<div class="paragraph">
+<p>Like GraphQL, EQL is just a specification for how to describe and query
+data and so it needs an actual implementation to do work. Pathom is an
+implementation of EQL written in Clojure (just like Apollo is an
+implementation of GraphQL).</p>
+</div>
+<div class="paragraph">
+<p>It is important to note that the following examples are provided to help
+you understand EQL syntax but you will need an implementation (like
+Pathom and data source) to actually explore EQL in the real world.
+Whether you will be able to perform the queries below in your real-world
+implementation depends on the features provided by your data source and
+the "resolvers" that have been setup.</p>
+</div>
+<div class="paragraph">
+<p>Also, please note that the following is geared towards beginner EQL
+users and, at times, may "gloss over" some of the thornier details. For
+the full EQL specification please see the Resources and References
+section at the end of the document.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_why_use_eql_vs_rest"><a class="anchor" href="#_why_use_eql_vs_rest"></a>Why Use EQL vs REST?</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>EQL was created to allow different clients (e.g. web, mobile, set-top
+box) to request the data they need without requiring developers to
+create and maintain a large number of "special purpose" REST endpoints
+for each different client.</p>
+</div>
+<div class="paragraph">
+<p>EQL allows clients to define the "shape" of the data they need on the
+client side without the burden of having to re-process the data on the
+client once they receive it from the API endpoint. This can make
+EQL-based APIs more flexible than REST and may be a good choice if you
+are writing a new application and do not have to support legacy REST
+clients.</p>
+</div>
+<div class="paragraph">
+<p>EQL implementation like Pathom also allow clients to interactively query
+datasources making it easier for developers to discover the data they
+need during development.</p>
+</div>
+<div class="paragraph">
+<p>While it can be exhausting for developers to learn the profusion of new
+technologies being released each year, EQL provides enough compelling
+advantages over REST that it makes sense to invest some time to
+understand this new approach.</p>
+</div>
+<div class="paragraph">
+<p>EQL is the query language used by Fulcro components to query for the
+data they need so if you&#8217;re developing apps using Fulcro, understanding
+EQL is a must.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_getting_started_with_eql"><a class="anchor" href="#_getting_started_with_eql"></a>Getting Started with EQL</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Before diving into the details and featured of EQL, let&#8217;s explore some
+basic EQL queries so we can get a feel for the syntax. If you are
+familiar with Clojure, EQL will probably look quite familiar as it uses
+many common Clojure data structures namely, keywords <code>:keyword</code>, vectors
+<code>[]</code>, and maps <code>{}</code>.</p>
+</div>
+<div class="paragraph">
+<p>To explore EQL queries we&#8217;ll need some data. As mentioned above, EQL is
+just a specification and so in the real world you&#8217;ll need to setup
+Pathom and a datasource to play with EQL which is outside the scope of
+this guide. For now, let&#8217;s just assume that we have a Pathom server
+configured that when asked for <code>:all-lists</code> responds with the following:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-clojure hljs" data-lang="clojure">{:all-lists
+ [{:list/id  1
+   :list/name "Personal"
+   :list/items [{:todo/id 1
+                 :todo/label "Buy Milk"
+                 :todo/status :notstarted}
+                {:todo/id 2
+                 :todo/label "Cook Dinner"
+                 :todo/status :notstarted}
+                {:todo/id 3
+                 :todo/label "Mail Letter"
+                 :todo/status :notstarted}]}
+  {:list/id  2
+   :list/name "Work"
+   :list/items [{:todo/id 4
+                 :todo/label "Write TPS Report"
+                 :todo/status :notstarted}
+                {:todo/id 5
+                 :todo/label "Send Emails"
+                 :todo/status :notstarted}
+                {:todo/id 6
+                 :todo/label "Have Meeting"
+                 :todo/status :notstarted}]}]}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_introduction_to_eql_queries"><a class="anchor" href="#_introduction_to_eql_queries"></a>Introduction to EQL Queries</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>One way to think about EQL queries is to imagine them as a "description
+of the shape of the data" that you want. Said in another way, you tell
+EQL what data you want and EQL tries to "fill in the values" for you.
+The simplest description of data is to ask for properties. Properties
+can be thought of as a "label" for data (or if you&#8217;re familiar with
+datomic it&#8217;s like an "attribute"). Properties are expressed as Clojure
+keywords (e.g. <code>:todo/label</code>). To ask for specific properties we put
+them in a transaction which is represented by a Clojure vector "[]"</p>
+</div>
+<div class="paragraph">
+<p>For example, to make a query on our example code that asks for the
+<code>:list/id</code> and <code>:list/name</code> we write:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-clojure hljs" data-lang="clojure">[{:all-lists [:list/id :list/name]}]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>and we would receive:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-clojure hljs" data-lang="clojure">{:all-lists
+ [{:list/id 1 :list/name "Personal"}
+  {:list/id 2 :list/name "Work"}]}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Notice that we use vectors to issue a query and we receive a Clojure map
+(<code>{}</code>) as the result. In this result map, the properties appear as the
+map keys and the query results appear as the map values. To be more
+explicit, <code>:list/id</code> is a property (a keyword) and <code>1</code> is the query
+result (a value).</p>
+</div>
+<div class="paragraph">
+<p>This is similar to using <code>select-keys</code> to specify which fields to
+extract from a map. You can think of properties as "individual pieces of
+data" or as the "leaves" at the end of a tree of data.</p>
+</div>
+<div class="paragraph">
+<p>You&#8217;ve probably noticed that we haven&#8217;t talked about the <code>[{:all-lists
+…</code> part at the beginning of the query. This is called a "join" and we&#8217;ll
+explore what it is and how it works in the next section.</p>
+</div>
+<div class="sect2">
+<h3 id="_joins_in_eql"><a class="anchor" href="#_joins_in_eql"></a>Joins in EQL</h3>
+<div class="paragraph">
+<p>As we saw in the previous section if you want the value of a property,
+you can simply include it in your query e.g. <code>[:list/name]</code> or
+<code>[:person/name]</code>. But what if the value itself is a map or sequence of
+maps? Including it in your query would still work:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-clojure hljs" data-lang="clojure">[{:all-lists [:list/name :list/items]}]
+
+{:all-lists
+ [{:list/name "Personal"
+   :list/items [{:todo/id 1}
+                {:todo/id 2}
+                {:todo/id 3}]}
+  {:list/name "Work"
+   :list/items [{:todo/id 4}
+                {:todo/id 5}
+                {:todo/id 6}]}]}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>But what if you want to specify which items you want from the "nested"
+data? As we saw in the previous section we can use a query such as
+<code>[:list/name]</code>. To associate this sub-query with the parent property, we
+put both in a one-element map, like so:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-clojure hljs" data-lang="clojure">[{:all-lists [{:list/items [:todo/label]}]}]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This is called a "join".</p>
+</div>
+<div class="paragraph">
+<p>For example, let&#8217;s say that we want to query for the individual todo
+item labels from our original data structure in the "Getting Started"
+section. To get this data, we would use the <code>{}</code> syntax to issue a join
+on <code>:list/items</code> like so:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-clojure hljs" data-lang="clojure">[{:all-lists [:list/id :list/name {:list/items [:todo/label]}]}]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>… and we would receive:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-clojure hljs" data-lang="clojure">{:all-lists
+ [{:list/id 1
+   :list/name "Personal"
+   :list/items [{:todo/label "Buy Milk"
+                 :todo/label "Cook Dinner"
+                 :todo/label "Mail Letter"}]}
+  {:list/id 2
+   :list/name "Work"
+   :list/items [{:todo/label "Write TPS Report"
+                 :todo/label "Send Emails"
+                 :todo/label "Have Meeting"}]}]}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Notice a couple of things about the example above:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>We used a clojure map <code>{}</code> around <code>{:list/items …}</code> to query for the
+nested data. The map goes <strong>before</strong> the name of the item that you want to
+join on.</p>
+</li>
+<li>
+<p>We only asked for the <code>:todo/label</code> in the query. That&#8217;s why the result
+do not include the properties of <code>:todo/id</code> and <code>:todo/status</code></p>
+</li>
+<li>
+<p>The syntax for an EQL join i.e. a map. The map&#8217;s key is the item you
+want to "join on" and the map&#8217;s value is a vector of the properties you
+want in your result.</p>
+</li>
+<li>
+<p>Joins always take a single entry as the key in the map - the key is
+the property to "join on". The value part of the join are the properties
+that you want in the response.</p>
+</li>
+<li>
+<p>The value part of a join is called a "sub-query". I.e. in the join
+<code>{:list/items [:todo/label :todo/status]}</code> - <code>[:todo/label :todo/status]</code>
+is the sub-query.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_nested_joins"><a class="anchor" href="#_nested_joins"></a>Nested Joins</h3>
+<div class="paragraph">
+<p>If you have nested data then you can use nested joins to access that
+data. For example if we extended our initial sample data to include
+"notes" for each todo we might have something like the following:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-clojure hljs" data-lang="clojure">{:all-lists
+ [{:list/id  1
+   :list/name "Personal"
+   :list/items [{:todo/id 1
+                 :todo/label "Buy Milk"
+                 :todo/status :notstarted
+                 :todo/notes [{:note/id 1
+                               :note/content "Maybe chocolate milk?"}
+                              {:note/id 2
+                               :note/content "Yes, definitely chocolate milk"}]}
+                {:todo/id 2
+                 :todo/label "Cook Dinner"
+                 :todo/status :notstarted
+                 :todo/notes [{:note/id 3
+                               :note/content "Dinner ideas: Pesto Pasta"}]}
+                {:todo/id 3
+                 :todo/label "Mail Letter"
+                 :todo/status :notstarted}]}
+  {:list/id  2
+   :list/name "Work"
+   :list/items [{:todo/id 4
+                 :todo/label "Write TPS Report"
+                 :todo/status :notstarted
+                 :todo/notes [{:note/id 4
+                               :note/content "Don't forget the cover sheet!"}]}
+                {:todo/id 5
+                 :todo/label "Send Emails"
+                 :todo/status :notstarted}
+                {:todo/id 6
+                 :todo/label "Have Meeting"
+                 :todo/status :notstarted}]}]}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>We could access this nested note data using a nested query, like so:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-clojure hljs" data-lang="clojure">[{:all-lists [:list/name {:list/items [:todo/label {:todo/notes [:note/content]}]}]}]</code></pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Note the nested joins on <code>{:list/items …}</code> and <code>{:todo/notes …}</code></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The result of the query would be:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-clojure hljs" data-lang="clojure">{:all-lists
+ [{:list/name "Personal"
+   :list/items [{:todo/label "Buy Milk"
+                 :todo/notes [{:note/content "Maybe chocolate milk?"}
+                              {:note/content "Yes, definitely chocolate milk"}]}
+                {:todo/label "Cook Dinner"
+                 :todo/notes [{:note/content "Dinner ideas: Pesto Pasta"}]}
+                {:todo/label "Mail Letter"
+                 :todo/notes {} }]}
+  {:list/name "Work"
+   :list/items [{:todo/label "Write TPS Report"
+                 :todo/notes [{:note/content "Don't forget the cover sheet!"}]}
+                {:todo/label "Send Emails"
+                 :todo/notes {} }
+                {:todo/label "Have Meeting"
+                 :todo/notes {} }]}]}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>As you can see, anything that is represented by nested data (or a
+reference, depending on your underlying database implementation) can be
+accessed using nested queries.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_idents"><a class="anchor" href="#_idents"></a>Idents</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>We&#8217;ve seen way to identify the data you want to see in a query by
+specifying properties and joins but what if you want to be able to
+restrict the data you receive (for example, if you only wanted the
+todo&#8217;s for a particular list). In this case you could use an ident
+(short for identifier) which is represented by a vector with two
+elements - an ID property and it&#8217;s value. You can use the ident in place
+of a property in a join (provided that the server is setup accordingly),
+like so:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-clojure hljs" data-lang="clojure">[{[:list/id 1] [:list/name]}]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Notice a couple of things about this ident</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>The ident&#8217;s property is <code>:list/id</code> and the ident&#8217;s value is <code>1</code>.</p>
+</li>
+<li>
+<p>The properties that we want to see in the query are put into the
+second vector (in the above example we only have <code>[:list/name]</code>)</p>
+</li>
+<li>
+<p>We "join on" the ident which is why we need the leading <code>{</code> i.e.:
+<code>[{[:property value] [property]}]</code></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The result of this query would be:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-clojure hljs" data-lang="clojure">{[:list/id 1]
+ {:list/name Clojure}}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>As mentioned in the official EQL docs, it&#8217;s common to use an ident as a
+join key to start a query for some entity, e.g.:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-clojure hljs" data-lang="clojure">[{[:customer/id 123]
+  [:customer/name :customer/email]}]</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_mutations"><a class="anchor" href="#_mutations"></a>Mutations</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The other most common element of the EQL specification is a mutation
+which are used to represent operations or actions: e.g <code>[(cuddle-pet!
+{:target :mr-fluffy})]</code></p>
+</div>
+<div class="paragraph">
+<p>A mutation consists of a list of two elements; the first is a symbol
+that names the mutation and the second is the data that the mutation
+needs to run.</p>
+</div>
+<div class="paragraph">
+<p>Let&#8217;s say we had defined a function on our imaginary EQL server that was
+able to add a todo item to a list we could imagine a mutation that would
+look something like this:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-clojure hljs" data-lang="clojure">[(add-todo! {:list/id 1 :todo/label "Pet Mr. Fluffy" :todo/status :not-started})]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>(Of course, the response from the EQL server would depend on the
+implementation of <code>add-todo!</code>, whether you have setup error reporting,
+etc.)</p>
+</div>
+<div class="paragraph">
+<p>Notice that the EQL transaction uses the standard vector <code>[]</code> to begin
+the transaction and then it uses a parenthesis <code>()</code> to indicate a
+mutation. Be aware that EQL also uses a similar parentheses syntax to
+indicate a parameterized query but since mutations are always Clojure
+symbols it should not be a problem to figure out which is which.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_other_eql_features"><a class="anchor" href="#_other_eql_features"></a>Other EQL Features</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>EQL also provides several other more advanced features:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Recursive queries: which allow you to query for items that nest
+recursively (e.g. folders in a file system, or todos that have
+sub-todos, etc.)</p>
+</li>
+<li>
+<p>Unions: allow you to define different sub-queries based on certain
+conditions which can be defined by your implementation (think:
+polymorphic queries)</p>
+</li>
+<li>
+<p>Parameters: allow you to provide an extra layer of information about
+the requested data (like if the results should be paginated etc.)</p>
+</li>
+<li>
+<p>Query metadata: which allows you to add meta data to your queries.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>For further information on any of these advanced features we recommend
+you checkout the official EQL docs:
+<a href="https://edn-query-language.org/eql/1.0.0/specification.html" class="bare">https://edn-query-language.org/eql/1.0.0/specification.html</a></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_resources_and_references"><a class="anchor" href="#_resources_and_references"></a>Resources and References</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The official EQL docs:
+<a href="https://edn-query-language.org/eql/1.0.0/what-is-eql.html" class="bare">https://edn-query-language.org/eql/1.0.0/what-is-eql.html</a></p>
+</div>
+</div>
+</div>
+</article>
+  </div>
+</main>
+</div>
+<footer class="footer">
+  <p>This page was built using the Antora default UI.</p>
+  <p>The source code for this UI is licensed under the terms of the MPL-2.0 license.</p>
+</footer>
+<script src="../../_/js/site.js"></script>
+<script async src="../../_/js/vendor/highlight.js"></script>
+  </body>
+</html>
