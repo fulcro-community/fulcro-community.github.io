@@ -9,8 +9,7 @@ site:
   start_page: main::index.adoc
 content:
   sources:
-  #- url: https://github.com/fulcro-community/fulcro-community.github.io.git # 'main' module
-  - url: "/fulcro-community/fulcro-community.github.io" # 'main' module
+  - url: . # 'main' module
   # Note: embedding empty credentials in the URL disables the Edit this Page link for any page created from this repository
   #- url: https://github.com/fulcro-community/guides.git # 'guides' module
   - url: /fulcro-community/guides # 'guides' module
