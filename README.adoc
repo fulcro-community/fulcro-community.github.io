@@ -1,0 +1,20 @@
+Source for https://fulcro-community.github.io/ build by https://antora.org/ - see `./antora-playbook.yml`.
+
+Whenever we push to this repo:
+
+- the GitHub action invokes antora with the playbook, which fetches docs from this one and additional repos (guides etc)
+- the site is built and pushed to the `gh-pages` branch, GH displays it.
+
+# Content contributor guide
+
+Content that should be included in the site by Antora needs to have a specific structure and use correct links.
+
+Antora sees every document source - a github repo, in our case - as a "doc component" and requires that it has a top-level `antora.yml` that gives the component a `name` (used in links etc.) and that the Asciidoc content itself is under `modules/<module name>/pages/`. Each module also may have the default `ROOT` module - its name in links etc. is left out (i.e. it is ""). Look at the https://github.com/fulcro-community/guides/[guides] module for an example.
+
+* Page meta: The heading of the page must be `h1`, i.e. a single `=`. It will then also be used as the `<title>`. Add `:description: <your text>` right underneath the heading to provide content for the description meta tag and a preview on social media.
+* Links: Links to other pages in the same repository ("doc component"): use `xref:<module name>:<page name>.adoc`. So if you have `modules/my-stuff/pages/index.adoc` you link to it via `xref:my-stuff:index.adoc`. If the module happens to be `ROOT` then leave it out: `xref::<page>`. To link to pages in another "componets", just prefix it with the component's name.
+* Images: While pages go to the `pages/` directory of a module, images should be in its `images/` sibling and can be referenced simply by name: `image::my-image.jpg[]`.
+
+# Preview locally
+
+Make sure that you have cloned all relevant fulcro-community repositories into the same parent dir and run `./build-locally.sh` to build the site. See `antora-playbook-local.yml` for details.

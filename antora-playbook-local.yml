@@ -1,5 +1,7 @@
 # Build instructions for https://antora.org/, "The multi-repository documentation site generator for tech writers who writing in AsciiDoc"
-# BEWARE: Keep `antora-playbook-local.yml` in sync with this one
+# Variant for building locally for a preview, with local links
+# It is assumed you have all relevant fulcro-community repos cloned into the same parent idr
+# inside the Dokcer built image, this dir is mounted as `/fulcro-community`
 site:
   title: Fulcro Community
   # the 404 page and sitemap files only get generated when the url property is set
@@ -7,17 +9,17 @@ site:
   start_page: main::index.adoc
 content:
   sources:
-  - url: https://github.com/fulcro-community/fulcro-community.github.io.git # 'main' module
-  #- url: /antora # 'main' module as seen from within the antora docker image, see ./build-locally.sh
+  #- url: https://github.com/fulcro-community/fulcro-community.github.io.git # 'main' module
+  - url: "/fulcro-community/fulcro-community.github.io" # 'main' module
   # Note: embedding empty credentials in the URL disables the Edit this Page link for any page created from this repository
-  - url: https://github.com/fulcro-community/guides.git # 'guides' module
-  #- url: /fulcro-community/guides # 'guides' module
+  #- url: https://github.com/fulcro-community/guides.git # 'guides' module
+  - url: /fulcro-community/guides # 'guides' module
 ui:
   bundle:
     #url: https://gitlab.com/antora/antora-ui-default/-/jobs/artifacts/master/raw/build/ui-bundle.zip?job=bundle-stable
     url: https://github.com/fulcro-community/antora-ui-default/releases/download/v1/ui-bundle.zip
+    #url: /fulcro-community/antora-ui-default/build/ui-bundle.zip
     snapshot: true
-  # Instruct Antora to create .nojekyll file so GH Pages will not screw up our content
   supplemental_files:
   - path: ui.yml
     contents: |
