@@ -8,6 +8,7 @@ Community-created learning resources and projects for https://fulcro.fulcrologic
 * 📕 https://book.fulcrologic.com/[Fulcro Developers Guide] and the http://book.fulcrologic.com/RAD.html[RAD book]
 * 🎬 https://www.youtube.com/playlist?list=PLVi9lDx-4C_T7jkihlQflyqGqU4xVtsfi[Fulcro 3 Tutorial videos]
 * 🎬 https://www.youtube.com/watch?v=PMbGhgVf9Do[Why Build Solutions with Fulcro] talk by Tom Toor
+* 🎬 https://www.youtube.com/playlist?list=PLVi9lDx-4C_TBRiHfjnjXaK2J3BIUDPnf[Grokking Fulcro] (series)
 ****
 
 == Content
