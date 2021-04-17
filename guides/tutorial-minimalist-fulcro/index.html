@@ -81,7 +81,12 @@ The goal is to enable you to read, understand, and tinker with the code of a Ful
 <div id="toc" class="toc">
 <div id="toctitle" class="title">Table of Contents</div>
 <ul class="sectlevel1">
-<li><a href="#_prerequisities">Prerequisities</a></li>
+<li><a href="#_your_learning_journey">Your learning journey</a></li>
+<li><a href="#_prerequisities">Prerequisities</a>
+<ul class="sectlevel2">
+<li><a href="#_briefly_about_pathom">Briefly about Pathom</a></li>
+</ul>
+</li>
 <li><a href="#_a_word_of_warning">A word of warning</a></li>
 <li><a href="#_why_fulcro">Why Fulcro?</a></li>
 <li><a href="#_an_overview_of_fulcro">An overview of Fulcro</a>
@@ -95,7 +100,6 @@ The goal is to enable you to read, understand, and tinker with the code of a Ful
 <li><a href="#_the_anatomy_of_a_fulcro_component_query_ident_body">The anatomy of a Fulcro component: query, ident, body</a></li>
 <li><a href="#_changing_global_data_and_performing_remote_calls_mutations">Changing global data and performing remote calls: mutations</a></li>
 <li><a href="#_load_ing_data"><code>load!</code>-ing data</a></li>
-<li><a href="#_preparation_merging_data_into_the_client_db_with_merge_component">Preparation: Merging data into the client DB with <code>merge-component!</code></a></li>
 </ul>
 </li>
 <li><a href="#_review">Review</a></li>
@@ -106,16 +110,78 @@ The goal is to enable you to read, understand, and tinker with the code of a Ful
 </div>
 </div>
 <div class="sect1">
+<h2 id="_your_learning_journey"><a class="anchor" href="#_your_learning_journey"></a>Your learning journey</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>You have now set out on a three part journey:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Study <strong>this tutorial</strong> to gain enough essential knowledge to be able to read, understand, and tinker with Fulcro applicatons</p>
+</li>
+<li>
+<p>Learn by modifying an existing app:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Get your hands dirty by <strong>playing with the fulcro-template</strong> app AND, in parallel:</p>
+</li>
+<li>
+<p>Watch <a href="../guide-learning-fulcro/index.html" class="page"><strong>Fulcro videos and study the Fulcro Developer Guide</strong></a>, pose questions in the <a href="https://app.slack.com/client/T03RZGPFR/C68M60S4F">#fulcro Slack channel</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Build your own app!</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
 <h2 id="_prerequisities"><a class="anchor" href="#_prerequisities"></a>Prerequisities</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>This tutorial expects that you have gone through <a href="../tutorial-eql-pathom-overview/index.html" class="page"><strong>an EQL Tutorial</strong></a> and are familiar with EQL, queries, joins. It will not work without that knowledge. You also need to have <a href="https://blog.wsscode.com/pathom/v2/pathom/2.2.0/introduction.html">an idea about <strong>Pathom v2</strong></a> and <a href="https://blog.wsscode.com/pathom/v2/pathom/2.2.0/connect/resolvers.html">Pathom resolvers</a> (global, ident, parameters). (But you don&#8217;t need to care about Pathom readers.)</p>
+<p>This tutorial expects that you have gone through an <a href="../tutorial-eql-pathom-overview/index.html" class="page"><strong>EQL Tutorial</strong></a> (don&#8217;t worry, it is simple!) and are familiar with EQL, queries, joins. It will not work without that knowledge. You also need to have an idea about <strong>Pathom v2</strong> (<a href="#about-pathom">see below</a>).</p>
 </div>
 <div class="paragraph">
-<p>It also assumes that you are already <a href="https://reactjs.org/tutorial/tutorial.html">familiar with <strong>React</strong></a> and thus with concepts such as components, <a href="https://reactjs.org/warnings/legacy-factories.html">factories</a>, elements, a tree of components, passing "props" from the root component, UI as a function of data.</p>
+<p>It also assumes that you are already somewhat <a href="https://reactjs.org/tutorial/tutorial.html">familiar with <strong>React</strong></a> and thus with concepts such as components, <a href="https://reactjs.org/warnings/legacy-factories.html">factories</a>, elements, a tree of components, passing "props" from the root component, UI as a function of data. (If you know what these are then you are good. A cursory knowledge of React should suffice for now, unless you want to do something fancy.)</p>
 </div>
 <div class="paragraph">
-<p>It is helpful to know a little about the principles of <strong>GraphQL</strong> (see this <a href="https://hackernoon.com/3-minute-introduction-to-graphql-2c4e28ed528">3 Minute Introduction to GraphQL</a> and perhaps also this <a href="https://www.howtographql.com/basics/1-graphql-is-the-better-rest/">GraphQL is the better REST</a> for more insight into the value proposition of GraphQL and EQL).</p>
+<p>It is helpful to know a little about the principles of <strong>GraphQL</strong> (see this <a href="https://hackernoon.com/3-minute-introduction-to-graphql-2c4e28ed528">3 Minute Introduction to GraphQL</a> and, if curious, also this <a href="https://www.howtographql.com/basics/1-graphql-is-the-better-rest/">GraphQL is the better REST</a> for more insight into the value proposition of GraphQL and EQL).</p>
+</div>
+<div class="sect2">
+<h3 id="_briefly_about_pathom"><a class="anchor" href="#_briefly_about_pathom"></a><a id="about-pathom"></a>Briefly about Pathom</h3>
+<div class="paragraph">
+<p>It is useful to read the <a href="https://blog.wsscode.com/pathom/v2/pathom/2.2.0/introduction.html">Pathom v2 introduction</a> and learn about <a href="https://blog.wsscode.com/pathom/v2/pathom/2.2.0/connect/resolvers.html">Pathom resolvers</a> but if you are short on time, the minimum necessary knowledge is presented here.</p>
+</div>
+<div class="paragraph">
+<p>Fulcro fetches data via EQL queries and changes them via EQL mutations. Pathom is the server-side part that understands and answers these queries and applies these mutations. Its key element are <em>resolvers</em> that return a (possibly nested) map representing the data they have been asked for and possibly take an input and/or parameters. For our purposes, we care only about global resolvers and ident resolvers, as demonstrated below:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-clojure hljs" data-lang="clojure">;; A *global resolver* has no input; we can simply query for [:all-people] and get them
+(pc/defresolver all-people [env _]
+    {::pc/input  #{} ; declare inputs
+     ::pc/output [{:all-people [:person/id :person/name]}]} ; declare the output map's props
+    ; OR: {:all-people (db/query env "select id, name from person" :as-maps)}
+    {:all-people [{:person/id 1 :person/name "Diane"}, {:person/id 2 :person/name "BoJack"}]})
+
+;; An *ident resolver* needs and ID as its input
+(pc/defresolver person-by-id [env {:keys [person/id]}]
+    {::pc/input  #{:person/id}
+     ::pc/output [:person/id :person/name]}
+    (case id
+      1 {:person/id 1 :person/name "Diane"}
+      2 {:person/id 2 :person/name "BoJack"}
+      (fetch-person-from-db env id)))</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>All the resolvers are registered with a Pathom "parser" and thus available to be used to fulfill queries. All resolvers can also take <a href="https://blog.wsscode.com/pathom/v2/pathom/2.2.0/connect/resolvers.html#_parameters">additional, optional parameters</a>, which are used to implement concerns such as pagination. (And you don&#8217;t really need to know more than that it exists.)</p>
+</div>
 </div>
 </div>
 </div>
@@ -123,7 +189,7 @@ The goal is to enable you to read, understand, and tinker with the code of a Ful
 <h2 id="_a_word_of_warning"><a class="anchor" href="#_a_word_of_warning"></a>A word of warning</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Fulcro is likely very different from any other web framework you have worked with before, even though there are intersections with various technologies (React, GraphQL). It is most advisable that you familiarize yourself well with its key concepts, presented below. Jumping into "learning by doing" straight away does not tend to work all that well.</p>
+<p>Fulcro is likely very different from any other web framework you have worked with before, even though there are intersections with various technologies (React, GraphQL). According to our experience, it is most advisable that you familiarize yourself well with its key concepts, presented below. Jumping into "learning by doing" straight away does not tend to work all that well, even if it otherwise is your preferred mode of learning. But don&#8217;t worry, we will try to get you coding as soon as possible.</p>
 </div>
 </div>
 </div>
@@ -145,7 +211,7 @@ The goal is to enable you to read, understand, and tinker with the code of a Ful
 <p>Components declare their data needs ("query") - because nobody else knows or should care about what data the component needs. And these queries are composable so that we can fetch the data needed by the whole UI (sub)tree at once.</p>
 </li>
 <li>
-<p>Graph API: The UI is a a tree (i.e. a graph) of components and therefore the composed query is also a tree. The server can understand and fulfill such a graph query with a tree of data - exactly the data the UI needs. Not the mess of N separate REST endpoints that you need to query individually and combine and prune the data on the frontend.</p>
+<p>Graph API: The UI is a a tree (i.e. a graph) of components and therefore the composed query is also a tree. The server can understand and fulfill such a graph query with a tree of data - exactly the data the UI needs. Not the mess of N separate REST endpoints that you need to query individually and combine and prune the data on the frontend. (Reportedly, a perfectly designed REST APIs do not suffer from this problem. But they are rarer than unicorns.)</p>
 </li>
 <li>
 <p>Web applications are inherently full-stack and thus a framework should provide an integrated solution for fetching data from the server - including the ability to track its status - and for triggering actions ("mutations") with potentially both local and remote constituents. We should not pretend that this is not our problem, as many frameworks do.</p>
@@ -703,10 +769,8 @@ Don&#8217;t be mislead, the query is not a standalone query that could be "run" 
 </div>
 <div class="sect2">
 <h3 id="_load_ing_data"><a class="anchor" href="#_load_ing_data"></a><code>load!</code>-ing data</h3>
-
-</div>
-<div class="sect2">
-<h3 id="_preparation_merging_data_into_the_client_db_with_merge_component"><a class="anchor" href="#_preparation_merging_data_into_the_client_db_with_merge_component"></a>Preparation: Merging data into the client DB with <code>merge-component!</code></h3>
+<div class="sect3">
+<h4 id="_preparation_merging_data_into_the_client_db_with_merge_component"><a class="anchor" href="#_preparation_merging_data_into_the_client_db_with_merge_component"></a>Preparation: Merging data into the client DB with <code>merge-component!</code></h4>
 <div class="paragraph">
 <p>Before looking into loading remote data, we must understand how a (denormalized) tree of data can be merged and normalized into the client DB. There is no point in loading data unless we can put them into the client DB, the only place where Fulcro ever looks.</p>
 </div>
@@ -778,6 +842,7 @@ Don&#8217;t be mislead, the query is not a standalone query that could be "run" 
 </div>
 <div class="paragraph">
 <p><code>merge-component!</code> gets the ident and query of the given component (and leverages the metadata on the child query fragments to get the other relevant idents, such as Address') and uses those to normalize the data into the DB. Notice that the data is really <strong>merged</strong> into the DB in a smart way and not just blindly overwriting it, i.e. pre-existing data is preserved (see the docstring for details).</p>
+</div>
 </div>
 <div class="sect3">
 <h4 id="_targeting_adding_references_to_the_new_data_to_existing_entities"><a class="anchor" href="#_targeting_adding_references_to_the_new_data_to_existing_entities"></a>Targeting - Adding references to the new data to existing entities</h4>
@@ -1189,10 +1254,13 @@ Don&#8217;t be mislead, the query is not a standalone query that could be "run" 
 <div class="olist arabic">
 <ol class="arabic">
 <li>
+<p>Have a look at the <a href="../guide-learning-fulcro/index.html" class="page">Guide to learning Fulcro</a></p>
+</li>
+<li>
 <p><a href="https://book.fulcrologic.com/#_install_fulcro_inspect">Install Fulcro Inspect</a> and <a href="https://book.fulcrologic.com/#_configure_chrome_development_settings">enable custom formatters in Chrome</a> to display Clojure data nicely in the Console - trust me, these two are indispensable!</p>
 </li>
 <li>
-<p>Clone <a href="https://github.com/fulcrologic/fulcro-template/">fulcro-template</a>, study its code, delete parts and try to recreate them from scratch, extend it. Refer to the <a href="https://blog.jakubholy.net/2020/troubleshooting-fulcro/">Fulcro Troubleshooting Decision Tree</a> when things do not work out.</p>
+<p>Clone <a href="https://github.com/fulcrologic/fulcro-template/">fulcro-template</a>, study its code, delete parts and try to recreate them from scratch, extend it. Refer to the <a href="https://blog.jakubholy.net/2020/troubleshooting-fulcro/">Fulcro Troubleshooting Decision Tree</a> when things do not work out and to <a href="https://blog.jakubholy.net/2020/fulcro-divergent-ui-data/">Fulcro Explained: When UI Components and Data Entities Diverge</a> when you need to figure out how to map your data to your components tree.</p>
 </li>
 <li>
 <p>Go back to <a href="https://book.fulcrologic.com/">Fulcro Developers Guide</a> and read the introductory chapters to gain a deeper understanding</p>
