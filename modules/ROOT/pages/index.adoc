@@ -18,4 +18,3 @@ Community-created learning resources and projects for https://fulcro.fulcrologic
 ** xref:guides:tutorial-minimalist-fulcro:index.adoc[Minimalist Fulcro Tutorial] - a minimalistic introduction to Fulcro that focuses on HOW and not WHY. The goal is to enable you to read, understand, and tinker with the code of a Fulcro application ASAP.
 * https://fulcro-community.github.io/awesome-fulcro[Awesome-fulcro] - A curated list of awesome resources for Fulcro 
 
-NOTE: Work in progress. To do: Support asciidoc, include key subprojects as submodules.
