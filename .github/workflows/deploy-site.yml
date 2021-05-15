@@ -21,8 +21,8 @@ jobs:
           submodules: true
       - name: "Update submodules to latest"
         run: |
-          cd modules/awesome-fulcro/
-          git pull
+          cd modules/awesome-fulcro/pages
+          git pull origin master
       - name: "Generate site using antora site action"
         uses: kameshsampath/antora-site-action@v0.2.4
         with:
