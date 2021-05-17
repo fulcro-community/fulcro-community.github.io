@@ -203,9 +203,14 @@ configured that when asked for <code>:all-lists</code> responds with the followi
 <h2 id="_introduction_to_eql_queries"><a class="anchor" href="#_introduction_to_eql_queries"></a>Introduction to EQL Queries</h2>
 <div class="sectionbody">
 <div class="paragraph">
+<p>All EQL interactions are considered “transactions”. A transaction that only
+contains reads is commonly called a <code>query</code> (but notice that at the syntax
+level, there is no difference).</p>
+</div>
+<div class="paragraph">
 <p>One way to think about EQL queries is to imagine them as a "description
-of the shape of the data" that you want. Said in another way, you tell
-EQL what data you want and EQL tries to "fill in the values" for you.
+of the shape of the data" that you want. Or, said in another way, you describe
+the data you want and EQL tries to "fill in the values" for you.
 The simplest description of data is to ask for properties. Properties
 can be thought of as a "label" for data (or if you&#8217;re familiar with
 datomic it&#8217;s like an "attribute"). Properties are expressed as Clojure
