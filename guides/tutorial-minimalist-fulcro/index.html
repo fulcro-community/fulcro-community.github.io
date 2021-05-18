@@ -176,11 +176,12 @@ The goal is to enable you to read, understand, and tinker with the code of a Ful
     (case id
       1 {:person/id 1 :person/name "Diane"}
       2 {:person/id 2 :person/name "BoJack"}
+      ;; for any other id, fetch from the DB using a hypothetical fn:
       (fetch-person-from-db env id)))</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>All the resolvers are registered with a Pathom "parser" and thus available to be used to fulfill queries. All resolvers can also take <a href="https://blog.wsscode.com/pathom/v2/pathom/2.2.0/connect/resolvers.html#_parameters">additional, optional parameters</a>, which are used to implement concerns such as pagination. (And you don&#8217;t really need to know more than that it exists.)</p>
+<p>All the resolvers must be <a href="https://blog.wsscode.com/pathom/v2/pathom/2.2.0/connect/basics.html#_baseline_boilerplate">registered with a Pathom "parser"</a> and thus available to be used to fulfill queries. All resolvers can also take <a href="https://blog.wsscode.com/pathom/v2/pathom/2.2.0/connect/resolvers.html#_parameters">additional, optional parameters</a>, which are used to implement concerns such as pagination. (And you don&#8217;t really need to know more than that it exists.)</p>
 </div>
 </div>
 </div>
@@ -189,7 +190,7 @@ The goal is to enable you to read, understand, and tinker with the code of a Ful
 <h2 id="_a_word_of_warning"><a class="anchor" href="#_a_word_of_warning"></a>A word of warning</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Fulcro is likely very different from any other web framework you have worked with before, even though there are intersections with various technologies (React, GraphQL). According to our experience, it is most advisable that you familiarize yourself well with its key concepts, presented below. Jumping into "learning by doing" straight away does not tend to work all that well, even if it otherwise is your preferred mode of learning. But don&#8217;t worry, we will try to get you coding as soon as possible.</p>
+<p>Fulcro is likely very different from any other web framework you have worked with before, even though there are intersections with various technologies (React, GraphQL). According to our experience, it is most advisable that you familiarize yourself well with its key concepts, presented below. Jumping into "learning by doing" straight away does not tend to work all that well, even if it otherwise is your preferred mode of learning. But don&#8217;t worry, we will try to get you <a href="https://github.com/fulcro-community/fulcro-exercises">coding as soon as possible</a>.</p>
 </div>
 </div>
 </div>
@@ -197,10 +198,10 @@ The goal is to enable you to read, understand, and tinker with the code of a Ful
 <h2 id="_why_fulcro"><a class="anchor" href="#_why_fulcro"></a>Why Fulcro?</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Fulcro was born out of the search for <strong>sustainable software development</strong> of full-stack, non-trivial (web) applications. In other words, it aims to keep complexity under control so that it does not explode as your codebase grows and time goes. It also distinguishes itself by the focus on developer-friendliness: related things are located together and it is easy to navigate (Command/Control-click) to all important code artifacts (instead of being forced to search for string IDs or keywords).</p>
+<p>Fulcro was born out of the search for <strong>sustainable software development</strong> of full-stack, non-trivial (web) applications. In other words, it aims to keep complexity under control so that it does not explode as your codebase grows and time goes. It also distinguishes itself by the focus on developer-friendliness: related things are located together and it is easy to navigate to all important code artifacts (via Command/Control-click, instead of being forced to search for string IDs or keywords).</p>
 </div>
 <div class="paragraph">
-<p>This leads to the following decisions:</p>
+<p>This led to the following decisions:</p>
 </div>
 <div class="ulist">
 <ul>
@@ -491,7 +492,7 @@ The goal is to enable you to read, understand, and tinker with the code of a Ful
 <div class="title">Figure 3. Components, query, and data: UI &#8594; query &#8594; data &#8594; UI</div>
 </div>
 <div class="paragraph">
-<p>Beware: You must not copy and paste the child&#8217;s query directly but rather use <code>(comp/get-query &lt;Child&gt;)</code> as demonstrated. Both for DRY and because <code>get-query</code> also adds important metadata to the composed query about the origin of the individual fragments so that Fulcro can later use it to normalize data from <code>load!</code> or <code>merge-component!</code> correctly.</p>
+<p>Beware: You must not copy and paste the child&#8217;s query directly but rather use <code>(comp/get-query &lt;Child&gt;)</code> as demonstrated. Both for <abbr title="Don't Repeat Yourself">DRY</abbr> and because <code>get-query</code> also adds important metadata to the composed query about the origin of the individual fragments so that Fulcro can later use it to normalize data from <code>load!</code> or <code>merge-component!</code> correctly.</p>
 </div>
 <div class="paragraph">
 <p>Fulcro combines the query and the (normalized) client database to produce the tree of data that is passed as props to the Root component. Which, in turn, will pass the relevant parts to its children, as we did with <code>address</code>. How does the data get into the client database, you ask? See the discussion of <code>load!</code> later on.</p>
@@ -1020,7 +1021,7 @@ There are ways to <a href="https://book.fulcrologic.com/#CircularRefs">avoid a c
 <ol>
 <li>
 <p><em>How to provide params to parametrized Pathom resolvers?</em></p>
-<p>Use the option <code>:params</code> to provide extra <a href="https://blog.wsscode.com/pathom/v2/pathom/2.2.0/connect/resolvers.html#_parameters">parameters to the target Pathom resolver</a>, such as pagination and filtering. Ex.: <code>(df/load :current-user User {:params {:username u :password p}})</code>.</p>
+<p>Use the option <code>:params</code> to provide extra <a href="https://blog.wsscode.com/pathom/v2/pathom/2.2.0/connect/resolvers.html#_parameters">parameters to the target Pathom resolver</a>, such as pagination and filtering. Ex.: <code>(df/load this :current-user User {:params {:username u :password p}})</code>.</p>
 </li>
 <li>
 <p><em>How can I add a reference to the loaded data entity to another entity present in the client DB?</em></p>
@@ -1175,7 +1176,7 @@ There are ways to <a href="https://book.fulcrologic.com/#CircularRefs">avoid a c
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-clojure hljs" data-lang="clojure">;; Somewhere during the app lifecycle:
-(df/load! [:list/id :friends] Person {:marker :friends-list}) ; <i class="conum" data-value="1"></i><b>(1)</b>
+(df/load! this [:list/id :friends] Person {:marker :friends-list}) ; <i class="conum" data-value="1"></i><b>(1)</b>
 
 ;; The component:
 (defsc FriendsList [_ props]
