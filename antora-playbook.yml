@@ -14,7 +14,7 @@ content:
 ui:
   bundle:
     #url: https://gitlab.com/antora/antora-ui-default/-/jobs/artifacts/master/raw/build/ui-bundle.zip?job=bundle-stable
-    url: https://github.com/fulcro-community/antora-ui-default/releases/download/v1/ui-bundle.zip
+    url: https://github.com/fulcro-community/antora-ui-default/releases/download/v3/ui-bundle.zip
     snapshot: true
   # Instruct Antora to create .nojekyll file so GH Pages will not screw up our content
   supplemental_files:
