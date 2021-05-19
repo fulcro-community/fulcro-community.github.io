@@ -783,9 +783,9 @@ There are ways to <a href="https://book.fulcrologic.com/#CircularRefs">avoid a c
 <div class="sect2">
 <h3 id="_load_ing_data"><a class="anchor" href="#_load_ing_data"></a><code>load!</code>-ing data</h3>
 <div class="sect3">
-<h4 id="_preparation_merging_data_into_the_client_db_with_merge_component"><a class="anchor" href="#_preparation_merging_data_into_the_client_db_with_merge_component"></a>Preparation: Merging data into the client DB with <code>merge-component!</code></h4>
+<h4 id="_pre_study_merging_data_into_the_client_db_with_merge_component"><a class="anchor" href="#_pre_study_merging_data_into_the_client_db_with_merge_component"></a>Pre-study: Merging data into the client DB with <code>merge-component!</code></h4>
 <div class="paragraph">
-<p>Before looking into loading remote data, we must understand how a (denormalized) tree of data can be merged and normalized into the client DB. There is no point in loading data unless we can put them into the client DB, the only place where Fulcro ever looks.</p>
+<p>Before looking into loading remote data, we must understand how a (denormalized) tree of data can be merged and normalized into the client DB. This is the second half of load!'s job, after fetching the data from the backend. (Remember that the client DB is the only place where Fulcro ever looks, it does not get handed the retrieved data directly.) We will study this topic using <code>merge-component!</code>, which is not what <code>load!</code> does internally, but it is very similar anyway. And it is a useful tool on its own, for example when you want to get hardcoded data into Fulcro during development.</p>
 </div>
 <div class="paragraph">
 <p>Given these two components:</p>
