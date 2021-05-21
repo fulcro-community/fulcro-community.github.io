@@ -943,6 +943,18 @@ There are ways to <a href="https://book.fulcrologic.com/#CircularRefs">avoid a c
 <div class="paragraph">
 <p>We have seen that in addition to merging data into the client DB we can also <em>append</em> and <em>prepend</em> references to it to to-many reference properties on other entities (such as <code>:list/people</code>), insert them into to-one properties with <code>:replace</code> etc. And we can do as many such operations as we want at once.</p>
 </div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+Outside of the context of <code>merge-component!</code>, when you are changing data directly in a mutation and want to append/prepend/replace a reference to it, you can use <code>targeting/integrate-ident*</code>. It takes the same keyword-value argument pairs as <code>merge-component!</code>.
+</td>
+</tr>
+</table>
+</div>
 </div>
 <div class="sect3">
 <h4 id="_loading_remote_data"><a class="anchor" href="#_loading_remote_data"></a>Loading remote data</h4>
