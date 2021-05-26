@@ -805,6 +805,18 @@ The <code>mutations</code> namespace has a bunch of helper functions for transac
 </tr>
 </table>
 </div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+<code>com.fulcrologic.fulcro.algorithms.normalized-state</code> has useful helpers for changing the client DB, such as <code>remove-entity</code> (which also removes all references to it), <code>integrate-ident</code> (for adding references), <code>remove-ident</code> (for removing from a list), <code>swap!&#8594;</code>, etc.
+</td>
+</tr>
+</table>
+</div>
 <div class="sect3">
 <h4 id="_transact_ing_multiple_mutations"><a class="anchor" href="#_transact_ing_multiple_mutations"></a>transact!-ing multiple mutations</h4>
 <div class="paragraph">
