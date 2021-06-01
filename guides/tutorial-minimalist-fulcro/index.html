@@ -147,7 +147,7 @@ The goal is to enable you to read, understand, and tinker with the code of a Ful
 <p>This tutorial expects that you have gone through an <a href="../tutorial-eql-pathom-overview/index.html" class="page"><strong>EQL Tutorial</strong></a> (don&#8217;t worry, it is simple!) and are familiar with EQL, queries, joins (property and ident ones). It will not work without that knowledge. You also need to have an idea about <strong>Pathom v2</strong> (<a href="#about-pathom">see below</a>).</p>
 </div>
 <div class="paragraph">
-<p>It also assumes that you are already somewhat <a href="https://dzone.com/articles/fun-with-react-a-quick-overview">familiar with <strong>React</strong></a> and thus with concepts such as <a href="https://reactjs.org/docs/rendering-elements.html">elements</a>, <a href="https://reactjs.org/docs/components-and-props.html">components and props</a>, <a href="https://reactjs.org/warnings/legacy-factories.html">factories</a>, <a href="https://reactjs.org/docs/handling-events.html">handling of events</a>, a tree of components, passing "props" from the root component, UI as a function of data. (If you know what these are then you are good. A cursory knowledge of React should suffice for now, unless you want to do something fancy. Later on you might also want to learn about <a href="https://reactjs.org/docs/state-and-lifecycle.html">local state and lifecycle methods</a> and <a href="https://reactjs.org/docs/hooks-intro.html">hooks</a> but you can get on without these for a while.)</p>
+<p>It also assumes that you are already somewhat <a href="https://dzone.com/articles/fun-with-react-a-quick-overview">familiar with <strong>React</strong></a> and thus with concepts such as <a href="https://reactjs.org/docs/rendering-elements.html">elements</a>, <a href="https://reactjs.org/docs/components-and-props.html">components and props</a>, <a href="https://reactjs.org/warnings/legacy-factories.html">factories</a>, <a href="https://reactjs.org/docs/handling-events.html">handling of events</a>, <a href="https://reactjs.org/docs/dom-elements.html#style">styling of elements</a>, a tree of components, passing "props" from the root component, UI as a function of data. (If you know what these are then you are good. A cursory knowledge of React should suffice for now, unless you want to do something fancy. Later on you might also want to learn about <a href="https://reactjs.org/docs/state-and-lifecycle.html">local state and lifecycle methods</a> and <a href="https://reactjs.org/docs/hooks-intro.html">hooks</a> but you can get on without these for a while.)</p>
 </div>
 <div class="paragraph">
 <p>It is helpful to know a little about the principles of <strong>GraphQL</strong> (see this <a href="https://hackernoon.com/3-minute-introduction-to-graphql-2c4e28ed528">3 Minute Introduction to GraphQL</a> and, if curious, also this <a href="https://www.howtographql.com/basics/1-graphql-is-the-better-rest/">GraphQL is the better REST</a> for more insight into the value proposition of GraphQL and EQL).</p>
@@ -622,7 +622,7 @@ Don&#8217;t be mislead, the query is not a standalone query that could be "run" 
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-clojure hljs" data-lang="clojure">(dom/&lt;tag&gt;
+<pre class="highlightjs highlight"><code class="language-clojure hljs" data-lang="clojure">(dom/&lt;tag&gt; ; or &lt;ns&gt;/&lt;Fulcro component factory name&gt; for components
   &lt;[optional] keyword encoding classes and an element ID&gt; ; <i class="conum" data-value="1"></i><b>(1)</b>
   &lt;[optional] map of the tag's attributes (or React props)&gt; ; <i class="conum" data-value="2"></i><b>(2)</b>
   &lt;[optional] children&gt;) ; <i class="conum" data-value="3"></i><b>(3)</b></code></pre>
@@ -636,7 +636,19 @@ Don&#8217;t be mislead, the query is not a standalone query that could be "run" 
 </tr>
 <tr>
 <td><i class="conum" data-value="2"></i><b>2</b></td>
-<td>A Clojure map of the element&#8217;s attributes/props. In addition to what React supports, you can specify <code>:classes</code> as a vector of class names, which can contain <code>nil</code> - those will be removed. It is merged with any classes specified in the keyword shorthand form.</td>
+<td>A Clojure map of the element&#8217;s attributes/props. In addition to what React supports, you can specify <code>:classes</code> as a vector of class names, which can contain <code>nil</code> - those will be removed. It is merged with any classes specified in the keyword shorthand form.
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+While React elements take JS maps with string keywords, Fulcro dom elements and component factories can take (possibly nested) Clojure maps and sequences and use keyword keys.
+</td>
+</tr>
+</table>
+</div></td>
 </tr>
 <tr>
 <td><i class="conum" data-value="3"></i><b>3</b></td>
