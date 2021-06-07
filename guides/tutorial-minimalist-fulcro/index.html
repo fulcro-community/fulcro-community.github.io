@@ -97,7 +97,7 @@ The goal is to enable you to read, understand, and tinker with the code of a Ful
 </li>
 <li><a href="#_zooming_in_on_components_and_mutations">Zooming in on components and mutations</a>
 <ul class="sectlevel2">
-<li><a href="#_the_anatomy_of_a_fulcro_component_query_ident_body">The anatomy of a Fulcro component: query, ident, body</a></li>
+<li><a href="#_the_anatomy_of_a_fulcro_component_query_ident_body">The anatomy of a Fulcro component: props, query, ident, body</a></li>
 <li><a href="#_changing_global_data_and_performing_remote_calls_mutations">Changing global data and performing remote calls: mutations</a></li>
 <li><a href="#_load_ing_data"><code>load!</code>-ing data</a></li>
 </ul>
@@ -438,7 +438,7 @@ To really understand how and why Fulcro stores data and the need for component q
 </ul>
 </div>
 <div class="sect2">
-<h3 id="_the_anatomy_of_a_fulcro_component_query_ident_body"><a class="anchor" href="#_the_anatomy_of_a_fulcro_component_query_ident_body"></a>The anatomy of a Fulcro component: query, ident, body</h3>
+<h3 id="_the_anatomy_of_a_fulcro_component_query_ident_body"><a class="anchor" href="#_the_anatomy_of_a_fulcro_component_query_ident_body"></a>The anatomy of a Fulcro component: props, query, ident, body</h3>
 <div class="paragraph">
 <p>Fulcro components, which are also React components, are the heart of a Fulcro application. Let&#8217;s explore them:</p>
 </div>
@@ -480,6 +480,73 @@ To really understand how and why Fulcro stores data and the need for component q
 </div>
 <div class="paragraph">
 <p>Also notice that <code>:query</code> and props mirror each other. Fulcro will actually warn you if there is a mismatch between the two, thus preventing many errors.</p>
+</div>
+<div class="sect3">
+<h4 id="_components_props"><a class="anchor" href="#_components_props"></a>Component&#8217;s props</h4>
+<div class="paragraph">
+<p>The second argument to a <code>defsc</code> is the props (short for properties) - map of data passed in by the parent component, and normally derived based on the component&#8217;s query. They are the same as <a href="https://reactjs.org/docs/components-and-props.html">React props</a>, with few noteworthy additions:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>While React props must be a JavaScript map with string keys, Fulcro props - both for <code>defsc</code> components, <code>dom/&lt;tag&gt;</code> components, and vanilla JS components <a href="{url-book}#_factory_functions_for_js_react_components">wrapped with <code>interop/react-factory</code></a> - can be and typically are a <em>Clojure</em> map (possibly containing nested Clojure data structures) with (typically qualified) keyword keys. (Fulcro actually stores its props under "fulcro$value" in the React JS map, but that is transparent to you.)</p>
+</li>
+<li>
+<p>You can use lazy sequences of children (produced by <code>map</code> etc.).</p>
+</li>
+</ul>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="title">On qualified keywords</div>
+<div class="paragraph">
+<p>We use qualified keywords a lot to avoid name conflicts and communicate ownership. If it is new to you, here is a brief summary of how to use them.</p>
+</div>
+<div class="paragraph">
+<p>Destructuring:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-clojure hljs" data-lang="clojure">;; Given:
+(def props {:car/make "Škoda", :ui/selected? false})
+;; 1. Destructure using (multiple) :&lt;ns&gt;/keys [..]:
+(let [{:car/keys [make], :ui/keys [selected?]} props]
+  (println make selected?))
+;; 2. Destructure using :keys [&lt;ns1&gt;/key1, &lt;ns2&gt;/key2, ...]:
+(let [{:keys [care/make ui/selected?]} props]
+  (println make selected?))
+;; 3. Destructure manually using &lt;symbol&gt; &lt;qualified keyword&gt; pairs:
+(let [{care-make :care/make, selected? :ui/selected?]} props]
+  (println care-make selected?))
+;; all of the above print the same result: `Škoda false`</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Aliases:</p>
+</div>
+<div class="paragraph">
+<p>When we require a namespace, we can give it an alias as in <code>(:require [my.long.ns :as myns]])</code> and we can use the alias in the qualified keywords - the trick is to use double instead of single colon in front of it, i.e. <code>::&lt;ns alias&gt;/kwd</code>. And if we leave out the alias, as in <code>::kwd</code>, it expands to the current ns, i.e. to <code>:&lt;current ns&gt;/kwd</code>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-clojure hljs" data-lang="clojure">(ns myns (:require [my.domain.car :as car]))
+(def props {::car/make "Škoda", my.domain.car/year 2020, ::sold? true})
+(let [{::car/keys [make year], ::keys [sold?], sold2? :myns/sold?} props]
+  (println make year sold? sold2?))
+; OUT&gt; Škoda 2020 true true</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Namespaced maps:</p>
+</div>
+<div class="paragraph">
+<p>Instead of writing <code>{:person/id 1, :person/name "Jo"}</code> we can also write <code>#:person{:id 1, :name "Jo"}</code>. <a href="https://clojure.org/reference/reader#_maps">The reader literal #:&lt;ns&gt;&lt;map&gt;</a> simply produces a map with all keys namespaced to the given ns.</p>
+</div>
+<div class="paragraph">
+<p>You can read more in the <a href="https://clojure.org/guides/destructuring#_associative_destructuring">Clojure Destructuring Guide</a>.</p>
+</div>
+</div>
+</div>
 </div>
 <div class="sect3">
 <h4 id="_components_query"><a class="anchor" href="#_components_query"></a>Component&#8217;s <code>:query</code></h4>
@@ -648,19 +715,7 @@ Don&#8217;t be mislead, the query is not a standalone query that could be "run" 
 </tr>
 <tr>
 <td><i class="conum" data-value="2"></i><b>2</b></td>
-<td>A Clojure map of the element&#8217;s attributes/props. In addition to what React supports, you can specify <code>:classes</code> as a vector of class names, which can contain <code>nil</code> - those will be removed. It is merged with any classes specified in the keyword shorthand form.
-<div class="admonitionblock important">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-important" title="Important"></i>
-</td>
-<td class="content">
-While React elements take JS maps with string keywords, Fulcro dom elements and component factories can take (possibly nested) Clojure maps and sequences and use keyword keys.
-</td>
-</tr>
-</table>
-</div></td>
+<td>A Clojure map of the element&#8217;s attributes/props. In addition to what React supports, you can specify <code>:classes</code> as a vector of class names, which can contain <code>nil</code> - those will be removed. It is merged with any classes specified in the keyword shorthand form.</td>
 </tr>
 <tr>
 <td><i class="conum" data-value="3"></i><b>3</b></td>
