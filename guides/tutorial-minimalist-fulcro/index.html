@@ -530,7 +530,7 @@ To really understand how and why Fulcro stores data and the need for component q
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-clojure hljs" data-lang="clojure">(ns myns (:require [my.domain.car :as car]))
-(def props {::car/make "Škoda", my.domain.car/year 2020, ::sold? true})
+(def props {::car/make "Škoda", :my.domain.car/year 2020, ::sold? true})
 (let [{::car/keys [make year], ::keys [sold?], sold2? :myns/sold?} props]
   (println make year sold? sold2?))
 ; OUT&gt; Škoda 2020 true true</code></pre>
