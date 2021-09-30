@@ -187,6 +187,14 @@ The goal is to enable you to read, understand, and tinker with the code of a Ful
 <div class="paragraph">
 <p>All the resolvers must be <a href="https://blog.wsscode.com/pathom/v2/pathom/2.2.0/connect/basics.html#_baseline_boilerplate">registered with a Pathom "parser"</a> and thus available to be used to fulfill queries. All resolvers can also take <a href="https://blog.wsscode.com/pathom/v2/pathom/2.2.0/connect/resolvers.html#_parameters">additional, optional parameters</a>, which are used to implement concerns such as pagination. (And you don&#8217;t really need to know more than that it exists.)</p>
 </div>
+<div class="qlist qanda">
+<ol>
+<li>
+<p><em>When to return a data map directly and when to put it inside a <code>{:my-prop &#8230;&#8203;}</code>?</em></p>
+<p>If you are returning a single data entity (e.g. a person) then you return it directly. But if you are returning a <em>list</em> of entities - or a scalar value - then you need to wrap it inside a map (because resolvers can only return maps), as we see with <code>:all-people</code> above.</p>
+</li>
+</ol>
+</div>
 </div>
 </div>
 </div>
