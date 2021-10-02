@@ -174,7 +174,7 @@ The goal is to enable you to read, understand, and tinker with the code of a Ful
     {:all-people [{:person/id 1 :person/name "Diane"}, {:person/id 2 :person/name "BoJack"}]})
 
 ;; An *ident resolver* needs and ID as its input
-(pc/defresolver person-by-id [env {:keys [person/id]}]
+(pc/defresolver person-by-id [env {:person/keys [id]}]
     {::pc/input  #{:person/id}
      ::pc/output [:person/id :person/name]}
     (case id
@@ -185,7 +185,7 @@ The goal is to enable you to read, understand, and tinker with the code of a Ful
 </div>
 </div>
 <div class="paragraph">
-<p>All the resolvers must be <a href="https://blog.wsscode.com/pathom/v2/pathom/2.2.0/connect/basics.html#_baseline_boilerplate">registered with a Pathom "parser"</a> and thus available to be used to fulfill queries. All resolvers can also take <a href="https://blog.wsscode.com/pathom/v2/pathom/2.2.0/connect/resolvers.html#_parameters">additional, optional parameters</a>, which are used to implement concerns such as pagination. (And you don&#8217;t really need to know more than that it exists.)</p>
+<p>All the resolvers must be <a href="https://blog.wsscode.com/pathom/v2/pathom/2.2.0/connect/basics.html#_baseline_boilerplate">registered with a Pathom "parser"</a> and thus available to be used to fulfill queries. All resolvers can also take <a href="https://blog.wsscode.com/pathom/v2/pathom/2.2.0/connect/resolvers.html#_parameters">additional, optional parameters</a>, which are used to implement concerns such as pagination. (And you don&#8217;t really need to know more than that they exists, for now.)</p>
 </div>
 <div class="qlist qanda">
 <ol>
@@ -230,15 +230,19 @@ The goal is to enable you to read, understand, and tinker with the code of a Ful
 <p>Web applications are inherently full-stack and thus a framework should provide an integrated solution for fetching data from the server - including the ability to track its status - and for triggering actions ("mutations") with potentially both local and remote constituents. We should not pretend that this is not our problem, as many frameworks do.</p>
 </li>
 <li>
-<p>Normalized client-side DB: Even though the UI needs a tree of data and the server returns just that, we want the data cached in a <a href="https://en.wikipedia.org/wiki/Database_normalization">normalized</a> cache - which we call client DB - on the frontend. For decades, this has been the established best practice for data access in databases, and for good reasons. In particular, it prevents a whole class of issues with out-of-sync data. When we mutate a particular piece of data, we want the new value reflected everywhere where it is used, without having to manually go through all those places. And such a normalized database also makes it trivial to find just the piece of data you want to change (all you need is the entity&#8217;s name, its ID value, and the property name).</p>
+<p>Normalized client-side DB: Even though the UI needs a tree of data and the server returns just that, we want the data cached in a <a href="https://en.wikipedia.org/wiki/Database_normalization">normalized</a> cache - which we call client DB - on the frontend. For decades, data normalization has been the established best practice for data access in databases, and for good reasons. In particular, it prevents a whole class of issues with out-of-sync data. When we mutate a particular piece of data, we want the new value reflected everywhere where it is used, without having to manually go through all those places. And such a normalized database also makes it trivial to find just the piece of data you want to change (all you need is the entity&#8217;s name, its ID value, and the property name).</p>
 </li>
 </ul>
 </div>
 <div class="paragraph">
 <p>Fulcro is also quite well designed. It is based on a small set of orthogonal building blocks and it doesn&#8217;t hide anything from you - you can always go a level deeper into its internals to achieve what you need (as long as you are aligned with its overall philosophy). Its flexibility and customizability is surprising - all of the critical features from network interaction to rendering optimization are easily customizable. It is also very careful about providing only the tools that are generally applicable and avoiding "features" that might help some people but stand in the way of others. But thanks to the aforementioned flexibility, you can implement what you need for your unique use case yourself.</p>
 </div>
+<div class="sidebarblock">
+<div class="content">
 <div class="paragraph">
 <p>To learn more about the reasoning behind Fulcro, listen to the ClojureScript Podcast <a href="https://podcasts.apple.com/us/podcast/s4-e6-fulcro-with-tony-kay-part-1/id1461500416?i=1000479361034">S4 E6 Fulcro with Tony Kay (Part 1)</a> (2020), which explores the origins of and key motivation for Fulcro, and read the <a href="https://book.fulcrologic.com/#_getting_started">Ch. 4. Getting Started</a> of the Fulcro Developers Guide, which demonstrates how various problems are made easier thanks to the way Fulcro is. To learn to use Fulcro, read on :-).</p>
+</div>
+</div>
 </div>
 </div>
 </div>
@@ -342,7 +346,8 @@ To really understand how and why Fulcro stores data and the need for component q
 </dd>
 <dt class="hdlist1">Ident</dt>
 <dd>
-<p><em>Of a data entity</em>: the identifier of a data entity composed of the ID property name and value. Ex.: <code>[:person/id 123]</code>. <em>Of a component</em>: a function that returns an ident (discussed later).</p>
+<p><em>Of a data entity</em>: the identifier of a data entity composed of the ID property name and value. Ex.: <code>[:person/id 123]</code>.<br>
+<em>Of a component</em>: a function that returns an ident (discussed later).</p>
 </dd>
 <dt class="hdlist1">Mutation (Fulcro)</dt>
 <dd>
@@ -414,7 +419,7 @@ To really understand how and why Fulcro stores data and the need for component q
 <p>Fulcro uses the query and the client DB to construct the props data tree for the Root component</p>
 </li>
 <li>
-<p>The props are passed to the Root component (which passes the relevant parts on to its children) and it is rendered</p>
+<p>The props are passed to the Root component, which passes the relevant parts on to its children, and it is rendered</p>
 </li>
 </ol>
 </div>
@@ -459,7 +464,7 @@ To really understand how and why Fulcro stores data and the need for component q
 <div class="content">
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-clojure hljs" data-lang="clojure">;; Assume `defsc Address` and its factory `ui-address` exist:
+<pre class="highlightjs highlight"><code class="language-clojure hljs" data-lang="clojure">;; Assume `defsc Address` and its factory function `ui-address` exist:
 (defsc Person
   [this {:person/keys [fname email address] :as props}] ; <i class="conum" data-value="1"></i><b>(1)</b>
   {:query [:person/id :person/fname :person/email       ; <i class="conum" data-value="2"></i><b>(2)</b>
@@ -478,12 +483,12 @@ To really understand how and why Fulcro stores data and the need for component q
 <p><em>(Assuming the <a href="https://book.fulcrologic.com/#_common_prefixes_and_namespaces">same <code>:require</code> aliases as described in the Fulcro Development Guide</a>.)</em></p>
 </div>
 <div class="paragraph">
-<p><code>(defsc Person &#8230;&#8203;)</code> ("define stateful component") defines a new React class-based component. After the declaration of arguments ((1), <code>this</code> and <code>props</code>) comes a map with meta data of the component (here <code>:query</code> (2) and <code>:ident</code> (3), the two most common). Finally comes the body (4) (which will become the <code>render</code> method of the React component) that actually produces React DOM elements. You could read it like this:</p>
+<p><code>(defsc Person &#8230;&#8203;)</code> ("define stateful component") defines a new React class-based component. After the declaration of arguments ((1), <code>this</code> and <code>props</code>) comes a map of the component&#8217;s options (here <code>:query</code> (2) and <code>:ident</code> (3), the two most common). Finally comes the body (4) (which will become the <code>render</code> method of the React component) that actually produces React DOM elements. You could read it like this:</p>
 </div>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-clojure hljs" data-lang="clojure">(defsc &lt;Name&gt; [&lt;arguments&gt;]
-  {&lt;meta data&gt;}
+  {&lt;options&gt;}
   &lt;body to be rendered&gt;)</code></pre>
 </div>
 </div>
@@ -573,7 +578,7 @@ To really understand how and why Fulcro stores data and the need for component q
 </div>
 </div>
 <div class="paragraph">
-<p><strong>The query declares what props the component needs, <em>including</em> the needs of its child components.</strong> (We saw how <code>Person</code> includes the query of <code>Address</code> via <code>comp/get-query</code>.)</p>
+<p><strong>The query declares what props the component needs, <em>including</em> the needs of its child components.</strong> (We see here how <code>Person</code> includes the query of <code>Address</code> via <code>comp/get-query</code>.)</p>
 </div>
 <div class="paragraph">
 <p>Thus the root component&#8217;s query will describe the UI needs of the whole UI tree. The query is in EQL, which you are already familiar with, containing the <em>properties</em> the component itself needs and <em>joins</em> for the nested data needed by child components.</p>
@@ -616,6 +621,17 @@ Don&#8217;t be mislead, the query is not a standalone query that could be "run" 
 </td>
 </tr>
 </table>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="title">Fulcro query syntax summary</div>
+<div class="paragraph">
+<p>A query is a vector listing the properties of the data entity you want. If the property value is another data entity, you specify its props using a <em>join</em>: <code>{:the/prop [:nested/prop1]}</code>. Aside of querying for props on the current data entity, you can also query for any data entity using its ident, so a query may include something like <code>[:person/id 123]</code>. This can again be wrapped in a join to only request specific properties.</p>
+</div>
+<div class="paragraph">
+<p>There are two special symbols you can use in a query: <code>'*</code> instead of a property means "give me all the properties". And <code>'_</code> used as the id value in an ident means "give me the property at the root of the client DB" and it is used in <a href="https://book.fulcrologic.com/#_link_queries">Link Queries</a>. (<code>'_</code> is a Fulcro-only thing, not an EQL thing, while <code>'*</code> will also be understood by Pathom.)</p>
+</div>
+</div>
 </div>
 </div>
 <div class="sect3">
