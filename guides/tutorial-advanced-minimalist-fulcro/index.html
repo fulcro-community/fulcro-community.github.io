@@ -681,7 +681,7 @@ Always route to a leaf target! (Or do so at least once, e.g. during app initiali
   {:ident :person/id
    :query [:person/id :ui/person-router ...]
    :initial-state {:ui/person-router {}}                         ; <i class="conum" data-value="1"></i><b>(1)</b>
-   :pre-merge (fn [{:keys [loaded-data-tree current-state-map]}] ; <i class="conum" data-value="2"></i><b>(2)</b>
+   :pre-merge (fn [loaded-data-tree :data-tree, current-state-map :state-map}] ; <i class="conum" data-value="2"></i><b>(2)</b>
                 (merge (comp/get-initial-state MyPerson)         ; <i class="conum" data-value="3"></i><b>(3)</b>
                   {:ui/person-router (get-in current-state-map (comp/get-ident PersonRouter {}))} ; <i class="conum" data-value="4"></i><b>(4)</b>
                   loaded-data-tree))}
