@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Advanced Minimalist Fulcro Tutorial :: Fulcro Community</title>
+    <link rel="canonical" href="https://fulcro-community.github.io/guides/tutorial-advanced-minimalist-fulcro/index.html">
+    <meta name="description" content="A follow-up to the Minimalist Fulcro Tutorial that focuses on a few non-essential yet often necessary topics in the traditional minimalist way.">
+    <meta name="generator" content="Antora 2.3.4">
+    <link rel="stylesheet" href="../../_/css/site.css">
+    <script>var uiRootPath = '../../_'</script>
+  </head>
+  <body class="article">
+<header class="header">
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="https://fulcro-community.github.io">Fulcro Community</a>
+      <button class="navbar-burger" data-target="topbar-nav">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+    </div>
+  </nav>
+</header>
+<div class="body">
+<div class="nav-container" data-component="guides" data-version="master">
+  <aside class="nav">
+    <div class="panels">
+<div class="nav-panel-explore is-active" data-panel="explore">
+  <div class="context">
+    <span class="title">Guides and tutorials</span>
+    <span class="version">master</span>
+  </div>
+  <ul class="components">
+    <li class="component">
+      <a class="title" href="../../main/index.html">Fulcro Community</a>
+      <ul class="versions">
+        <li class="version is-latest">
+          <a href="../../main/index.html">master</a>
+        </li>
+      </ul>
+    </li>
+    <li class="component is-current">
+      <a class="title" href="../index.html">Guides and tutorials</a>
+      <ul class="versions">
+        <li class="version is-current is-latest">
+          <a href="../index.html">master</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>
+    </div>
+  </aside>
+</div>
+<main class="article">
+<div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+  <a href="../../main/index.html" class="home-link"></a>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+</nav>
+  <div class="edit-this-page"><a href="https://github.com/fulcro-community/guides/edit/master/modules/tutorial-advanced-minimalist-fulcro/pages/index.adoc">Edit this Page</a></div>
+  </div>
+  <div class="content">
+<aside class="toc sidebar" data-title="Contents" data-levels="2">
+  <div class="toc-menu"></div>
+</aside>
+<article class="doc">
+<h1 class="page">Advanced Minimalist Fulcro Tutorial</h1>
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>Author: <a href="https://holyjak.cz/">Jakub Holý</a> &amp; contributors</p>
+</div>
+<div class="paragraph">
+<p>A follow-up to the Minimalist Fulcro Tutorial that focuses on a few non-essential yet often necessary topics in the traditional minimalist way.</p>
+</div>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+This is work in progress at an early stage. You can <a href="https://github.com/fulcro-community/guides/issues/8">subscribe to this issue</a> to get notified of significant updates.
+</td>
+</tr>
+</table>
+</div>
+<div id="toc" class="toc">
+<div id="toctitle" class="title">Table of Contents</div>
+<ul class="sectlevel1">
+<li><a href="#_tips_for_learning_fulcro">Tips for learning Fulcro</a></li>
+<li><a href="#_troubleshooting_fulcro">Troubleshooting Fulcro</a></li>
+<li><a href="#_what_to_do_when_ui_components_and_data_entities_do_not_match_11">What to do when UI Components and Data Entities do not match 1:1</a></li>
+<li><a href="#_routing">Routing</a>
+<ul class="sectlevel2">
+<li><a href="#_the_bare_essentials_of_fulcro_routing">The bare essentials of Fulcro routing</a></li>
+<li><a href="#_binding_the_route_to_the_url">Binding the route to the URL</a></li>
+<li><a href="#_loading_data_when_a_component_is_routed_to_for_the_first_time">Loading data when a component is routed to (for the first time)</a></li>
+<li><a href="#_nesting_routers">Nesting routers</a></li>
+<li><a href="#_multiple_routers_side_by_side">Multiple routers side by side</a></li>
+<li><a href="#_a_router_inside_a_newly_loaded_component">A router inside a newly <code>load!</code>ed component</a></li>
+<li><a href="#_routing_related_component_options">Routing-related component options</a></li>
+</ul>
+</li>
+<li><a href="#_creating_and_editing_data_entities">Creating and editing data entities</a>
+<ul class="sectlevel2">
+<li><a href="#_tempids_and_creating_new_entities">Tempids and creating new entities</a></li>
+<li><a href="#_form_state_management">Form state management</a></li>
+</ul>
+</li>
+<li><a href="#_etc_uism_dynamic_recursiveunion_queries_react_interop">Etc&#8230;&#8203; (UISM, dynamic.recursive/union queries, react interop, &#8230;&#8203;)</a></li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_tips_for_learning_fulcro"><a class="anchor" href="#_tips_for_learning_fulcro"></a>Tips for learning Fulcro</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Read the docstrings of Fulcro&#8217;s functions and vars. They are typically very good and insightful.</p>
+</div>
+<div class="paragraph">
+<p>Don&#8217;t be afraid to read the code of Fulcro itself. Even if you won&#8217;t understand everything, you will gleam valuable insights. It is OK to only skim over and focus on the parts you can understand. Have a look at <code>defsc</code> and <code>defrouter</code> and the underlying functions, <code>transact!</code> and <code>load!</code> etc. You will be better for it.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_troubleshooting_fulcro"><a class="anchor" href="#_troubleshooting_fulcro"></a>Troubleshooting Fulcro</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>It is essential for your productivity that you get good at troubleshooting Fulcro, so that you can detect why something does not work as expected. A key part of that is understanding Fulcro enough to know where to "zoom in" and leveraging Fulcro Inspect as much as possible - especially DB, DB Explorer, Transactions, and Network. I&#8217;d claim that:</p>
+</div>
+<div class="quoteblock">
+<blockquote>
+<div class="paragraph">
+<p>In Fulcro, the UI is a true function of data and in 90% cases you only need to look at the data and their connections - and perhaps transactions - to understand what is wrong. In 90% of these cases that beginners encounter, the problem is a broken connection between data<sup>1</sup>.</p>
+</div>
+<div class="paragraph">
+<p><sup>1</sup>) Examples of breaking connections: Not including <code>get-query</code> in the parent&#8217;s query, not setting/propagating up initial state where it is necessary.</p>
+</div>
+</blockquote>
+</div>
+<div class="paragraph">
+<p>Hopefully you have got somewhat proficient with Fulcro Inspect when doing the <a href="https://github.com/fulcro-community/fulcro-exercises">Fulcro exercises</a>. Remember to play with Fulcro Inspect and dig around your application with it to really understand the app while it is working well and as you are changing it so your skills will be sharp when you need them. The <a href="https://www.youtube.com/playlist?list=PLYvJiiE4TAijBAvO-R0PO8plSto4wtoQu">Learning Fulcro - troubleshooting demos</a> - a series of short screencasts demonstrating how to troubleshoot various problems in a Fulcro app - can help you.</p>
+</div>
+<div class="paragraph">
+<p>Finally, remember to consult the <a href="https://blog.jakubholy.net/2020/troubleshooting-fulcro/">Fulcro Troubleshooting Decision Tree</a>, which guides you to get from a problem to the most appropriate troubleshooting steps. I would also highly recommend that you use my library <a href="https://github.com/holyjak/fulcro-troubleshooting">fulcro-troubleshooting</a> to receive feedback about possible Fulcro problems early and visibly. Also watch out for Fulcro warnings in the browser Console.</p>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+Remember that only rarely should you be clicking around your UI and observing its changes. In Fulcro, virtually all user actions can be triggered from the REPL using <code>transact!</code>. It is also possible to observe and manipulate app data directly with the same functions that Fulcro uses - for example to simulate turning a query into the props tree via <code>db&#8594;tree</code>. It is also easier to observe effects on the data in the client DB than in the UI itself. Use these tools instead of the UI - they are more more efficient and allow you to zoom in on the problem much more precisely.
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_what_to_do_when_ui_components_and_data_entities_do_not_match_11"><a class="anchor" href="#_what_to_do_when_ui_components_and_data_entities_do_not_match_11"></a>What to do when UI Components and Data Entities do not match 1:1</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>In the simplest case, each UI Component such as Player and Team corresponds to a data entity (player and team, respectively). But often that is not the case. What if I want to wrap Player in a CoolAnimationThingy, which has no data entity? What if I want to show only a PlayerSummary inside the Team and only display PlayerDetails in a popup after the summary is clicked? Here both the components display different views of the same data entity.</p>
+</div>
+<div class="paragraph">
+<p>The article <a href="https://blog.jakubholy.net/2020/fulcro-divergent-ui-data/">Fulcro Explained: When UI Components and Data Entities Diverge</a> explains this well, and you should go and read it now. A brief summary follows:</p>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">A UI-only ("stateless") component, such as the CoolAnimationThingy, with no query of its own</dt>
+<dd>
+<p>Solution: The nearest stateful (with a query) ancestor component (Team in our example) becomes the true parent of any stateful children of the stateless component, composes their query and initial state, creates them and passes them to the stateless component as its children.</p>
+</dd>
+<dt class="hdlist1">A Data-only component (a.k.a. a query component)</dt>
+<dd>
+<p>This is mostly only necessary when describing to Fulcro the data returned by a mutation, if it does not match an existing component. Solution (since Fulcro 3.5): <a href="https://cljdoc.org/d/com.fulcrologic/fulcro/3.5.6/api/com.fulcrologic.fulcro.raw.components#nc">use <code>rc/nc</code></a>; ex.: <code>(com.fulcrologic.fulcro.raw.components/nc [:user/id :user/email])</code>.</p>
+</dd>
+<dt class="hdlist1">Multiple UI views of a single Data Entity</dt>
+<dd>
+<p>This the case of the PlayerSummary and PlayerDetails and it is simple: they both use the same <code>:ident</code> (here, <code>:player/id</code>) and query for whatever they need.</p>
+</dd>
+<dt class="hdlist1">A Data Entity spread across multiple sibling components</dt>
+<dd>
+<p>Imagine you have a large data entity with many attributes. Displaying it in a single component would make it huge and hard to understand so you want to split the UI into multiple components, each displaying only a part of the entity. It differs from the "multiple views" by that they are all children of the &lt;Entity&gt; component and you want to load all the data at once. The solution is actually in Pathom: for each of these "virtual" children, include their query in the actual entity component as usual but under a "made-up" join key starting with <code>:&gt;/</code> (the habitual <a href="https://blog.wsscode.com/pathom/v2/pathom/2.2.0/core/placeholders.html">Pathom "placeholder"</a> ns). The query <code>[.. {:&gt;/dummy [:person/id :person/name]} ..]</code> is effectively the same as <code>`[.. :person/id :person/name ..]</code>.</p>
+</dd>
+<dt class="hdlist1">Accessing top-level data from a nested component</dt>
+<dd>
+<p>Sometimes you have a piece of data that you need at multiple places in the UI tree, loaded at the top of the client DB, for example <code>:current-user</code> (to display her name in the top bar and to only show the buttons allowed by her permissions everywhere). The simple solution is <a href="https://book.fulcrologic.com/#_link_queries">link query</a>: instead of including in your query <code>[&#8230;&#8203; :current-user &#8230;&#8203;]</code> (which would only work in the root component), you would include <code>[... [:current-user '_] ...]</code>, which is an ident with the magical value <code>_</code> meaning "give me the property&#8217;s whole value as-is".
+In more extreme cases, you might need to split your UI into multiple independent parts, using Fulcro&#8217;s multiple-roots-renderer.</p>
+</dd>
+<dt class="hdlist1">Sharing data between diverse components on the page</dt>
+<dd>
+<p>If you have a piece of data that multiple components, at different parts of the UI tree, need to access then the simplest solution is to put the data or a reference to the data into the root of the client DB and to use Link Query to access it from those components.</p>
+</dd>
+<dt class="hdlist1">Inserting a stateful UI component between a parent-child entities</dt>
+<dd>
+<p>This section essentially explains why inserting a router component into your UI does not break the query. You should not need to do this yourself but it will help you understand routers.</p>
+</dd>
+</dl>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_routing"><a class="anchor" href="#_routing"></a>Routing</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>In a single page application, you want to enable the user to navigate to parts of the application and to only display these "active" parts. You might also want to only load the necessary data when you are are about to display the relevant part of the UI. Often you also want to bind the route to the URL. All this is the task of routing.</p>
+</div>
+<div class="paragraph">
+<p>Fulcro&#8217;s <a href="https://book.fulcrologic.com/#_dynamic_router">Dynamic Routing</a> enables you to:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Make Routers that have multiple target components and only display the active one (i.e. the one you have routed to)</p>
+</li>
+<li>
+<p>The routers can be nested, e.g. to display a particular "page" and then a particular "tab" within it</p>
+</li>
+<li>
+<p>Bind the route to the URL (Fulcro&#8217;s routing is fully independent of the URL but the two can be hooked together)</p>
+</li>
+<li>
+<p>Load the data just before the component is about to be displayed</p>
+</li>
+<li>
+<p>The target component can dynamically decide whether to allow the user to route to it or to route out of it (e.g. you do not want to allow the user to leave a half-filled form until she either saves it or cancels the edit)</p>
+</li>
+<li>
+<p>Split the code so that parts of it will only be loaded when the part of the application they define is going to be displayed</p>
+</li>
+<li>
+<p>Only query for the props of its current target from the client DB, which is important for the performance of bigger apps</p>
+</li>
+<li>
+<p>Display a loading indicator after a short delay and to mark the route as failed if it does not complete within a time limit</p>
+</li>
+</ol>
+</div>
+<div class="sect2">
+<h3 id="_the_bare_essentials_of_fulcro_routing"><a class="anchor" href="#_the_bare_essentials_of_fulcro_routing"></a>The bare essentials of Fulcro routing</h3>
+<div class="paragraph">
+<p>To add routing to your application, you need to:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Create a router using <code>dr/defrouter</code> and give it the list of the target components, only one of which will be displayed at a time. Notice that there is no magic in <code>defrouter</code> - it just produces an old good <code>defsc</code></p>
+</li>
+<li>
+<p>Give each target component a unique <em>route segment</em> so that you can route to this target. You can think of the route segment as a relative URL. It starts with a non-empty literal string and may contain other strings and placeholders (keywords) for capturing dynamic <em>route parameters</em> such as IDs. They do compose, if you have multiple levels of nested routers</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>The component can use the <code>:will-enter</code> component option function to access the route parameters (which are always strings) and to translate them into the actual ident via <code>(dr/route-immediate &lt;ident&gt;)</code> or <code>route-deferred</code></p>
+</li>
+</ol>
+</div>
+</li>
+<li>
+<p>Initialize everything and then route to the target you want displayed via <code>dr/change-route</code></p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>Let&#8217;s explore a minimalist example of routing. This is the UI that we are creating:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/bare-essentials-routing-ui-mockup.png" alt="A mock up of a UI with a router (via wiredjs.com)">
+</div>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/bare-essentials-routing-ui-mockup.png" alt="FIXME: remove">
+</div>
+</div>
+<div class="paragraph">
+<p><!--FIXME: Remove the relative path img above--></p>
+</div>
+<div class="paragraph">
+<p>We show either all the people or just a single person. This is the code:</p>
+</div>
+<div class="exampleblock">
+<div class="title">Example 1. Bare essentials of Fulcro routing (1st half - router &amp; targets)</div>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-clojure hljs" data-lang="clojure">(defsc AllPeople [_ {:keys [all-people]}]
+  {:ident (fn [] [:component/id ::AllPeople])
+   :query [{:all-people [:person/id :person/name]}]  ; <i class="conum" data-value="1"></i><b>(1)</b>
+   :initial-state {}                                 ; <i class="conum" data-value="1"></i><b>(1)</b>
+   :route-segment ["all"]}                           ; <i class="conum" data-value="2"></i><b>(2)</b>
+   (dom/div
+     (dom/h3 "All People")
+     (dom/ul
+       (mapv (fn [{:person/keys [id name]}] (dom/li {:key id} name))
+         all-people))))
+
+(defsc Person [_ {:person/keys [id name biography]}]
+  {:ident :person/id
+   :query [:person/id :person/name :person/biography]  ; <i class="conum" data-value="1"></i><b>(1)</b>
+   :initial-state {}                                   ; <i class="conum" data-value="1"></i><b>(1)</b>
+   :route-segment ["person" :person-id]                ; <i class="conum" data-value="3"></i><b>(3)</b>
+   :will-enter (fn [app route-params]                  ; <i class="conum" data-value="4"></i><b>(4)</b>
+                 (dr/route-immediate
+                   [:person/id
+                    (js/parseInt (:person-id route-params))]))}
+  (dom/p (str "Person #" id ": ") (dom/strong name) " - " biography))
+
+(dr/defrouter MyRouter [_ _] {:router-targets [AllPeople Person]}) ; <i class="conum" data-value="5"></i><b>(5)</b></code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>A router target <em>must always</em> have a query (use the "give me everything" query <code>['*]</code> if it doesn&#8217;t need any) and a non-nil initial state (so at least an empty <code>{}</code>)</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>A target&#8217;s <code>:route-segment</code> assigns it a routing path (relative to an ancestor target, if any)</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>The <code>:route-segment</code> may also contain placeholders to capture parameters from the route (here <code>:person-id</code>),
+which can then be accessed in <code>:will-enter</code> under that keyword</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="4"></i><b>4</b></td>
+<td>A target may use the <code>:will-enter</code> component option function to access route params and to tell Fulcro which ident
+to route to (here via <code>dr/route-immediate</code>)</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="5"></i><b>5</b></td>
+<td><code>defrouter</code> creates the router component. It needs at least the list of its targets in <code>:router-targets</code></td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+will-enter can be called multiple times as part of the route resolution algorithm and MUST NOT side-effect in its body. Use <code>dr/route-deferred</code> and do any necessary side-effects in the completion function passed to it, which is guaranteed to be called only once.
+</td>
+</tr>
+</table>
+</div>
+<div class="exampleblock">
+<div class="title">Example 2. Bare essentials of Fulcro routing (2nd half - Root and init)</div>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-clojure hljs" data-lang="clojure">(def ui-my-router (comp/factory MyRouter))
+
+(defsc Root [this {:ui/keys [router]}]
+  {:query [{:ui/router (comp/get-query MyRouter)}]           ; <i class="conum" data-value="1"></i><b>(1)</b>
+   :initial-state {:ui/router {}}}                           ; <i class="conum" data-value="2"></i><b>(2)</b>
+  (dom/div
+    (dom/p (dom/button {:onClick #(dr/change-route! this ["all"])} "All") ; <i class="conum" data-value="3"></i><b>(3)</b>
+           (dom/button {:onClick #(dr/change-route! this ["person" "123"])} "Person 123"))
+    (ui-my-router router)))
+
+(defn init [app]
+  ;; Avoid startup async timing issues by pre-initializing things before mount
+  (app/set-root! app Root {:initialize-state? true})
+  (dr/initialize! app)                                         ; <i class="conum" data-value="4"></i><b>(4)</b>
+  (run! #(merge/merge-component! app Person %
+           :append (conj (comp/get-ident AllPeople {}) :all-people))
+    [#:person{:id 100 :name "Kamča" :biography "..."}
+     #:person{:id 123 :name "Doubravka" :biography "..."}])
+  (dr/change-route! app ["person" "123"])                       ; <i class="conum" data-value="5"></i><b>(5)</b>
+  ;; Note: 👆🏿 will warn https://book.fulcrologic.com/#warn-uism-sm-not-in-state; ignore! <i class="conum" data-value="7"></i><b>(7)</b>
+  ;; or: (dr/change-route! app (dr/path-to Person "123"))           ; <i class="conum" data-value="6"></i><b>(6)</b>
+  ;; or: (dr/change-route! app (dr/path-to Person {:person-id "123"})) ; <i class="conum" data-value="6"></i><b>(6)</b>
+  (app/mount! app Root "app" {:initialize-state? false}))</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>You <em>must</em> compose the router&#8217;s query into its parent, under an arbitrary name (the <code>:ui/</code> ns is practical so that we do not unnecessarily include it in queries sent to the server)</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>You <em>must</em> compose the router&#8217;s initial state into its parent (notice we use the <a href="https://book.fulcrologic.com/#_template_mode">template mode of initial state</a> so the <code>{}</code> actually means "include the router&#8217;s initial state")</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>We use <code>dr/change-route!</code> with the absolute route (concatenation of all route segments along the way from Root) to display the desired component</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="4"></i><b>4</b></td>
+<td>When we start the application, we need to initialize the dynamic routing subsystem with <code>dr/initialize!</code></td>
+</tr>
+<tr>
+<td><i class="conum" data-value="5"></i><b>5</b></td>
+<td>It is highly advisable to also make sure each router in the app is "routed" and thus in a well-defined state before it is ever displayed. Here we achieve that by routing to it in the init function. This can only be done after the application&#8217;s state is initialized, i.e. either <code>app/set-root!</code> with <code>{:initialize-state? true}</code> or <code>app/mount!</code>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://book.fulcrologic.com/#_setting_the_route_early">The Fulcro book advises</a>: &#8220;An even better approach is to use state to block rendering until such time as a route or load is ready just by looking at the current state of your top-most router’s state machine.&#8221; - see the example code below the quote</p>
+</li>
+</ul>
+</div></td>
+</tr>
+<tr>
+<td><i class="conum" data-value="6"></i><b>6</b></td>
+<td>Alternatively, instead of hard-coding the route as a vector of strings, we can use <code>(path-to &amp; targets-and-params)</code> with component names to get the route - which is easier to navigate and to refactor. In the map form, there is just a single map with all the route&#8217;s params at the very end.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="7"></i><b>7</b></td>
+<td>Note: As of Fulcro 3.5.6, you are likely to get the <a href="https://book.fulcrologic.com/#warn-uism-sm-not-in-state">Attempt to get an ASM path&#8230;&#8203;</a> error for the router because <code>dr/initialize!</code> is asynchronous and does not finish before the <code>dr/change-route!</code> call. You can safely ignore it.</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>See the <a href="https://github.com/holyjak/minimalist-fulcro-template-backendless/blob/example/bare-essentials-routing/src/com/example/ui.cljs">full code here</a>.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_binding_the_route_to_the_url"><a class="anchor" href="#_binding_the_route_to_the_url"></a>Binding the route to the URL</h3>
+<div class="paragraph">
+<p>Reflecting the current route in the URL and changing the URL according to the route is simple. We just need to hook into the HTML 5 History API to call <code>change-route!</code> when the URL changes and to create our own routing function that also updates the URL before calling <code>change-route!</code>. Mapping from the URL to the route and vice versa just requires replacing <code>/</code> with spaces and vice versa. You can look at Fulcro RAD&#8217;s <code>routing/html5-history</code> for inspiration, namely at <a href="https://github.com/fulcrologic/fulcro-rad/blob/fulcro-rad-1.0.23/src/main/com/fulcrologic/rad/routing/html5_history.cljc#L96">how it updates the URL via <code>.pushState</code></a> and how it <a href="https://github.com/fulcrologic/fulcro-rad/blob/fulcro-rad-1.0.23/src/main/com/fulcrologic/rad/routing/html5_history.cljc#L143">uses <code>.addEventListener</code></a> for the <a href="https://developer.mozilla.org/en-US/docs/Web/API/Window/popstate_event"><code>"popstate"</code> event</a> to get notified of URL changes.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Sometimes you might want the URL to differ from the Fulcro route, primarily to make it nicer for the user. Remember that a route segment must start with a non-empty string and it might be better to ensure that all route segments are unique so that no two route segments would match the same route. For example you might have the routes <code>["all"]</code> and <code>["id" :student-id"]</code> but want to display them as the URLs <code>/</code> and <code>/&lt;student id&gt;</code>. You should also always route to a leaf target (discussed later on), such as <code>["company-page" "apple" "overview-tab"]</code> but might not want to force the user to type the whole URL, so that <code>/company-page/apple</code> would actually route to its overview tab. In these cases you need to add extra logic to your URL &lt;&gt; route mapping code so that the user-friendly URL is translated to the stricter route and vice versa.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>The simplest solution is to include <a href="https://github.com/fulcrologic/fulcro-rad">fulcro-rad</a> as a library and to use its <code>com.fulcrologic.rad.routing/route-to!</code> instead of <code>change-route!</code>. You also need to <a href="https://github.com/fulcrologic/fulcro-rad-demo/tree/de4a5402b3526687b6debe41296d9a6f45648c20/src/shared/com/example/client.cljs#L58">install-route-history! during app initialization</a> and perhaps also <a href="https://github.com/fulcrologic/fulcro-rad-demo/tree/de4a5402b3526687b6debe41296d9a6f45648c20//src/shared/com/example/client.cljs#L32">set the route at startup</a> (and not only when it is changed thereafter). Remember that RAD is just an addon library to Fulcro and you can choose and pick whatever parts you want.</p>
+</div>
+<div class="paragraph">
+<p>If you do not want to include RAD or if you like to learn via video, have a look at <a href="https://youtu.be/oQpmKWBm9HE?t=867">Fulcro – Part 15: Sessions and UI Routing</a> that shows how to do the integration manually (though with a helper history library). You may also find useful <a href="https://github.com/aeberts/fulcro-notes-public/blob/master/fulcro-videos-pt15-sessions-and-routing.org">these time-stamped notes from the video</a> by Alex Eberts.</p>
+</div>
+<div class="paragraph">
+<p>Chris O&#8217;Donnell has a nice, short, clear post about <a href="https://chrisodonnell.dev/posts/giftlist/routing/#html5-routing">how to bind the URL and Fulcro routing together using Pushy</a>.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+To make sure the user can reload the URL from the server, make sure that any path other than images, JS etc. falls back to the application&#8217;s HTML page - <a href="https://github.com/fulcrologic/fulcro-rad-demo/blob/develop/src/shared/com/example/components/ring_middleware.clj#L48">see how fulcro-rad-demo does it</a>.
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_loading_data_when_a_component_is_routed_to_for_the_first_time"><a class="anchor" href="#_loading_data_when_a_component_is_routed_to_for_the_first_time"></a>Loading data when a component is routed to (for the first time)</h3>
+<div class="paragraph">
+<p>Often we only want to load data when it is actually necessary, i.e. when the component that needs them is being displayed. In React it is achieved via the <code>componentWillMount</code> hook. In Fulcro we have a better solution if the component is a router target - namely its <code>:will-enter</code> component option function. A key disadvantage of componentWillMount is "cascading loads", when a component A loads its data and renders its child B, triggering B&#8217;s own load etc. In Fulcro we route to a leaf target and thus it and all intermediaries can start loading data in parallel. Let&#8217;s see how it looks.</p>
+</div>
+<div class="exampleblock">
+<div class="title">Example 3. Loading data when a target is routed to</div>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-clojure hljs" data-lang="clojure">(defsc Person [_ props]
+  {:ident :person/id
+   :query [:person/id :person/name]
+   :initial-state {}
+   :route-segment ["person" :person-id]
+   :will-enter (fn [app route-params]    ; <i class="conum" data-value="1"></i><b>(1)</b>
+                 (let [ident [:person/id (-&gt; route-params :person-id js/parseInt)]] ; <i class="conum" data-value="2"></i><b>(2)</b>
+                   (if (get-in (app/current-state app) ident)) ; <i class="conum" data-value="3"></i><b>(3)</b>
+                     (dr/immediate ident)
+                     (dr/route-deferred    ; <i class="conum" data-value="4"></i><b>(4)</b>
+                       ident
+                       #(df/load! app ident Person
+                         {:post-mutation `dr/target-ready
+                          :post-mutation-params {:target ident}}))))}
+  ...)</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Use <code>:will-enter</code>, which is called when it is decided to route to the target (and must return <code>route-immediate</code> or <code>route-deferred</code>). Beware that it may be called multiple times and must not side-effect.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Construct the ident of the component that will be displayed, leveraging the provided route-params
+(as defined by the <code>:route-segment</code>)</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>If the data has already been loaded previously then route to the component immediately. Otherwise load it first.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="4"></i><b>4</b></td>
+<td>Return <code>route-deferred</code> with the ident and a completion function that will be executed shortly by Fulcro, and which needs to eventually trigger the <code>dr/target-ready</code> post-mutation to tell Fulcro that the component is ready. Here the completion function does load the data and uses <code>load!</code>'s <code>:post-mutation</code> and <code>:post-mutation-params</code> to make sure that <code>target-ready</code> is transacted after the load.</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>This is also called <a href="https://book.fulcrologic.com/#_deferred_routing">deferred routing and you can read more</a> about it in the Fulcro book. Here is a <a href="https://github.com/holyjak/minimalist-fulcro-template-backendless/blob/example/deferred-routing/src/com/example/ui.cljs#L30">complete, working example you can play with</a>.</p>
+</div>
+<div class="sect3">
+<h4 id="_on_router_timeouts_and_errors"><a class="anchor" href="#_on_router_timeouts_and_errors"></a>On router timeouts and errors</h4>
+<div class="paragraph">
+<p>What happens when loading data in a deferred route takes too long? What if it fails? The router has you covered:</p>
+</div>
+<div class="exampleblock">
+<div class="title">Example 4. Router with timeouts, a loading indicator, and an error message</div>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-clojure hljs" data-lang="clojure">(dr/defrouter MyRouter [_ {:keys [current-state route-factory route-props]}]
+  {:router-targets [AllPeople Person]}
+  ;; The body of the router is displayed only when the target is not ready,
+  ;; i.e. in one of the states below (unless you set `:always-render-body?`)
+  (case current-state ; <i class="conum" data-value="1"></i><b>(1)</b>
+    nil (println "MISTAKE: MyRouter is displayed but has never been routed to yet") ; <i class="conum" data-value="2"></i><b>(2)</b>
+    :pending (dom/div "Loading...") ; <i class="conum" data-value="3"></i><b>(3)</b>
+    :failed (dom/div "Failed!")     ; <i class="conum" data-value="4"></i><b>(4)</b>
+    (println "Should never come here:" current-state))) ; <i class="conum" data-value="5"></i><b>(5)</b></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>The body of the router is only displayed when the target is not ready (unless you set <code>:always-render-body? true</code>). Thus the only router states we will ever see here are those listed below.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td><code>current-state = nil</code> is the initial state, before the router has been routed to - i.e. when you failed to initialize it properly via <code>change-route!</code>, as described above (there is also the <code>:inital</code> state but I have not seen it in practice)</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td><code>:pending</code> is active for a deferred route, after the <code>:deferred-timeout</code> passed but before the <code>:error-timeout</code> - it also ends if <code>dr/target-ready</code> is transacted for the target ident</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="4"></i><b>4</b></td>
+<td><code>:failed</code> if the deferred route has not become ready (as indicated by <code>dr/target-ready</code>) within the <code>:error-timeout</code> since the route event</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="5"></i><b>5</b></td>
+<td>We do not expect to see any other states, namely <code>:routed</code> - because in this state the target itself is displayed and not the router&#8217;s body (unless we set <code>:always-render-body? true</code>)</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>Key points to know:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>There are two timeouts that control the router&#8217;s behavior with respect to deferred routes, <code>:deferred-timeout</code> (default 20ms)
+and <code>:error-timeout</code> (default 5s). You can override the default values when calling <code>dr/change-route!</code>, <a href="https://cljdoc.org/d/com.fulcrologic/fulcro/3.5.6/api/com.fulcrologic.fulcro.routing.dynamic-routing#change-route!">see its docstring</a>.</p>
+</li>
+<li>
+<p>You can use the body of the router and its <code>current-state</code>. It is only displayed when the target is not "ready" to be displayed</p>
+</li>
+<li>
+<p>The router switches from displaying the previous target to displaying the router&#8217;s body while waiting for a pending target only after the <code>:deferred-timeout</code> has passed (but it switches to the target immediately when it gets ready)</p>
+</li>
+<li>
+<p>If the mutation <code>(dr/target-ready {:target &lt;ident&gt;}</code> is not triggered within <code>:error-timeout</code> of <code>change-route!</code> then the state becomes <code>:failed</code> (the target can still become "ready" later, if the load eventually finishes, and the target will be displayed)</p>
+</li>
+<li>
+<p>Thus we can use <code>:pending</code> to display a loading indicator, if it takes longer than the <code>:deferred-timeout</code>. We can use the <code>:failed</code> state to show an error message telling the user it is either taking too long or failed</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_lazy_loading_elsewhere_in_fulcro"><a class="anchor" href="#_lazy_loading_elsewhere_in_fulcro"></a>Lazy loading elsewhere in Fulcro</h4>
+<div class="paragraph">
+<p>Lazy-loading data in <code>:will-enter</code> is just one of possibilities. You can always <a href="../tutorial-minimalist-fulcro/index.html#_how_to" class="page">use <code>:without</code> and <code>load-field!</code></a> to limit what is loaded when and use events such as the user hovering over an element or triggering navigation to load additional data. You can either use your custom mutations for the relevant user actions and add the load there or/and make your own version of <code>change-route!</code> that does custom data loading. You can <a href="../tutorial-minimalist-fulcro/index.html#_bonus_tracking_loading_state_with_load_markers" class="page">leverage load markers</a> to track whether the load is ongoing or has failed.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_nesting_routers"><a class="anchor" href="#_nesting_routers"></a>Nesting routers</h3>
+<div class="paragraph">
+<p>Having a UI tree with multiple levels of nested routers like this:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>Root
+  PageRoute
+    WelcomePage
+    SportPage, route `["sport" :sport]`
+      Teams
+        Team
+          TeamRouter
+            TeamStats, route ["team-stats"]
+            Player, route ["player" :player-id]</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>we can route to a leaf router including the full route:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-clojure hljs" data-lang="clojure">(dr/change-route! app-or-component ["sport" "hockey" "player" "123"])
+;; We could also leverage path-to:
+(dr/path-to app-or-component SportPage "hockey" Player "123")
+; =&gt;  ["sport" "hockey" "player" "123"]
+(dr/path-to app-or-component SportPage Player {:sport "hockey", :player-id "123"})
+; =&gt;  ["sport" "hockey" "player" "123"]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Somewhere under a router target, we can also use relative routing:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-clojure hljs" data-lang="clojure">;; e.g. inside Teams:
+(dr/change-route-relative! teams-this ["player" "123"])</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>We can even route from one target to another sibling target by prefixing the relative route with <code>:&#8230;&#8203;</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-clojure hljs" data-lang="clojure">;; Inside Player:
+(dr/change-route-relative! player-this [:... "team-stats"])</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>IMPORTANT:
+It is essential that each router in the app is in a routed state before it is displayed.
+Always route to a leaf target! (Or do so at least once, e.g. during app initialization.)
+(A router will display its first target by default but it is not the same as routing to it manually and some things <em>will not work</em>.) See <a href="https://book.fulcrologic.com/#_partial_routes">20.6.1. Partial Routes</a> for details.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_multiple_routers_side_by_side"><a class="anchor" href="#_multiple_routers_side_by_side"></a>Multiple routers side by side</h3>
+<div class="paragraph">
+<p>Aside of nesting routers inside each others, you might also in some cases want to have multiple sibling routers. This is a topic too rare and advanced even for this tutorial, so I will just refer you to the Fulcro Dev Guide&#8217;s <a href="https://book.fulcrologic.com/#_simultaneous_on_screen_routers">20.8. Simultaneous On-Screen Routers</a> for details.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_a_router_inside_a_newly_loaded_component"><a class="anchor" href="#_a_router_inside_a_newly_loaded_component"></a>A router inside a newly <code>load!</code>ed component</h3>
+<div class="paragraph">
+<p>Imagine you have the non-singleton component Person, with an ident like <code>[:person/id "&lt;some-value&gt;"]</code>. Inside Person, you want to show routable tabs with different groups of information about the person (job info, health history, family, &#8230;&#8203;). So you decide to use a router for this.</p>
+</div>
+<div class="paragraph">
+<p>But there is a problem. It is likely the component&#8217;s data wasn&#8217;t part of the initial state of the application and only was load!-ed later. Thus it will not be "linked" properly to the router, i.e. its data in the client DB will be missing something like <code>:&lt;the router prop you made up&gt; [::dr/id :&lt;YourRouterComponentName&gt;]</code>. For components that exist at the application start, this link is established by including the router property in their initial state and composing it up to the Root, as we discussed above, but here you need to establish the link yourself. You add the "link" manually using <a href="https://book.fulcrologic.com/#_pre_merge"><code>:pre-merge</code></a>, which is a component option holding a function called by Fulcro before normalizing and merging incoming data. Pre-merge gets the loaded, denormalized data and returns the same denormalized data, with you custom modifications. See here:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-clojure hljs" data-lang="clojure">;; Somewhere in the app: `(df/load! app [:person/id 123] MyPerson)`
+(defsc MyPerson [_ props]
+  {:ident :person/id
+   :query [:person/id :ui/person-router ...]
+   :initial-state {:ui/person-router {}}                         ; <i class="conum" data-value="1"></i><b>(1)</b>
+   :pre-merge (fn [{:keys [loaded-data-tree current-state-map]}] ; <i class="conum" data-value="2"></i><b>(2)</b>
+                (merge (comp/get-initial-state MyPerson)         ; <i class="conum" data-value="3"></i><b>(3)</b>
+                  {:ui/person-router (get-in current-state-map (comp/get-ident PersonRouter {}))} ; <i class="conum" data-value="4"></i><b>(4)</b>
+                  loaded-data-tree))}
+  (ui-person-router (:ui/person-router props)))</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>The parent of a router must compose its initial state into its own (and so on all the way up to the Root)</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Pre-merge gets the (denormalized) tree of data from <code>df/load!</code> and the current value of the client DB (a.k.a. state map)</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>We include the component&#8217;s initial state, which composes the initial state of the router</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="4"></i><b>4</b></td>
+<td>We make sure to preserve any state the router might already have (which we must denormalize)</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Read more in the Fulcro Book, <a href="https://book.fulcrologic.com/#_composing_the_routers_state_into_the_parent">20.4. Composing the Router’s State into the Parent</a>.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_routing_related_component_options"><a class="anchor" href="#_routing_related_component_options"></a>Routing-related component options</h3>
+<div class="paragraph">
+<p>We have already seen <code>:will-enter</code> but <a href="https://book.fulcrologic.com/#_routing_targets">there are also other optional component options</a> you might want to know about: <code>:route-cancelled</code>, <code>:will-leave</code>, <code>:allow-route-change?</code>, <code>:route-denied</code>.</p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="title">Deep dive: how do routers work?</div>
+<div class="paragraph">
+<p>Routers use <em>dynamic queries</em> (discussed later on) to set the sub-query of their <code>::dr/current-route</code> to be the active target&#8217;s one. When they render the target component, they pass it <code>(::dr/current-route props)</code>, together with any computed props.</p>
+</div>
+<div class="paragraph">
+<p>You can learn more about it in <a href="https://blog.jakubholy.net/2020/fulcro-divergent-ui-data/#_inserting_a_stateful_ui_component_between_a_parent_child_entities">When UI and Entities Diverge: Inserting a stateful UI component between a parent-child entities</a>.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_creating_and_editing_data_entities"><a class="anchor" href="#_creating_and_editing_data_entities"></a>Creating and editing data entities</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_tempids_and_creating_new_entities"><a class="anchor" href="#_tempids_and_creating_new_entities"></a>Tempids and creating new entities</h3>
+
+</div>
+<div class="sect2">
+<h3 id="_form_state_management"><a class="anchor" href="#_form_state_management"></a>Form state management</h3>
+
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_etc_uism_dynamic_recursiveunion_queries_react_interop"><a class="anchor" href="#_etc_uism_dynamic_recursiveunion_queries_react_interop"></a>Etc&#8230;&#8203; (UISM, dynamic.recursive/union queries, react interop, &#8230;&#8203;)</h2>
+<div class="sectionbody">
+
+</div>
+</div>
+</article>
+  </div>
+</main>
+</div>
+<footer class="footer">
+  <p>This page was built using the Antora default UI.</p>
+  <p>The source code for this UI is licensed under the terms of the MPL-2.0 license.</p>
+</footer>
+<script src="../../_/js/site.js"></script>
+<script async src="../../_/js/vendor/highlight.js"></script>
+  </body>
+</html>
