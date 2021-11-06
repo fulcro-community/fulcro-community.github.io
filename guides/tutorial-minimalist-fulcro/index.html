@@ -104,6 +104,7 @@ The goal is to enable you to read, understand, and tinker with the code of a Ful
 </li>
 <li><a href="#_review">Review</a></li>
 <li><a href="#_faq">FAQ</a></li>
+<li><a href="#_must_read">Must read</a></li>
 <li><a href="#_next_steps">Next steps</a></li>
 <li><a href="#_help_us_get_better">Help us get better!</a></li>
 </ul>
@@ -681,7 +682,14 @@ Don&#8217;t be mislead, the query is not a standalone query that could be "run" 
 <p>When a child component has an initial state, to compose it up (f.ex. dynamic routers do)</p>
 </li>
 <li>
+<p>To establish links (<em>edges</em>) between components so that Fulcro can find the data you query for as it walks the Root query and Client DB in tandem to fulfill the query (as demonstrated under the second point of the article <a href="https://blog.jakubholy.net/2020/fulcro-divergent-ui-data/#_adapting_backend_data_to_the_ui_components_structure">Divergent Data - Adapting to components</a>).</p>
+<div class="ulist">
+<ul>
+<li>
 <p>(Advanced) To pre-establish connections between data entities such as a form-like component and its <a href="https://book.fulcrologic.com/#FormState">form state</a></p>
+</li>
+</ul>
+</div>
 </li>
 </ul>
 </div>
@@ -1428,6 +1436,20 @@ Outside of the context of <code>merge-component!</code>, when you are changing d
 </div>
 </div>
 <div class="sect1">
+<h2 id="_must_read"><a class="anchor" href="#_must_read"></a>Must read</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>There are two pretty important articles that you should read or at least skim over pretty soon. You need to know what they contain so that when you run into the problems they address (and you will!), you will know where to look for answers. The articles are:</p>
+</div>
+<div class="paragraph">
+<p><a href="https://blog.jakubholy.net/2020/fulcro-divergent-ui-data/">Fulcro Explained: When UI Components and Data Entities Diverge</a> - when the simplistic assumption that every <em>UI component</em> corresponds to a <em>data entity</em> breaks down and the entity data tree does not match the UI tree and you need to figure out how to make them play together.</p>
+</div>
+<div class="paragraph">
+<p><a href="https://blog.jakubholy.net/2020/troubleshooting-fulcro/">Fulcro Troubleshooting Decision Tree</a> when things do not work out and you need to find the cause.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
 <h2 id="_next_steps"><a class="anchor" href="#_next_steps"></a>Next steps</h2>
 <div class="sectionbody">
 <div class="paragraph">
@@ -1451,7 +1473,7 @@ Outside of the context of <code>merge-component!</code>, when you are changing d
 <p>Read real-world Fulcro code to verify and expand your understanding - the official <a href="https://github.com/fulcrologic/fulcro-template">fulcro-template</a> and other more less <a href="https://fulcro-community.github.io/main/awesome-fulcro/README.html#_real_apps">"real apps"</a></p>
 </li>
 <li>
-<p>Clone the fulcro-template, study its code, delete parts and try to recreate them from scratch, extend it. Refer to the <a href="https://blog.jakubholy.net/2020/troubleshooting-fulcro/">Fulcro Troubleshooting Decision Tree</a> when things do not work out and to <a href="https://blog.jakubholy.net/2020/fulcro-divergent-ui-data/">Fulcro Explained: When UI Components and Data Entities Diverge</a> when you need to figure out how to map your frontend data to your components tree.</p>
+<p>Clone the fulcro-template, study its code, delete parts and try to recreate them from scratch, extend it.</p>
 </li>
 <li>
 <p>Go back to <a href="https://book.fulcrologic.com/">Fulcro Developers Guide</a> and read the introductory chapters to gain a deeper understanding</p>
