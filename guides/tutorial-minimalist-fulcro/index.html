@@ -356,7 +356,7 @@ To really understand how and why Fulcro stores data and the need for component q
 </dd>
 <dt class="hdlist1">Normalization of data</dt>
 <dd>
-<p>Data in the client DB is mostly stored in a <a href="https://en.wikipedia.org/wiki/Database_normalization">normalized form in the database sense</a>. I.e. entities do not include other entities but only their <em>idents</em>. The normalization depends on components declaring their idents.</p>
+<p>Data in the client DB is mostly stored in a <a href="https://en.wikipedia.org/wiki/Database_normalization">normalized form in the database sense</a>. I.e. entities do not include other entities but only refer to them using their <em>idents</em>. The normalization depends on components declaring their idents.</p>
 </dd>
 <dt class="hdlist1">Query</dt>
 <dd>
@@ -457,6 +457,9 @@ To really understand how and why Fulcro stores data and the need for component q
 </div>
 <div class="sect2">
 <h3 id="_the_anatomy_of_a_fulcro_component_query_ident_body"><a class="anchor" href="#_the_anatomy_of_a_fulcro_component_query_ident_body"></a>The anatomy of a Fulcro component: props, query, ident, body</h3>
+<div class="paragraph">
+<p>(<em>ToC: <a href="#Component&.adoc#8217;s props" class="page unresolved">props</a> | <a href="#Component&.adoc#8217;s <code>:query</code>" class="page unresolved"><code>:query</code></a> | <a href="#Component&.adoc#8217;s <code>:ident</code>" class="page unresolved"><code>:ident</code></a> | <a href="#Component&.adoc#8217;s <code>:initial-state</code>" class="page unresolved"><code>:initial-state</code></a> | <a href="#_rendering_dom_the_body_of_a_component">body</a></em>)</p>
+</div>
 <div class="paragraph">
 <p>Fulcro components, which are also React components, are the heart of a Fulcro application. Let&#8217;s explore them:</p>
 </div>
@@ -653,7 +656,7 @@ Don&#8217;t be mislead, the query is not a standalone query that could be "run" 
 <p>For a <em>data entity</em>, ident(ifier) is akin to a self-contained foreign key in SQL: it contains the (unique) name of an entity&#8217;s ID property and its value, in a 2-element vector. For example: <code>[:person/id 123]</code>.</p>
 </div>
 <div class="paragraph">
-<p>For a <em>component</em>, its <code>:ident</code> is a function that returns the ident of the associated data entity, typically based on its props (captured from the component&#8217;s arguments): <code>(fn [] [:person/id (:person/id props)])</code>. We call this the <a href="https://book.fulcrologic.com/#_lambda_idents">lambda form</a> but there are also shortcuts for common cases such as the <a href="https://book.fulcrologic.com/#_keyword_idents">keyword form</a> and the <a href="https://book.fulcrologic.com/#_template_idents">template form</a>.</p>
+<p>For a <em>component</em>, its <code>:ident</code> is a function that returns the ident of the associated data entity, typically based on its props (captured from the component&#8217;s arguments): <code>(fn [] [:person/id (:person/id props)])</code>. We call this the <a href="https://book.fulcrologic.com/#_lambda_idents">lambda form</a> but there are also shortcuts for common cases such as the <a href="https://book.fulcrologic.com/#_keyword_idents">keyword form</a> (which would simplify the previous example to just <code>:person/id</code>) and the <a href="https://book.fulcrologic.com/#_template_idents">template form</a>.</p>
 </div>
 <div class="paragraph">
 <p>For <em>singleton components</em> we use, by convention, the "property name" <code>:component/id</code> and a hardcoded value specific to the component - typically its name as a keyword. For instance <code>:ident (fn [] [:component/id :AllPeopleList])</code>.</p>
@@ -665,33 +668,91 @@ Don&#8217;t be mislead, the query is not a standalone query that could be "run" 
 <div class="sect3">
 <h4 id="_components_initial_state"><a class="anchor" href="#_components_initial_state"></a>Component&#8217;s <code>:initial-state</code></h4>
 <div class="paragraph">
-<p>A component can also specify <code>:initial-state (fn [params] &lt;some data matching the expected props&gt;)</code> to declare the props it wants to get passed on the first "frame", i.e. the first render. The data will be normalized based on idents and stored into the client DB. You can use it to define the state of the application before any data is loaded from the server-side.</p>
+<p>A component can also specify <code>:initial-state (fn [params] &lt;some data matching the expected props&gt;)</code> to declare the props it wants to get passed on the first "frame", i.e. the first render. The data will be <em>normalized</em> based on idents and stored into the client DB. You can use it to define the state of the application before any data is loaded from the server-side and to establish links (<em>edges</em>) between (typically singleton) components / data entities in the client DB.</p>
+</div>
+<div class="paragraph">
+<p>Initial state must be composed into the parent&#8217;s in the same way as queries do, using <code>comp/get-initial-state</code>.</p>
 </div>
 <div class="paragraph">
 <p>When do you need to define initial state?</p>
 </div>
-<div class="ulist">
-<ul>
+<div class="olist arabic">
+<ol class="arabic">
 <li>
 <p>When you want to make sure that the component has particular props before any data is loaded from the backend. (Advanced) F.ex. router targets must not have nil props but are OK with <code>{}</code> and thus declare at least an empty initial state</p>
-</li>
-<li>
-<p>When the component has no state of its own and only queries for global data using <a href="https://book.fulcrologic.com/#_link_queries">Link Queries</a></p>
 </li>
 <li>
 <p>When a child component has an initial state, to compose it up (f.ex. dynamic routers do)</p>
 </li>
 <li>
-<p>To establish links (<em>edges</em>) between components so that Fulcro can find the data you query for as it walks the Root query and Client DB in tandem to fulfill the query (as demonstrated under the second point of the article <a href="https://blog.jakubholy.net/2020/fulcro-divergent-ui-data/#_adapting_backend_data_to_the_ui_components_structure">Divergent Data - Adapting to components</a>).</p>
+<p>To establish links between components so that Fulcro can find the data you query for as it walks the Root query and Client DB in tandem to fulfill the query (as demonstrated under the second point of the article <a href="https://blog.jakubholy.net/2020/fulcro-divergent-ui-data/#_adapting_backend_data_to_the_ui_components_structure">Divergent Data - Adapting to components</a>).</p>
 <div class="ulist">
 <ul>
 <li>
-<p>(Advanced) To pre-establish connections between data entities such as a form-like component and its <a href="https://book.fulcrologic.com/#FormState">form state</a></p>
+<p>When the component has no state of its own and only queries for global data using <a href="https://book.fulcrologic.com/#_link_queries">Link Queries</a></p>
+</li>
+<li>
+<p>(Advanced) To pre-establish links between data entities such as a form-like component and its <a href="https://book.fulcrologic.com/#FormState">form state</a></p>
 </li>
 </ul>
 </div>
 </li>
-</ul>
+</ol>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+Instead of the <a href="https://book.fulcrologic.com/#_lambda_mode">lambda mode</a> of :initial-state presented above, we often use the more concise <a href="https://book.fulcrologic.com/#_template_mode">template mode</a>, which is just a map where <code>:some/child {}</code> will be replaced with <code>:some/child (comp/get-initial-state SomeChild {})</code> provided the query includes a join on the same key, like: <code>[{:some/child (comp/get-query SomeChild)} ..]</code>.
+</td>
+</tr>
+</table>
+</div>
+<div class="exampleblock">
+<div class="title">Example 2. Establish edges in the client DB graph using initial-state</div>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-clojure hljs" data-lang="clojure">;; Given these two components:
+(defsc CurrentUser [_ _] {:ident (fn [] [:component/id :CurrentUser])
+                          :query [&lt;something...&gt;]
+                          :initial-state {}})          ; <i class="conum" data-value="1"></i><b>(1)</b>
+(defsc Root [_ _] {:query [{:current-user (comp/get-query CurrentUser)}]
+                   :initial-state {:current-user {}}}) ; <i class="conum" data-value="2"></i><b>(2)</b>
+
+;; The Client DB will thus gain the following two lines:
+{...
+ :current-user [:component/id :CurrentUser] ; <i class="conum" data-value="3"></i><b>(3)</b>
+ :component/id {:CurrentUser {}}}           ; <i class="conum" data-value="4"></i><b>(4)</b></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>The child component must have non-nil data in the client DB, which this ensures</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>The parent includes the child&#8217;s initial state (using the <em>template mode</em>)</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>Thanks to Root&#8217;s init. state, the top-level key <code>:current-user</code> is added;
+and because the child has an ident, its state is normalized and we end up
+with an ident pointing to the actual data</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="4"></i><b>4</b></td>
+<td>CurrentUser&#8217;s data end up normalized in the <code>:component/id</code> table and it is the
+empty map we gave it at (1)</td>
+</tr>
+</table>
+</div>
+</div>
 </div>
 </div>
 <div class="sect3">
@@ -781,7 +842,7 @@ Don&#8217;t be mislead, the query is not a standalone query that could be "run" 
 <dd>
 <p>What if the parent needs to pass on some additional props other than those that come from the query resolution, for example callbacks? You should not just stick them into the props map because it would be then missing if Fulcro does a targeted re-render of just the child component. Instead, you should pass it on as <em>computed props</em> either manually or leveraging <code>comp/computed-factory</code> and the optional third argument of <code>defsc</code>. This is demonstrated below:</p>
 <div class="exampleblock">
-<div class="title">Example 2. Passing computed props</div>
+<div class="title">Example 3. Passing computed props</div>
 <div class="content">
 <div class="listingblock">
 <div class="content">
@@ -836,7 +897,7 @@ Don&#8217;t be mislead, the query is not a standalone query that could be "run" 
 <p>That is so that the mutation can be submitted over the wire to the backend as-is. Of course both Fulcro and Pathom expect that there actually is a <code>defmutation</code> corresponding to the provided "fully qualified symbol". So how do we define a mutation on the client and server side? (Assuming standard Fulcro and <a href="https://blog.wsscode.com/pathom/v2/pathom/2.2.0//introduction.html#_aliases_used_in_code_examples">Pathom namespace aliases</a>.)</p>
 </div>
 <div class="exampleblock">
-<div class="title">Example 3. A Fulcro and Pathom mutation</div>
+<div class="title">Example 4. A Fulcro and Pathom mutation</div>
 <div class="content">
 <div class="listingblock">
 <div class="content">
@@ -1023,7 +1084,7 @@ The <code>mutations</code> namespace has a bunch of helper functions for transac
 <p>Now, what if we don&#8217;t only want to add the data itself but also want to add reference(s) to the newly added data to some other, existing data entities in the client DB? <code>:append</code>, <code>:prepend</code>, and <code>:replace</code> to the rescue! We can specify as many of these as we want, providing full paths to the target property in the client DB. The paths have three (four, in the case of <code>:replace</code> of a to-many element) parts - entity name, entity ID value, the target property.</p>
 </div>
 <div class="exampleblock">
-<div class="title">Example 4. Data targeting: append, prepend, replace</div>
+<div class="title">Example 5. Data targeting: append, prepend, replace</div>
 <div class="content">
 <div class="listingblock">
 <div class="content">
@@ -1138,7 +1199,7 @@ Outside of the context of <code>merge-component!</code>, when you are changing d
 <p>A couple of examples:</p>
 </div>
 <div class="exampleblock">
-<div class="title">Example 5. load! variants</div>
+<div class="title">Example 6. load! variants</div>
 <div class="content">
 <div class="listingblock">
 <div class="content">
@@ -1276,7 +1337,7 @@ Outside of the context of <code>merge-component!</code>, when you are changing d
 <p>Let&#8217;s have a look at a simple banking application that shows two lists - an overview of all accounts and an overview of all customers:</p>
 </div>
 <div class="exampleblock">
-<div class="title">Example 6. A banking application</div>
+<div class="title">Example 7. A banking application</div>
 <div class="content">
 <div class="listingblock">
 <div class="content">
@@ -1344,7 +1405,7 @@ Outside of the context of <code>merge-component!</code>, when you are changing d
 <p>You can ask <code>load!</code> to track the status of loading using a "load marker" and you can query for the marker to use it in your component. See the chapter <a href="https://book.fulcrologic.com/#_tracking_specific_loads">Tracking Specific Loads</a> in the book for details. A simple example:</p>
 </div>
 <div class="exampleblock">
-<div class="title">Example 7. Tracking the status of a load! with a load marker</div>
+<div class="title">Example 8. Tracking the status of a load! with a load marker</div>
 <div class="content">
 <div class="listingblock">
 <div class="content">
