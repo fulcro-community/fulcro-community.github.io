@@ -102,7 +102,11 @@ The goal is to enable you to read, understand, and tinker with the code of a Ful
 <li><a href="#_load_ing_data"><code>load!</code>-ing data</a></li>
 </ul>
 </li>
-<li><a href="#_review">Review</a></li>
+<li><a href="#_review">Review</a>
+<ul class="sectlevel2">
+<li><a href="#_key_points_to_remember">Key points to remember</a></li>
+</ul>
+</li>
 <li><a href="#_faq">FAQ</a></li>
 <li><a href="#_must_read">Must read</a></li>
 <li><a href="#_next_steps">Next steps</a></li>
@@ -612,7 +616,8 @@ Notice that the <em>query</em> sent and the <em>data</em> returned are only a su
 <p>Beware: You must not copy and paste the child&#8217;s query into the parent&#8217;s but rather use <code>(comp/get-query &lt;Child&gt;)</code> as demonstrated. Both for <abbr title="Don't Repeat Yourself">DRY</abbr> and because <code>get-query</code> also adds important metadata to the composed query about the origin of the individual fragments so that Fulcro can later use it to normalize data from <code>load!</code> or <code>merge-component!</code> correctly.</p>
 </div>
 <div class="paragraph">
-<p>Fulcro combines the query and the (normalized) client database to produce the tree of data that is passed as props to the Root component. Which, in turn, will pass the relevant parts to its children, as we did with <code>address</code>.</p>
+<p>Fulcro combines the query and the (normalized) client database to produce the tree of data that is passed as props to the Root component. Which, in turn, will pass the relevant parts to its children, as we did with <code>address</code>.<br>
+🎥 See the 5 min demo <a href="https://youtu.be/rzK0_k5lzg4">Fulcro explained: Turning Root query into props tree</a> to see how this works 🎥.</p>
 </div>
 <div class="admonitionblock tip">
 <table>
@@ -1473,6 +1478,19 @@ Outside of the context of <code>merge-component!</code>, when you are changing d
 </div>
 <div class="title">Figure 4. Where do key Fulcro constructs fit into the system? (Courtesy of Timofey Sitnikov)</div>
 </div>
+<div class="sect2">
+<h3 id="_key_points_to_remember"><a class="anchor" href="#_key_points_to_remember"></a>Key points to remember</h3>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Ident</strong> is used exclusively for data normalization. If missing, the component&#8217;s data entity&#8217;s data will be nested in the parent component&#8217;s data. If present, it defines the "table" and its key where the data entity will be in the client DB and the occurrence of the data in the parent entity is replaced with the ident. Ident can be static - typically <code>[:component/id &lt;component name&gt;]</code> or dynamic, i.e. depending on a prop, such as <code>[:person/id &lt;id value&gt;]</code>.</p>
+</li>
+<li>
+<p><strong>Query</strong> defines what attributes/props a component wants. Upon render, the data is read from the client DB, either from the parent data entity&#8217;s attribute where the data is nested (when it is not normalized) or from the "table" and key the ident in the parent entity&#8217;s attribute points to. The query can also be used to load a tree of data from the backend. A parent component must compose the child&#8217;s query into its own, using an EQL join and <code>comp/get-query</code>.</p>
+</li>
+</ul>
+</div>
+</div>
 </div>
 </div>
 <div class="sect1">
@@ -1540,7 +1558,7 @@ Outside of the context of <code>merge-component!</code>, when you are changing d
 <p>Go back to <a href="https://book.fulcrologic.com/">Fulcro Developers Guide</a> and read the introductory chapters to gain a deeper understanding</p>
 </li>
 <li>
-<p>Create your own app! For something easy to understand and start with, check out the <a href="https://github.com/holyjak/minimalist-fulcro-template-backendless">minimalist-fulcro-template-backendless</a>.</p>
+<p>Create your own app! For something easy to understand and start with, check out the <a href="https://github.com/holyjak/minimalist-fulcro-template-backendless">minimalist-fulcro-template-backendless</a></p>
 </li>
 </ol>
 </div>
