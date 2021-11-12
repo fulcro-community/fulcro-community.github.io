@@ -112,6 +112,11 @@ This is work in progress at an early stage. You can <a href="https://github.com/
 <li><a href="#_form_state_management">Form state management</a></li>
 </ul>
 </li>
+<li><a href="#_advanced_queries_recursive_union">Advanced queries: recursive, union</a>
+<ul class="sectlevel2">
+<li><a href="#_union_queries">Union queries</a></li>
+</ul>
+</li>
 <li><a href="#_etc_uism_dynamic_recursiveunion_queries_react_interop">Etc&#8230;&#8203; (UISM, dynamic.recursive/union queries, react interop, &#8230;&#8203;)</a></li>
 </ul>
 </div>
@@ -741,6 +746,52 @@ Always route to a leaf target! (Or do so at least once, e.g. during app initiali
 <div class="sect2">
 <h3 id="_form_state_management"><a class="anchor" href="#_form_state_management"></a>Form state management</h3>
 
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_advanced_queries_recursive_union"><a class="anchor" href="#_advanced_queries_recursive_union"></a>Advanced queries: recursive, union</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_union_queries"><a class="anchor" href="#_union_queries"></a>Union queries</h3>
+<div class="paragraph">
+<p>BEWARE: Combining recursion and unions (e.g. a parent with a union query and a child with a recursive one) might not do what you expect - the union parent, not the child will be the target of the recursion.</p>
+</div>
+<div class="paragraph">
+<p>Code: <a href="https://github.com/fulcrologic/fulcro/blob/1af65250f2acc50f61bdfda041533f66bfb9ad82/src/main/com/fulcrologic/fulcro/algorithms/normalize.cljc#L35-L39" class="bare">https://github.com/fulcrologic/fulcro/blob/1af65250f2acc50f61bdfda041533f66bfb9ad82/src/main/com/fulcrologic/fulcro/algorithms/normalize.cljc#L35-L39</a></p>
+</div>
+<div class="quoteblock">
+<blockquote>
+<div class="paragraph">
+<p>So unions are a bit fiddly. They are really mean to address the common case of heterogeneous lists of things, and since there is really only one thing in the database for a given resolution, but two components (the union and the child) there is a problem dealing with recursive things. Should the recursion be the union or child? Unions ended up being a relatively lightly used feature, and recursion on unions even less so. As a result this question never got more attention.
+It is perfectly valid to want either. But the system is coded to assume you probably want the way it is used, because UI recursion is usually a tree of the top-level heterogeneous thing.</p>
+</div>
+</blockquote>
+</div>
+<div class="paragraph">
+<p>Avoiding unions:</p>
+</div>
+<div class="quoteblock">
+<blockquote>
+<div class="literalblock">
+<div class="content">
+<pre>I typically avoid unions in this kind of scenario and just make a component that queries for all the possible things the nodes might have, and generalize to a :node/id for normalization, and a type field for switching up rendering within the component. (A multimethod is good for the latter.)</pre>
+</div>
+</div>
+</blockquote>
+</div>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+Don&#8217;t nest unions. It is complicated, untested, might blow up.
+</td>
+</tr>
+</table>
+</div>
 </div>
 </div>
 </div>

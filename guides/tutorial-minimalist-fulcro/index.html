@@ -1491,6 +1491,9 @@ Outside of the context of <code>merge-component!</code>, when you are changing d
 <li>
 <p><strong>Query</strong> defines what attributes/props a component wants. Upon render, the data is read from the client DB, either from the parent data entity&#8217;s attribute where the data is nested (when it is not normalized) or from the "table" and key the ident in the parent entity&#8217;s attribute points to. The query can also be used to load a tree of data from the backend. A parent component must compose the child&#8217;s query into its own, using an EQL join and <code>comp/get-query</code>.</p>
 </li>
+<li>
+<p><strong>Client DB</strong> holds the client-side data, mostly normalized (depending on idents). The UI is rendered based on this data so anything not "right" in the UI is likely due to bad/missing/disconnected data. The only things that can change data in the client DB are <code>:initial-state</code> and mutations, which includes <code>df/load!</code> (and you playing in the REPL).</p>
+</li>
 </ul>
 </div>
 </div>
