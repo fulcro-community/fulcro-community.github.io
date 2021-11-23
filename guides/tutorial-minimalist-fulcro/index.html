@@ -196,7 +196,11 @@ The goal is to enable you to read, understand, and tinker with the code of a Ful
 <ol>
 <li>
 <p><em>When to return a data map directly and when to put it inside a <code>{:my-prop &#8230;&#8203;}</code>?</em></p>
-<p>If you are returning a single data entity (e.g. a person) then you return it directly. But if you are returning a <em>list</em> of entities - or a scalar value - then you need to wrap it inside a map (because resolvers can only return maps), as we see with <code>:all-people</code> above.</p>
+<p>If you are returning a single data entity (e.g. a person) then you return it directly. But if you are returning a <em>sequence</em> of entities - or a scalar value - then you need to wrap it inside a map (because resolvers can only return maps), as we see with <code>:all-people</code> above.</p>
+</li>
+<li>
+<p><em>How to return a sequence of (child) entities?</em></p>
+<p>As described above, a sequence needs to be wrapped in a map. Make sure that the <em>sequence is a vector</em> if you want the entities normalized. Auto normalization for a to-many will only occur if it is given a vector. Lists and seqs (such as produced by <code>map</code>) will not be normalized.</p>
 </li>
 </ol>
 </div>
