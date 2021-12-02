@@ -297,7 +297,7 @@ The goal is to enable you to read, understand, and tinker with the code of a Ful
 <p><em>Tx</em> (transaction subsystem) - asynchronously executes local mutations and sends remote mutations and queries to the remote backend</p>
 </li>
 <li>
-<p><em>Client DB</em> - data from the backend is <em>normalized</em> into the client-side DB (data cache); <em>Tx</em> typically schedules a re-render afterwards</p>
+<p><em>Client DB</em> - data from the backend is <em>normalized</em> into the client-side DB (data cache); <em>Tx</em> typically schedules a re-render afterwards. The cached data is turned into a data tree according to the needs of the UI, to feed and render the UI.</p>
 </li>
 </ol>
 </div>
