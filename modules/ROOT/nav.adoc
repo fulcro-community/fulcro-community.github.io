@@ -3,3 +3,4 @@
 * xref:guides::index.adoc[Guides and tutorials]
 ** xref:guides:guide-learning-fulcro:index.adoc[Guide to learning Fulcro]
 ** xref:guides:tutorial-minimalist-fulcro:index.adoc[Minimalist Fulcro Tutorial]
+** xref:guides:tutorial-advanced-minimalist-fulcro:index.adoc[Advanced Minimalist Fulcro Tutorial]
