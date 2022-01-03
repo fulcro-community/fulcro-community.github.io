@@ -27,6 +27,8 @@ Antora sees every document source - a github repo, in our case - as a "doc compo
 
 = Preview locally
 
+Remember to check out submodules first: `git submodule update --init --recursive`
+
 Make sure that you have cloned all relevant fulcro-community repositories (see _Site structure_ above) into the same parent dir and run `./build-locally.sh` to build the site and then a HTTP server to server the resulting directory. 
 
 See `antora-playbook-local.yml` for details.
