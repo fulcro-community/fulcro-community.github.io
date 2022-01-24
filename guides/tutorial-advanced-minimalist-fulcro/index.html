@@ -219,6 +219,18 @@ In more extreme cases, you might need to split your UI into multiple independent
 <div class="paragraph">
 <p>In a single page application, you want to enable the user to navigate to parts of the application and to only display these "active" parts. You might also want to only load the necessary data when you are are about to display the relevant part of the UI. Often you also want to bind the route to the URL. All this is the task of routing.</p>
 </div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+Dynamic Routing is not always the only or best solution. Sometimes it is simpler to implement "routing" manually by having something like <code>(case my-route :target1 (ui-target1 ..) &#8230;&#8203;)</code> in the "routing" component. If you want to reflect the do-it-yourself route in the URL, you can do it manually e.g. using <a href="https://github.com/kibu-australia/pushy">pushy</a>. You could even transit- and base64-encode your manual routing state and put it inside a query param. And if you want to load data on-demand, you can still do that - for example in the <code>:onClick</code> handler that triggers the route change. Dynamic Routing is truly necessary when you want to avoid over-fetching data from the client DB and/or when you only want to load code for the active route.
+</td>
+</tr>
+</table>
+</div>
 <div class="paragraph">
 <p>Fulcro&#8217;s <a href="https://book.fulcrologic.com/#_dynamic_router">Dynamic Routing</a> enables you to:</p>
 </div>
@@ -365,11 +377,16 @@ will-enter can be called multiple times as part of the route resolution algorith
 
 (defsc Root [this {:ui/keys [router]}]
   {:query [{:ui/router (comp/get-query MyRouter)}]           ; <i class="conum" data-value="1"></i><b>(1)</b>
+   ;:query [{:ui/router (comp/get-query MyRouter)}
+   ;        [::uism/asm-id ::MyRouter]]                      ; <i class="conum" data-value="8"></i><b>(8)</b>
    :initial-state {:ui/router {}}}                           ; <i class="conum" data-value="2"></i><b>(2)</b>
+  ;(let [router-state (or (uism/get-active-state this ::MyRouter) :initial)] ; <i class="conum" data-value="8"></i><b>(8)</b>
+  ;  (if (= :initial router-state)
+  ;    (dom/div :.loading "Loading...")
   (dom/div
     (dom/p (dom/button {:onClick #(dr/change-route! this ["all"])} "All") ; <i class="conum" data-value="3"></i><b>(3)</b>
            (dom/button {:onClick #(dr/change-route! this ["person" "123"])} "Person 123"))
-    (ui-my-router router)))
+    (ui-my-router router))) ;))
 
 (defn init [app]
   ;; Avoid startup async timing issues by pre-initializing things before mount
@@ -408,14 +425,7 @@ will-enter can be called multiple times as part of the route resolution algorith
 </tr>
 <tr>
 <td><i class="conum" data-value="5"></i><b>5</b></td>
-<td>It is highly advisable to also make sure each router in the app is "routed" and thus in a well-defined state before it is ever displayed. Here we achieve that by routing to it in the init function. This can only be done after the application&#8217;s state is initialized, i.e. either <code>app/set-root!</code> with <code>{:initialize-state? true}</code> or <code>app/mount!</code>
-<div class="ulist">
-<ul>
-<li>
-<p><a href="https://book.fulcrologic.com/#_setting_the_route_early">The Fulcro book advises</a>: &#8220;An even better approach is to use state to block rendering until such time as a route or load is ready just by looking at the current state of your top-most router’s state machine.&#8221; - see the example code below the quote</p>
-</li>
-</ul>
-</div></td>
+<td>It is highly advisable to also make sure each router in the app is "routed" and thus in a well-defined state before it is ever displayed. Here we achieve that by routing to it in the init function. This can only be done after the application&#8217;s state is initialized, i.e. either <code>app/set-root!</code> with <code>{:initialize-state? true}</code> or <code>app/mount!</code> But it can still cause a "flickering" of the UI since the effect of the <code>change-route!</code> call is asynchronous. Below in the point (8) you can see how to postpone displaying the UI until the route has been applied.</td>
 </tr>
 <tr>
 <td><i class="conum" data-value="6"></i><b>6</b></td>
@@ -424,6 +434,10 @@ will-enter can be called multiple times as part of the route resolution algorith
 <tr>
 <td><i class="conum" data-value="7"></i><b>7</b></td>
 <td>Note: As of Fulcro 3.5.6, you are likely to get the <a href="https://book.fulcrologic.com/#warn-uism-sm-not-in-state">Attempt to get an ASM path&#8230;&#8203;</a> error for the router because <code>dr/initialize!</code> is asynchronous and does not finish before the <code>dr/change-route!</code> call. You can safely ignore it.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="8"></i><b>8</b></td>
+<td><a href="https://book.fulcrologic.com/#<em>setting_the_route_early">The Fulcro book advises</a>: &#8220;An even better approach is to use state to block rendering until such time as a route or load is ready just by looking at the current state of your top-most router’s state machine.&#8221; We can do that by querying for the top router&#8217;s UI state machine&#8217;s state and displaying something appropriate such as "Loading&#8230;&#8203;" while it is <code>:initial</code> or <code>nil</code>. (In some cases you might instead want to maintain a custom <code>:ui/ready?</code> flag on the Root component. You can leverage the fact that all <code>transact!</code> calls are executed sequentially so if you transact a mutation that sets it to true _after</em> you have called <code>dr/change-route!</code> then you can be sure that it happens after the route is applied.)</td>
 </tr>
 </table>
 </div>
