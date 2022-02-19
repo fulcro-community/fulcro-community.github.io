@@ -3,9 +3,9 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Minimalist Fulcro Tutorial :: Fulcro Community</title>
+    <title>Minimalist Full-Stack Fulcro Tutorial :: Fulcro Community</title>
     <link rel="canonical" href="https://fulcro-community.github.io/guides/tutorial-minimalist-fulcro/index.html">
-    <meta name="description" content="a minimalistic introduction to Fulcro that focuses on HOW and not WHY (aside of a short section). The goal is to enable you to read, understand, and tinker with the code of a Fulcro application.">
+    <meta name="description" content="a minimalistic introduction to Fulcro that focuses on HOW and (almost) not WHY. The goal is provide you with the basic building blocks so that you can create full-stack web applications.">
     <meta name="generator" content="Antora 2.3.4">
     <link rel="stylesheet" href="../../_/css/site.css">
     <script>var uiRootPath = '../../_'</script>
@@ -68,15 +68,27 @@
   <div class="toc-menu"></div>
 </aside>
 <article class="doc">
-<h1 class="page">Minimalist Fulcro Tutorial</h1>
+<h1 class="page">Minimalist Full-Stack Fulcro Tutorial</h1>
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
 <p>Author: <a href="https://holyjak.cz/">Jakub Holý</a> &amp; contributors</p>
 </div>
 <div class="paragraph">
-<p>This is a minimalistic introduction to Fulcro that focuses on HOW and not WHY (aside of a short section).
-The goal is to enable you to read, understand, and tinker with the code of a Fulcro application.</p>
+<p>This is a minimalistic introduction to Fulcro that focuses on HOW and (almost) not WHY.
+The goal is provide you with the basic building blocks that essentially everybody creating full-stack web applications needs. You will likely eventually run into needs not discussed here - for example deep integration with React libraries, web sockets, complex queries, or mutations that return data. Or you might want to leverage Fulcro&#8217;s optional "addons" instead of do-it-yourself solutions such as form state handling, UI state machines, routing, or rapid application development support. You are expected to refer to our advanced tutorials, the <a href="https://book.fulcrologic.com/">Fulcro Developers Guide</a>, and other resources to address those needs. But that what you are learning here will get you far and provide a very solid basis for incorporating any more advanced stuff that you might need.</p>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+You <em>might not even need everything</em> this tutorial teaches as it focuses on full stack operations that involve both the frontend and backend. Perhaps you don&#8217;t need to load remote data. Or maybe your data is read-only and you don&#8217;t care about making changes. Feel free to skip the parts that are not relevant to you. I hope to provide soon more focused and even more minimal tutorials that introduce each topic separately so that you can more easily pick and choose only those you actually need.
+</td>
+</tr>
+</table>
 </div>
 <div id="toc" class="toc">
 <div id="toctitle" class="title">Table of Contents</div>
@@ -1607,6 +1619,37 @@ I was tempted for a few days to just say screw it and write my frontend in TS wi
 </li>
 <li>
 <p>Read real-world Fulcro code to verify and expand your understanding - the official <a href="https://github.com/fulcrologic/fulcro-template">fulcro-template</a> and other more less <a href="https://fulcro-community.github.io/main/awesome-fulcro/README.html#_real_apps">"real apps"</a></p>
+</li>
+<li>
+<p>Clone the <a href="https://github.com/fulcrologic/fulcro/tree/develop/src/todomvc/fulcro_todomvc">Fulcro Todo MVC</a> application, study it, and try to extend and change it. Some ideas:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Add support for multiple TODO lists and the ability to select which one to show</p>
+</li>
+<li>
+<p>Replace the atom with an actual database for persistent data storage</p>
+</li>
+<li>
+<p>Make it a multi-user application: add login and web sockets to receive concurrent changes from other clients</p>
+</li>
+<li>
+<p>Add support for including rich content in the TODOs - a formatted description, images, &#8230;&#8203;</p>
+</li>
+<li>
+<p>Add tags and rich support for filtering</p>
+</li>
+<li>
+<p>Add pagination</p>
+</li>
+<li>
+<p>Add search</p>
+</li>
+<li>
+<p>&lt;your own ideas here&#8230;&#8203;&gt;</p>
+</li>
+</ul>
+</div>
 </li>
 <li>
 <p>Clone the fulcro-template, study its code, delete parts and try to recreate them from scratch, extend it.</p>
