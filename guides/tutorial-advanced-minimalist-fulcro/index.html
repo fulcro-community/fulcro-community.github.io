@@ -320,7 +320,7 @@ Dynamic Routing is not always the only or best solution. Sometimes it is simpler
    :initial-state {}                                   ; <i class="conum" data-value="1"></i><b>(1)</b>
    :route-segment ["person" :person-id]                ; <i class="conum" data-value="3"></i><b>(3)</b>
    :will-enter (fn [app route-params]                  ; <i class="conum" data-value="4"></i><b>(4)</b>
-                 (dr/route-immediate
+                 (dr/route-immediate ; BEWARE: `db :person/id &lt;id&gt;` must already exist
                    [:person/id
                     (js/parseInt (:person-id route-params))]))}
   (dom/p (str "Person #" id ": ") (dom/strong name) " - " biography))
@@ -501,13 +501,14 @@ To make sure the user can reload the URL from the server, make sure that any pat
    :route-segment ["person" :person-id]
    :will-enter (fn [app route-params]    ; <i class="conum" data-value="1"></i><b>(1)</b>
                  (let [ident [:person/id (-&gt; route-params :person-id js/parseInt)]] ; <i class="conum" data-value="2"></i><b>(2)</b>
-                   (if (get-in (app/current-state app) ident)) ; <i class="conum" data-value="3"></i><b>(3)</b>
-                     (dr/immediate ident)
+                   (if (get-in (app/current-state app) ident)  ; <i class="conum" data-value="3"></i><b>(3)</b>
+                     (dr/route-immediate ident)
                      (dr/route-deferred    ; <i class="conum" data-value="4"></i><b>(4)</b>
                        ident
+                       ;; Load the data (or mutation that merges them in) in a fn:
                        #(df/load! app ident Person
                          {:post-mutation `dr/target-ready
-                          :post-mutation-params {:target ident}}))))}
+                          :post-mutation-params {:target ident}})))))}
   ...)</code></pre>
 </div>
 </div>
