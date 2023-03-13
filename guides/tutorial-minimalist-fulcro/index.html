@@ -583,11 +583,11 @@ To really understand how and why Fulcro stores data and the need for component q
 (let [{:car/keys [make], :ui/keys [selected?]} props]
   (println make selected?))
 ;; 2. Destructure using :keys [&lt;ns1&gt;/key1, &lt;ns2&gt;/key2, ...]:
-(let [{:keys [care/make ui/selected?]} props]
+(let [{:keys [car/make ui/selected?]} props]
   (println make selected?))
 ;; 3. Destructure manually using &lt;symbol&gt; &lt;qualified keyword&gt; pairs:
-(let [{care-make :care/make, selected? :ui/selected?]} props]
-  (println care-make selected?))
+(let [{car-make :car/make, selected? :ui/selected?} props]
+  (println car-make selected?))
 ;; all of the above print the same result: `Škoda false`</code></pre>
 </div>
 </div>
