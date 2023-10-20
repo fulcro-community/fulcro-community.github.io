@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>MFT: Improvement ideas :: Fulcro Community</title>
+    <link rel="canonical" href="https://fulcro-community.github.io/guides/tutorial-minimalist-fulcro/IDEAS.html">
+    <meta name="generator" content="Antora 2.3.4">
+    <link rel="stylesheet" href="../../_/css/site.css">
+    <script>var uiRootPath = '../../_'</script>
+  </head>
+  <body class="article">
+<header class="header">
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="https://fulcro-community.github.io">Fulcro Community</a>
+      <button class="navbar-burger" data-target="topbar-nav">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+    </div>
+  </nav>
+</header>
+<div class="body">
+<div class="nav-container" data-component="guides" data-version="master">
+  <aside class="nav">
+    <div class="panels">
+<div class="nav-panel-explore is-active" data-panel="explore">
+  <div class="context">
+    <span class="title">Guides and tutorials</span>
+    <span class="version">master</span>
+  </div>
+  <ul class="components">
+    <li class="component">
+      <a class="title" href="../../main/index.html">Fulcro Community</a>
+      <ul class="versions">
+        <li class="version is-latest">
+          <a href="../../main/index.html">master</a>
+        </li>
+      </ul>
+    </li>
+    <li class="component is-current">
+      <a class="title" href="../index.html">Guides and tutorials</a>
+      <ul class="versions">
+        <li class="version is-current is-latest">
+          <a href="../index.html">master</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>
+    </div>
+  </aside>
+</div>
+<main class="article">
+<div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+  <a href="../../main/index.html" class="home-link"></a>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+</nav>
+  <div class="edit-this-page"><a href="https://github.com/fulcro-community/guides/edit/master/modules/tutorial-minimalist-fulcro/pages/IDEAS.adoc">Edit this Page</a></div>
+  </div>
+  <div class="content">
+<aside class="toc sidebar" data-title="Contents" data-levels="2">
+  <div class="toc-menu"></div>
+</aside>
+<article class="doc">
+<h1 class="page">MFT: Improvement ideas</h1>
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>A section on ways to avoid interacting with the app in the browser and instead use the REPL.</p>
+</div>
+<div class="paragraph">
+<p>Link MFT sections to the corresponding fulcro-exercises.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_mft_v2_split"><a class="anchor" href="#_mft_v2_split"></a>MFT v2 - split</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Alex: thoughts about how to think about Fulcro and teaching it</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Fulcro Philosophy and High Level Overview</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Goal: Help developers who are completely new to Fulcro to start with an accurate mental model of the philosophy behind Fulcro and how data flows through a typical Fulcro app.</p>
+</div>
+<div class="paragraph">
+<p>Goal: Identify the ways that Fulcro is similar or different from other frameworks. make sure that assumptions acquired from using other frameworks do not interfere with learning Fulcro.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Fulcro&#8217;s approach is based on the idea that an application&#8217;s view should be a pure function of data (like React).</p>
+</li>
+<li>
+<p>The application&#8217;s UI is represented by a tree of components (aka a graph).</p>
+</li>
+<li>
+<p>Each component declares their own data needs but..</p>
+</li>
+<li>
+<p>Fulcro components do not request their own data directly (data is passed in from their parent)</p>
+</li>
+<li>
+<p>The "shape" of the data requested from the remote is defined by the tree of UI components</p>
+</li>
+<li>
+<p>Fulcro provides additional features to manage data on the client (unlike e.g. re-frame)</p>
+</li>
+<li>
+<p>Fulcro&#8217;s Client DB is similar to a normalized Graph Database</p>
+</li>
+<li>
+<p>Fulcro uses "Pathom" to manage transactions with remote servers</p>
+</li>
+<li>
+<p>Pathom is feature-rich and flexible but it works differently than a simple REST end-point.</p>
+</li>
+<li>
+<p>Pathom uses EQL (EDN Query Language) in transactions and in component queries.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Why Fulcro?</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Goal: Explain that Fulcro is more comprehensive than other frameworks and introduces some novel approaches which are different from the mainstream.
+Goal: Give developers confidence that time invested in learning Fulcro will be effort well spent.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>All web applications are by their nature, full-stack and distributed. While it&#8217;s great to have a library that "does one thing well", even the most basic web application needs a large number of those libraries to provide a modern user experience (View Rendering, Client Data management, Remote Data management, Errors, Logging, etc. etc.).</p>
+</li>
+<li>
+<p>Tony Kay and the other developers of Fulcro have been building client server applications for over XX years. Fulcro&#8217;s design is based on encountering and solving some of the most challenging problems that developers face when building and maintaining data-driven applications for real-world clients.</p>
+</li>
+<li>
+<p>It&#8217;s difficult to anticipate what impact a specific design choice will have on your productivity in 6 months from now (especially if you&#8217;re new to the library).</p>
+</li>
+<li>
+<p>In short, Fulcro provides a set of tools that ensures that the complexity of your application scales linearly as development continues.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>What specific problems does Fulcro solve vs other frameworks?</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Client DB organization and normalization:</p>
+</li>
+<li>
+<p>Fulcro proves libraries that work with view components that help organize the client side database (:query :ident :initial-state).</p>
+</li>
+<li>
+<p>API endpoint explosion:</p>
+</li>
+<li>
+<p>REST styles endpoints are simple and explicit but can cause some well-known problems as your application grows over time (TBD add well-known issues).</p>
+</li>
+<li>
+<p>Pathom (and GraphQL) have been developed to address these issues.</p>
+</li>
+<li>
+<p>Client data access control:</p>
+</li>
+<li>
+<p>Some frameworks allow individual components to request data directly from the client db and save data "locally". In smaller applications with one developer, this can be convenient but this approach can quickly get out of hand in teams where developers use different strategies in different parts of the application. This can lead to situations where developers can "lose track" of the origin of a data mutation resulting in hard to track down bugs.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Fulcro High-Level Features</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Goals: Identify the specific features that Fulcro provides (incomplete)</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Fulcro provides a production-tested "full-stack" story.</p>
+</li>
+<li>
+<p>Provides a suite of libraries that work well together (but few of which are absolutely required).</p>
+</li>
+<li>
+<p>Fulcro works well with other eco-systems (e.g. 3rd party React components, etc.)</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</article>
+  </div>
+</main>
+</div>
+<footer class="footer">
+  <p>This page was built using the Antora default UI.</p>
+  <p>The source code for this UI is licensed under the terms of the MPL-2.0 license.</p>
+</footer>
+<script src="../../_/js/site.js"></script>
+<script async src="../../_/js/vendor/highlight.js"></script>
+  </body>
+</html>

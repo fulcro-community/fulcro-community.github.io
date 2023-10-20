@@ -1453,7 +1453,7 @@ Outside of the context of <code>merge-component!</code>, when you are changing d
 </tr>
 <tr>
 <td><i class="conum" data-value="2"></i><b>2</b></td>
-<td>We instruct load! to place the data where our UI expects them, i.e. inside the AccountList component instead of at the root of the client DB</td>
+<td>We instruct load! to place the data where our UI expects them, i.e. inside the AccountList component instead of at the root of the client DB (Note: It would be more robust to use <code>(conj  (comp/get-ident AccountList) :account-list/accounts)</code> in case that we ever change the ident&#8230;&#8203;)</td>
 </tr>
 </table>
 </div>
