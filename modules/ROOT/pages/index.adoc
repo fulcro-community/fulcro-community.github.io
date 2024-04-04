@@ -21,4 +21,4 @@ Community-created learning resources and projects for https://fulcro.fulcrologic
 
 == Fulcro community online
 
-You can talk to many users of Fulcro in the official https://app.slack.com/client/T03RZGPFR/C68M60S4F[#fulcro Slack channel].
+You can talk to many users of Fulcro in the official https://clojurians.slack.com/messages/C68M60S4F[#fulcro Slack channel].
